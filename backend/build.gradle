@@ -1,46 +1,65 @@
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '3.3.5'
-	id 'io.spring.dependency-management' version '1.1.6'
+    id 'java'
+    id 'org.springframework.boot' version '3.3.5'
+    id 'io.spring.dependency-management' version '1.1.6'
 }
 
 group = 'com.mysite'
 version = '0.0.1-SNAPSHOT'
 
 java {
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(17)
-	}
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
 }
 
 configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
-	implementation 'org.springframework.boot:spring-boot-starter-mail'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
-	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
-	compileOnly 'org.projectlombok:lombok'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	runtimeOnly 'com.mysql:mysql-connector-j'
-	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.3'
-	testImplementation 'org.springframework.security:spring-security-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    // == Spring Boot 기본 기능 ==
+    implementation 'org.springframework.boot:spring-boot-starter-web' // 기본 웹 기능 지원 (내장 톰캣 서버 포함)
+    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc' // JDBC 데이터 접근 지원
+
+    // == Thymeleaf 템플릿 엔진 ==
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf' // Thymeleaf 템플릿 엔진 지원 (웹 페이지 렌더링)
+    implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect' // Thymeleaf 레이아웃 확장 라이브러리
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6' // Thymeleaf와 Spring Security 통합 기능 지원
+
+    // == Spring Security (보안) ==
+    implementation 'org.springframework.boot:spring-boot-starter-security' // Spring Security 기능 지원
+    testImplementation 'org.springframework.security:spring-security-test' // Spring Security 테스트 지원 라이브러리 (보안 관련 테스트용)
+
+    // == 메일 기능 ==
+    implementation 'org.springframework.boot:spring-boot-starter-mail' // 메일 발송 기능 지원
+
+    // == MyBatis (ORM) ==
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3' // MyBatis 통합을 위한 라이브러리 (데이터베이스 ORM)
+    testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.3' // MyBatis 테스트 지원 라이브러리
+
+    // == 데이터베이스 드라이버 ==
+    runtimeOnly 'com.mysql:mysql-connector-j' // MySQL 데이터베이스 드라이버
+
+    // == Lombok (코드 자동 생성) ==
+    compileOnly 'org.projectlombok:lombok' // Lombok 라이브러리 (컴파일 시에만 필요)
+    annotationProcessor 'org.projectlombok:lombok' // Lombok 애노테이션 프로세서
+
+    // == 개발 편의 기능 ==
+    developmentOnly 'org.springframework.boot:spring-boot-devtools' // 개발 시 자동 재시작 기능 제공
+
+    // == 테스트 지원 라이브러리 ==
+    testImplementation 'org.springframework.boot:spring-boot-starter-test' // Spring Boot 기본 테스트 라이브러리
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher' // JUnit 플랫폼 실행기 (테스트 런타임에서 필요)
+
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }
