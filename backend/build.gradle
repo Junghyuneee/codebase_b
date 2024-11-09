@@ -34,7 +34,8 @@ dependencies {
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6' // Thymeleaf와 Spring Security 통합 기능 지원
 
     // == Spring Security (보안) ==
-    implementation 'org.springframework.boot:spring-boot-starter-security' // Spring Security 기능 지원
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'// Spring Security 기능 지원
     testImplementation 'org.springframework.security:spring-security-test' // Spring Security 테스트 지원 라이브러리 (보안 관련 테스트용)
 
     // == 메일 기능 ==
