@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.codebase.backend.post.repository.PostRepository">
+
+    <insert id="save" parameterType="com.codebase.backend.post.dto.PostDTO">
+        INSERT INTO posts (title, content, member_id)
+        VALUES (#{title}, #{content}, #{memberId})
+    </insert>
+
+    <select id="findAll" resultType="com.codebase.backend.post.dto.PostDTO">
+        SELECT * FROM posts
+    </select>
+
+    <select id="findById" parameterType="long" resultType="com.codebase.backend.post.dto.PostDTO">
+        SELECT * FROM posts WHERE id = #{id}
+    </select>
+
+    <update id="update" parameterType="com.codebase.backend.post.dto.PostDTO">
+        UPDATE posts
+        SET title = #{title}, content = #{content}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="long">
+        DELETE FROM posts WHERE id = #{id}
+    </delete>
+
+</mapper>
