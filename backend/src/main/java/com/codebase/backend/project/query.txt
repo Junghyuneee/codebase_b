@@ -1,0 +1,23 @@
+생성쿼리 필요시 확인
+
+==================================
+`member`CREATE TABLE users (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255),
+    password VARCHAR(255),
+    email VARCHAR(255)
+);
+
+
+==================================
+CREATE TABLE project(
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR(255) NOT NULL,
+	content LONGTEXT,
+	price INT NOT NULL,
+	maker INT,
+	hit INT DEFAULT 0,
+	link VARCHAR(255),
+	TYPES VARCHAR(255),
+	FOREIGN KEY (maker) REFERENCES member(id) ON DELETE CASCADE
+);

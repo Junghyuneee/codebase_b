@@ -1,13 +1,13 @@
-package com.codebase.backend.project;
+package com.codebase.backend.project.dto;
 
 import com.codebase.backend.member.dto.MemberDTO;
 
 import lombok.Data;
 
 @Data
-public class Project {
+public class Project{
 
-	private int project_id;
+	private int id;
 	private String name;
 	private String content;
 	private int price;
@@ -16,9 +16,9 @@ public class Project {
 	private String link;
 	private String types;
 
-	private String username;
+	//private String username;
 	// 외래키ㅐ
-	private int maker_id;
+	private MemberDTO maker;
 	
 	
 	
