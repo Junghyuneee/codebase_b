@@ -18,7 +18,7 @@ public class ProjectController {
 	
 	private final ProjectService projectService;
 	
-	 @GetMapping("/asdfasdfasdfasdf")
+	 @GetMapping("/api/store")
 	 public List<Project> getProjects() {
 	        return projectService.readlist();
 	     
