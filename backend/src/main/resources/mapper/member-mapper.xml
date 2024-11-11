@@ -3,6 +3,14 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Member">
     <insert id="save" parameterType="member">
-        insert into board_table
+        INSERT INTO member (name, email, password, role, addr, postcode, tel, createdAt, projectCount)
+        VALUES (#{name}, #{email}, #{password}, #{role}, #{addr}, #{postcode}, #{tel}, #{createdAt}, #{projectCount})
     </insert>
+
+
+    <select id="findByEmail" parameterType="String" resultType="member">
+        SELECT *
+        FROM member
+        WHERE email = #{email}
+    </select>
 </mapper>

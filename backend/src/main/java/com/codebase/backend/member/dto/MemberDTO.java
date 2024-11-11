@@ -1,14 +1,15 @@
 package com.codebase.backend.member.dto;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDate;
 
 @Getter
 @Setter
 @ToString
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class MemberDTO {
     private int id;
 
@@ -30,6 +31,7 @@ public class MemberDTO {
     private LocalDate createdAt;
 
     private int projectCount;
+
 
     // Foreign Key
     // private Project
