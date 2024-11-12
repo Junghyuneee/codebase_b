@@ -11,7 +11,15 @@ public class MemberRepository {
 
     private final SqlSessionTemplate sql;
 
-    public void save(MemberDTO memberDTO) {
+    public MemberDTO save(MemberDTO memberDTO) {
         sql.insert("Member.save", memberDTO);
+        return memberDTO;
     }
+
+    public MemberDTO update(MemberDTO memberDTO) {
+        sql.update("Member.update", memberDTO);
+        return memberDTO;
+    }
+
+    public MemberDTO findByEmail(String email) { return sql.selectOne("Member.findByEmail", email); }
 }
