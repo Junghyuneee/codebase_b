@@ -1,6 +1,9 @@
 package com.codebase.backend;
 
 
+import com.codebase.backend.member.service.CustomOAuth2SuccessHandler;
+import com.codebase.backend.member.service.CustomOAuth2UserService;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,7 +18,11 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
+@AllArgsConstructor
 public class SecurityConfig {
+
+    private CustomOAuth2UserService customOAuth2UserService;
+    private CustomOAuth2SuccessHandler customOAuth2SuccessHandler;
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -28,6 +35,10 @@ public class SecurityConfig {
                 .formLogin((formLogin) -> formLogin
                         .loginPage("/signin")
                         .defaultSuccessUrl("/"))
+                .oauth2Login(oauth2 -> oauth2.loginPage("/login")
+                        .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint.userService(customOAuth2UserService))
+                        .successHandler(customOAuth2SuccessHandler)
+                )
                 .logout((logout) -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/signout"))
                         .logoutSuccessUrl("/")

@@ -4,6 +4,7 @@ import com.codebase.backend.member.dto.MemberDTO;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
+import java.time.LocalDate;
 import java.util.Map;
 
 public class MemberFactory {
@@ -14,9 +15,9 @@ public class MemberFactory {
                 Map<String, Object> attributeMap = oAuth2User.getAttribute("kakao_account");
                 yield MemberDTO.builder()
                         .email(attributeMap.get("email").toString())
-//                        .name(attributeMap.get("name").toString())
-//                        .ctel(attributeMap.get("phone_number").toString())
                         .role(false)
+                        .createdAt(LocalDate.now())
+                        .projectCount(3)
                         .build();
             }
             case "google" -> {

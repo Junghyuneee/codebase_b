@@ -20,4 +20,10 @@ public class MemberController {
         return ResponseEntity.ok(memberDTO);
 
     }
+
+    @PostMapping("/oauth/signup")
+    public ResponseEntity<MemberDTO> oauthSignup(@RequestBody MemberSignUpRequestBody memberSignUpRequestBody) {
+        MemberDTO memberDTO = memberService.update(memberSignUpRequestBody);
+        return ResponseEntity.ok(memberDTO);
+    }
 }

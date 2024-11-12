@@ -36,14 +36,14 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         MemberDTO member = memberRepository.findByEmail(email);
 
         if (member == null) {
-            registerMember(userRequest, oAuth2User);
+            member = registerMember(userRequest, oAuth2User);
         }
 
         return new OAuth2Member(member, oAuth2User.getAttributes());
     }
 
-    public void registerMember(OAuth2UserRequest userRequest, OAuth2User oAuth2User) {
+    public MemberDTO registerMember(OAuth2UserRequest userRequest, OAuth2User oAuth2User) {
         MemberDTO member = MemberFactory.create(userRequest, oAuth2User);
-        memberRepository.save(member);
+        return memberRepository.save(member);
     }
 }
