@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Visitor">
+    <insert id="save" parameterType="visitor">
+        insert into visitor(visit_ip, visit_date) values(#{visitIp}, #{visitDate})
+    </insert>
+    <select id="checkDuplicateIp" parameterType="visitor" resultType="boolean">
+        select count(*) > 0 FROM visitor
+        where visit_ip = #{visitIp} AND visit_date > (NOW() - interval 4 hour)
+    </select>
+    <select id="getWeeklyVisitorCount" resultType="map">
+        select DATE(visit_date) As visit_date, Count(visit_ip) As visitor_count
+        FROM visitor
+        where visit_date >= CURDATE() - INTERVAL 6 DAY
+        group by DATE(visit_date)
+        order by visit_date
+    </select>
+</mapper>
