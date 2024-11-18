@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codebase.backend.project.dto.Project;
@@ -16,15 +17,19 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:5174"})
+
 public class ProjectController {
 
 	
 	private final ProjectService projectService;
 	
 	 @GetMapping("/api/store")
+	 @ResponseBody
 	 public List<Project> getProjects() {
-	        return projectService.readlist();
+		 System.out.println(projectService.readlist());
+	     
+		 return projectService.readlist();
 
 	}
 	@PostMapping("/api/store")
