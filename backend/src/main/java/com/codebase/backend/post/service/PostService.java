@@ -2,34 +2,23 @@ package com.codebase.backend.post.service;
 
 import com.codebase.backend.post.dto.PostDTO;
 import com.codebase.backend.post.repository.PostRepository;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class PostService {
-
     private final PostRepository postRepository;
 
-    public void createPost(PostDTO postDTO) {
-        postRepository.save(postDTO);
+    @Autowired
+    public PostService(PostRepository postRepository) {
+        this.postRepository = postRepository;
     }
 
-    public List<PostDTO> getAllPosts() {
-        return postRepository.findAll();
-    }
-
-    public PostDTO getPostById(Long id) {
-        return postRepository.findById(id);
-    }
-
-    public void updatePost(PostDTO postDTO) {
-        postRepository.update(postDTO);
-    }
-
-    public void deletePost(Long id) {
-        postRepository.delete(id);
-    }
+    public void save(PostDTO post) { postRepository.save(post); }
+    public List<PostDTO> findAll() { return postRepository.findAll(); }
+    public PostDTO findById(Long id) { return postRepository.findById(id); }
+    public void update(PostDTO post) { postRepository.update(post); }
+    public void delete(Long id) { postRepository.delete(id); }
 }
