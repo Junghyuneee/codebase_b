@@ -13,7 +13,6 @@
         WHERE email=#{email} and id=#{id}
     </update>
 
-
     <select id="findByEmail" parameterType="String" resultType="member">
         SELECT *
         FROM member
