@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.codebase.backend.review.mapper.ReviewMapper">
+
+    <!-- 리뷰 생성 -->
+    <insert id="insertReview" parameterType="com.codebase.backend.review.dto.Review">
+        INSERT INTO reviews (title, content) VALUES (#{title}, #{content})
+    </insert>
+
+    <!-- 모든 리뷰 조회 -->
+    <select id="selectAllReviews" resultType="com.codebase.backend.review.dto.Review">
+        SELECT * FROM reviews
+    </select>
+
+    <!-- 특정 리뷰 조회 -->
+    <select id="selectReviewById" parameterType="Integer" resultType="com.codebase.backend.review.dto.Review">
+        SELECT * FROM reviews WHERE id = #{id}
+    </select>
+    
+    <!-- 리뷰 삭제 -->
+    <delete id="deleteReview" parameterType="Integer">
+    	DELETE FROM reviews WHERE id = #{id}
+    </delete>
+    
+    <!-- 리뷰 수정 -->
+    <update id="updateReview" parameterType="com.codebase.backend.review.dto.Review">
+    	UPDATE reviews SET title = #{title}, content = #{content} WHERE id = #{id}
+    </update>
+</mapper>
