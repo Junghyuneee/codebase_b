@@ -30,7 +30,6 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(new WebConfig().corsConfigurationSource()))
                 .csrf((csrf) -> csrf
                         .ignoringRequestMatchers(new AntPathRequestMatcher("/**")))
-
                 .formLogin((formLogin) -> formLogin
                         .loginPage("/signin")
                         .defaultSuccessUrl("/"))
