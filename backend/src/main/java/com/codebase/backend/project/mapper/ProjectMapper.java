@@ -13,5 +13,7 @@ public interface ProjectMapper {
 	
     List<Project> selectAllProject();
     
+    Project findById(Integer id); //반환타입 리스트아니어도 되는지..? ㅠ
+    
     void deleteProjectById(Integer id);
 }

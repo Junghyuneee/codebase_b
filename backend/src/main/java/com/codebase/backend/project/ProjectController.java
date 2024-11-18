@@ -17,24 +17,24 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:5173"})
+@CrossOrigin(origins = { "http://localhost:3000", "http://localhost:5173" })
 public class ProjectController {
 
-	
 	private final ProjectService projectService;
-	
-	 @GetMapping("/api/store")
-	 @ResponseBody
-	 public List<Project> getProjects() {
-		 System.out.println(projectService.readlist());
-	     
-		 return projectService.readlist();
+
+	@GetMapping("/api/store")
+	@ResponseBody
+	public List<Project> getProjects() {
+		System.out.println(projectService.readlist());
+
+		return projectService.readlist();
 
 	}
+
 	@PostMapping("/api/store")
 	public ResponseEntity<String> postTest(@RequestBody Map<String, Object> data) {
-		 System.out.println(data.toString());
-		        
-		 return ResponseEntity.ok("string 맞추기");
+		System.out.println(data.toString());
+
+		return ResponseEntity.ok("string 맞추기");
 	}
 }

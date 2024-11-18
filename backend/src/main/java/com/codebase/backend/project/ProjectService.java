@@ -24,6 +24,10 @@ public class ProjectService {
 		return projectMapper.selectAllProject();
 	}
 	
+	public Project findById(Integer id){ //반환타입 리스트아니어도 되는지..? ㅠ
+		return projectMapper.findById(id);
+	}
+	
 	public void delete(Integer id) {
 		projectMapper.deleteProjectById(id);
 	}

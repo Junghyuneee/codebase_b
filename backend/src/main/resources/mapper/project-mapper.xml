@@ -4,11 +4,17 @@
 
 	<!-- 앞쪽 묶음이 테이블 컬럼, 뒤쪽 묶음 DTO필드 -->
 	<insert id="insertProject" parameterType="com.codebase.backend.project.dto.Project">
-		INSERT INTO project (name, content, price, hit, link, type, maker) VALUES (#{name},#{content},#{price},#{hit},#{link},#{types},#{maker.id});
+		INSERT INTO project (name, content, price, hit, link, type, maker) 
+		VALUES (#{name},#{content},#{price},#{hit},#{link},#{types},#{maker.id});
 	</insert>
 
 	<select id="selectAllProject" resultType="com.codebase.backend.project.dto.Project">
 		SELECT * FROM project;
+	</select>
+	
+	<select id="findById" resultType="com.codebase.backend.project.dto.Project">
+		SELECT * FROM project 
+		WHERE id = #{id};
 	</select>
 	
 	<delete id="deleteProjectById" parameterType="int">
