@@ -17,8 +17,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:5174"})
-
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:5173"})
 public class ProjectController {
 
 	
