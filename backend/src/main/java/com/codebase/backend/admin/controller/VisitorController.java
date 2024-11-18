@@ -15,12 +15,12 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(origins = "http://localhost:5173")
 public class VisitorController {
 
     @Autowired
     private VisitorService visitorService;
 
-    @CrossOrigin(origins = "http://localhost:5173")
     @GetMapping("/get-ip")
     public String getClientIp(HttpServletRequest request) {
         String ip = request.getHeader("X-Forwarded-for");
@@ -31,8 +31,7 @@ public class VisitorController {
         visitorService.save(visitor);
         return "클라이언트 IP 주소" + ip;
     }
-
-    @CrossOrigin(origins = "http://localhost:5713")
+    
     @GetMapping("/weekly-visitors")
     public List<Map<String, Object>> getWeeklyVisitorCount() {
         return visitorService.getWeeklyVisitorCount();
