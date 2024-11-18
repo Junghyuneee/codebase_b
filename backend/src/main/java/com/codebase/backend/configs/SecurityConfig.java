@@ -1,4 +1,4 @@
-package com.codebase.backend;
+package com.codebase.backend.configs;
 
 
 import com.codebase.backend.member.service.CustomOAuth2SuccessHandler;
@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
