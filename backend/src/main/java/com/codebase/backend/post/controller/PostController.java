@@ -2,29 +2,27 @@ package com.codebase.backend.post.controller;
 
 import com.codebase.backend.post.dto.PostDTO;
 import com.codebase.backend.post.service.PostService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/posts")
+@RequestMapping("/api/posts")
 public class PostController {
 
-    private final PostService postService;
-
-    public PostController(PostService postService) {
-        this.postService = postService;
-    }
+    @Autowired
+    private PostService postService;
 
     @PostMapping
-    public ResponseEntity<Void> createPost(@RequestBody PostDTO postDTO) {
+    public ResponseEntity<PostDTO> createPost(@RequestBody PostDTO postDTO) {
         postService.createPost(postDTO);
-        return ResponseEntity.status(201).build(); // 201 Created
+        return ResponseEntity.status(201).body(postDTO); // 201 Created 응답
     }
 
     @GetMapping
-    public ResponseEntity<List<PostDTO>> getAllPosts() {
+    public ResponseEntity<List<PostDTO>> getPosts() {
         List<PostDTO> posts = postService.getAllPosts();
         return ResponseEntity.ok(posts);
     }
@@ -36,15 +34,15 @@ public class PostController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updatePost(@PathVariable Long id, @RequestBody PostDTO postDTO) {
-        postDTO.setPid(id);
-        postService.updatePost(postDTO);
-        return ResponseEntity.ok().build(); // 200 OK
+    public ResponseEntity<PostDTO> updatePost(@PathVariable Long id, @RequestBody PostDTO postDTO) {
+        postDTO.setId(id); // ID 설정
+        PostDTO updatedPost = postService.updatePost(postDTO);
+        return updatedPost != null ? ResponseEntity.ok(updatedPost) : ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePost(@PathVariable Long id) {
-        postService.deletePost(id);
-        return ResponseEntity.noContent().build(); // 204 No Content
+        boolean isDeleted = postService.deletePost(id);
+        return isDeleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 }
