@@ -1,4 +1,4 @@
-package com.codebase.backend.project;
+package com.codebase.backend.project.controller;
 
 import java.util.List;
 import java.util.Map;
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codebase.backend.project.dto.Project;
+import com.codebase.backend.project.service.ProjectService;
 
 import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;

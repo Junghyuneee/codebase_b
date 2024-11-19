@@ -1,4 +1,4 @@
-package com.codebase.backend.project;
+package com.codebase.backend.project.service;
 
 import java.util.List;
 
