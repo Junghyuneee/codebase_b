@@ -1,29 +1,26 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.codebase.backend.post.repository.PostMapper">
 
-<mapper namespace="com.codebase.backend.post.repository.PostRepository">
-
-    <insert id="save" parameterType="com.codebase.backend.post.dto.PostDTO">
-        INSERT INTO posts (title, content, member_id)
-        VALUES (#{title}, #{content}, #{memberId})
+    <insert id="insertPost" parameterType="com.codebase.backend.post.dto.PostDTO">
+        INSERT INTO posts (topic, title, content)
+        VALUES (#{topic}, #{title}, #{content})
     </insert>
 
-    <select id="findAll" resultType="com.codebase.backend.post.dto.PostDTO">
+    <select id="selectAllPosts" resultType="com.codebase.backend.post.dto.PostDTO">
         SELECT * FROM posts
     </select>
 
-    <select id="findById" parameterType="long" resultType="com.codebase.backend.post.dto.PostDTO">
+    <select id="selectPostById" parameterType="long" resultType="com.codebase.backend.post.dto.PostDTO">
         SELECT * FROM posts WHERE id = #{id}
     </select>
 
-    <update id="update" parameterType="com.codebase.backend.post.dto.PostDTO">
-        UPDATE posts
-        SET title = #{title}, content = #{content}
+    <update id="updatePost" parameterType="com.codebase.backend.post.dto.PostDTO">
+        UPDATE posts SET topic = #{topic}, title = #{title}, content = #{content}
         WHERE id = #{id}
     </update>
 
-    <delete id="delete" parameterType="long">
+    <delete id="deletePost" parameterType="long">
         DELETE FROM posts WHERE id = #{id}
     </delete>
 

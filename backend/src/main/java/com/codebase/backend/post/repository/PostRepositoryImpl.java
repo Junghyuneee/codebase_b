@@ -10,35 +10,31 @@ import java.util.List;
 @Repository
 public class PostRepositoryImpl implements PostRepository {
 
-    private final SqlSession sqlSession;
-
     @Autowired
-    public PostRepositoryImpl(SqlSession sqlSession) {
-        this.sqlSession = sqlSession;
+    private SqlSession sqlSession;
+
+    @Override
+    public void insertPost(PostDTO postDTO) {
+        sqlSession.insert("com.codebase.backend.post.repository.PostMapper.insertPost", postDTO);
     }
 
     @Override
-    public void save(PostDTO post) {
-        sqlSession.insert("PostMapper.save", post);
+    public List<PostDTO> selectAllPosts() {
+        return sqlSession.selectList("com.codebase.backend.post.repository.PostMapper.selectAllPosts");
     }
 
     @Override
-    public List<PostDTO> findAll() {
-        return sqlSession.selectList("PostMapper.findAll");
+    public PostDTO selectPostById(Long id) {
+        return sqlSession.selectOne("com.codebase.backend.post.repository.PostMapper.selectPostById", id);
     }
 
     @Override
-    public PostDTO findById(Long id) {
-        return sqlSession.selectOne("PostMapper.findById", id);
+    public void updatePost(PostDTO postDTO) {
+        sqlSession.update("com.codebase.backend.post.repository.PostMapper.updatePost", postDTO);
     }
 
     @Override
-    public void update(PostDTO post) {
-        sqlSession.update("PostMapper.update", post);
-    }
-
-    @Override
-    public void delete(Long id) {
-        sqlSession.delete("PostMapper.delete", id);
+    public void deletePost(Long id) {
+        sqlSession.delete("com.codebase.backend.post.repository.PostMapper.deletePost", id);
     }
 }

@@ -9,16 +9,29 @@ import java.util.List;
 
 @Service
 public class PostService {
-    private final PostRepository postRepository;
 
     @Autowired
-    public PostService(PostRepository postRepository) {
-        this.postRepository = postRepository;
+    private PostRepository postRepository;
+
+    public void createPost(PostDTO postDTO) {
+        postRepository.insertPost(postDTO);
     }
 
-    public void save(PostDTO post) { postRepository.save(post); }
-    public List<PostDTO> findAll() { return postRepository.findAll(); }
-    public PostDTO findById(Long id) { return postRepository.findById(id); }
-    public void update(PostDTO post) { postRepository.update(post); }
-    public void delete(Long id) { postRepository.delete(id); }
+    public List<PostDTO> getAllPosts() {
+        return postRepository.selectAllPosts();
+    }
+
+    public PostDTO getPostById(Long id) {
+        return postRepository.selectPostById(id);
+    }
+
+    public PostDTO updatePost(PostDTO postDTO) {
+        postRepository.updatePost(postDTO);
+        return postDTO; // 수정된 게시물 반환
+    }
+
+    public boolean deletePost(Long id) {
+        postRepository.deletePost(id);
+        return true; // 삭제 성공 시 true 반환
+    }
 }
