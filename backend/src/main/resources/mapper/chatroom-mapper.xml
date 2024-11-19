@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="chatroom">
+
+    <insert id="save" parameterType="chatroom" useGeneratedKeys="true" keyProperty="id">
+        INSERT into chatroom (createdDate)
+        values (#{createdDate})
+    </insert>
+
+    <select id="findById" parameterType="int" resultType="chatroom">
+        Select *
+        from chatroom
+        where id = #{chatroomId}
+    </select>
+
+    <select id="findAllByIds" parameterType="list" resultType="chatroom">
+        SELECT *
+        from chatroom
+        where id IN
+        <foreach item="id" index="index" collection="list" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+</mapper>

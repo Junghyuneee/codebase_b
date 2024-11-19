@@ -1,6 +1,6 @@
 package com.codebase.backend.member.repository;
 
-import com.codebase.backend.member.dto.MemberDTO;
+import com.codebase.backend.member.dto.Member;
 import lombok.RequiredArgsConstructor;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -11,15 +11,15 @@ public class MemberRepository {
 
     private final SqlSessionTemplate sql;
 
-    public MemberDTO save(MemberDTO memberDTO) {
-        sql.insert("Member.save", memberDTO);
-        return memberDTO;
+    public Member save(Member member) {
+        sql.insert("Member.save", member);
+        return member;
     }
 
-    public MemberDTO update(MemberDTO memberDTO) {
-        sql.update("Member.update", memberDTO);
-        return memberDTO;
+    public Member update(Member member) {
+        sql.update("Member.update", member);
+        return member;
     }
 
-    public MemberDTO findByEmail(String email) { return sql.selectOne("Member.findByEmail", email); }
+    public Member findByEmail(String email) { return sql.selectOne("Member.findByEmail", email); }
 }

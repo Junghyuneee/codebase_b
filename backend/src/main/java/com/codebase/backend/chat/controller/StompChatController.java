@@ -15,12 +15,12 @@ import java.util.Map;
 @Controller
 public class StompChatController {
 
-
     @MessageMapping("/chats")
     @SendTo("/sub/chats")
     public ChatMessage handleMeaasge(
             @AuthenticationPrincipal Principal principal,
             @Payload Map<String, String> payload) {
+        System.out.println("principal = " + principal);
         log.info("{} received", payload);
 
         return new ChatMessage(principal.getName(), payload.get("message"));

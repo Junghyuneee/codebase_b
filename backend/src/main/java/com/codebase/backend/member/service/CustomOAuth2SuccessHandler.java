@@ -1,6 +1,6 @@
 package com.codebase.backend.member.service;
 
-import com.codebase.backend.member.dto.MemberDTO;
+import com.codebase.backend.member.dto.Member;
 import com.codebase.backend.member.dto.OAuth2Member;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,7 +24,7 @@ public class CustomOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHa
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
         OAuth2Member oAuth2Member = (OAuth2Member) authentication.getPrincipal();
-        MemberDTO member = oAuth2Member.getMember();
+        Member member = oAuth2Member.getMember();
 
         boolean needsSignup = false;
 

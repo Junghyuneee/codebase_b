@@ -30,26 +30,53 @@
     <div class="col-md-12">
       <form class="form-inline">
         <div class="form-group">
-        <label for="send">Message</label>
-        <input type="text" id="message" class="form-control" placeholder="message to send">
-      </div>
-        <button id="send" class="btn btn-default" type="button">Send</button>
+          <label for="send">Chatroom</label>
+          <input type="text" id="chatroom-id" class="form-control" placeholder="chatroom id">
+          <input type="text" id="chatroom-title" class="form-control" placeholder="chatroom title">
+        </div>
+        <button id="create" class="btn btn-default" type="button">Create</button>
+        <button id="leave" class="btn btn-default" type="button">Leave</button>
       </form>
     </div>
   </div>
   <div class="row">
     <div class="col-md-12">
-      <table id="conversation" class="table table-striped">
+      <table id="chatrooms" class="table table-striped">
         <thead>
         <tr>
-          <th>Messages</th>
+          <th>Chatroms</th>
         </tr>
         </thead>
-        <tbody id="messages">
+        <tbody id="chatroom-list">
         </tbody>
       </table>
     </div>
   </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <form class="form-inline">
+      <div class="form-group">
+        <label for="send">Message</label>
+        <input type="text" id="message" class="form-control" placeholder="message to send">
+      </div>
+      <button id="send" class="btn btn-default" type="button">Send</button>
+    </form>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <table id="conversation" class="table table-striped">
+      <thead>
+      <tr>
+        <th>Messages</th>
+      </tr>
+      </thead>
+      <tbody id="messages">
+      </tbody>
+    </table>
+  </div>
+</div>
 </div>
 </body>
 </html>

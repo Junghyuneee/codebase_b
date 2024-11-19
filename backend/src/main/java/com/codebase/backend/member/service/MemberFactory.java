@@ -1,6 +1,6 @@
 package com.codebase.backend.member.service;
 
-import com.codebase.backend.member.dto.MemberDTO;
+import com.codebase.backend.member.dto.Member;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
@@ -8,12 +8,12 @@ import java.time.LocalDate;
 import java.util.Map;
 
 public class MemberFactory {
-    public static MemberDTO create(OAuth2UserRequest userRequest, OAuth2User oAuth2User) {
+    public static Member create(OAuth2UserRequest userRequest, OAuth2User oAuth2User) {
 
         return switch (userRequest.getClientRegistration().getRegistrationId()) {
             case "kakao" -> {
                 Map<String, Object> attributeMap = oAuth2User.getAttribute("kakao_account");
-                yield MemberDTO.builder()
+                yield Member.builder()
                         .email(attributeMap.get("email").toString())
                         .role(false)
                         .createdAt(LocalDate.now())
@@ -22,7 +22,7 @@ public class MemberFactory {
             }
             case "google" -> {
                 Map<String, Object> attributeMap = oAuth2User.getAttributes();
-                yield MemberDTO.builder()
+                yield Member.builder()
                         .email(attributeMap.get("email").toString())
                         .name(attributeMap.get("name").toString())
                         .role(false)

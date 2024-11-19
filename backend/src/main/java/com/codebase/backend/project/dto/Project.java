@@ -1,6 +1,6 @@
 package com.codebase.backend.project.dto;
 
-import com.codebase.backend.member.dto.MemberDTO;
+import com.codebase.backend.member.dto.Member;
 
 import lombok.Data;
 
@@ -18,7 +18,7 @@ public class Project{
 
 	//private String username;
 	// 외래키ㅐ
-	private MemberDTO maker;
+	private Member maker;
 	
 	
 	
