@@ -51,20 +51,15 @@ public class ReviewController {
     
 	 // 리뷰 조회수
     @PutMapping("/increaseViews/{id}")
-    public ResponseEntity<?> increaseViews(@PathVariable int id){
+    public ResponseEntity<String> increaseViews(@PathVariable("id") int id){
+    	System.out.println("increaseViews 호출됨, id: " + id); //디버깅 
     	try {
             reviewService.increaseViews(id);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok("조회수 증가 성공");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("서버 오류");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("조회수 증가 실패: " + e.getMessage());
         }
     }
-    
-    // 리뷰게시글 검색
-    //@GetMapping
-    //public List<Review> getReview(@RequestParam(value = "search", required = false, defaultValue = "") String search) {
-    //	return reviewService.getReview(search);
-    //}
     
     // 리뷰 삭제
     @DeleteMapping("/delete/{id}")
@@ -83,12 +78,12 @@ public class ReviewController {
     
     // 리뷰 수정
     @PutMapping("/update/{id}")
-    public ResponseEntity<Void> updateReview(@PathVariable("id") int id, @RequestBody Review review){
+    public ResponseEntity<Review> updateReview(@PathVariable("id") int id, @RequestBody Review review){
     	try {
-            reviewService.updateReview(review);
-            return new ResponseEntity<>(HttpStatus.OK);
+            Review updatedReview = reviewService.updateReview(id, review.getTitle(), review.getContent());
+            return ResponseEntity.ok(updatedReview); // 수정된 리뷰 반환
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 }
