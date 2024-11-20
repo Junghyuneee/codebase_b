@@ -4,7 +4,7 @@
 
     <!-- 리뷰 생성 -->
     <insert id="insertReview" parameterType="com.codebase.backend.review.dto.Review">
-        INSERT INTO review (title, content) VALUES (#{title}, #{content})
+        INSERT INTO review (title, content, createdDate, views) VALUES (#{title}, #{content}, CURRENT_TIMESTAMP, 0)
     </insert>
 
     <!-- 모든 리뷰 조회 -->

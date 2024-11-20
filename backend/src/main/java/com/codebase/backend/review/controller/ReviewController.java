@@ -11,13 +11,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codebase.backend.review.dto.Review;
 import com.codebase.backend.review.service.ReviewService;
 
-@RestController
+@RestController //JSON 형식으로 자동 변환하여 반환
 @RequestMapping("/api/review")
 //@CrossOrigin(origins = "http://localhost:3003")
 public class ReviewController {
@@ -31,7 +30,7 @@ public class ReviewController {
 
     // 리뷰 등록
     @PostMapping
-    public ResponseEntity<Void> createReview(@RequestBody Review review){
+    public ResponseEntity<Integer> createReview(@RequestBody Review review){
     	reviewService.createReview(review);
     	return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -45,7 +44,7 @@ public class ReviewController {
     
     // 특정 리뷰 조회
     @GetMapping("/detail/{id}")
-    public ResponseEntity<Review> selectReviewById(@PathVariable int id){
+    public ResponseEntity<Review> selectReviewById(@PathVariable("id") int id){
     	Review review = reviewService.selectReviewById(id);
     	return new ResponseEntity<>(review, HttpStatus.OK);
     }
@@ -69,9 +68,17 @@ public class ReviewController {
     
     // 리뷰 삭제
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteReview(@PathVariable int id){
-    	reviewService.deleteReview(id);
-    	return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    public ResponseEntity<Void> deleteReview(@PathVariable("id") int id){
+    	try {
+            // id를 int로 변환
+            //int reviewId = Integer.parseInt(id);
+            reviewService.deleteReview(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT); // 204 No Content
+        } catch (NumberFormatException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST); // 400 Bad Request
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); // 500 Internal Server Error
+        }
     }
     
     // 리뷰 수정
