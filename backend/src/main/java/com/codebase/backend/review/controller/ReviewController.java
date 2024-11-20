@@ -30,7 +30,7 @@ public class ReviewController {
 
     // 리뷰 등록
     @PostMapping
-    public ResponseEntity<Integer> createReview(@RequestBody Review review){
+    public ResponseEntity<Void> createReview(@RequestBody Review review){
     	reviewService.createReview(review);
     	return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -83,9 +83,12 @@ public class ReviewController {
     
     // 리뷰 수정
     @PutMapping("/update/{id}")
-    public ResponseEntity<Void> updateReview(@PathVariable int id, @RequestBody Review review){
-    	review.setId(id); // ID를 경로에서 전달받은 값으로 설정
-    	reviewService.updateReview(review);
-    	return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Void> updateReview(@PathVariable("id") int id, @RequestBody Review review){
+    	try {
+            reviewService.updateReview(review);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 }
