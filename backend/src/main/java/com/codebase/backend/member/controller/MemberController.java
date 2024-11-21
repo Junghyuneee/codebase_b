@@ -6,9 +6,11 @@ import com.codebase.backend.member.response.post.MemberSigninRequestBody;
 import com.codebase.backend.member.response.post.UserAuthenticationResponse;
 import com.codebase.backend.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/auth")
@@ -32,6 +34,8 @@ public class MemberController {
     @PostMapping("/signin")
     public ResponseEntity<UserAuthenticationResponse> signin(@RequestBody MemberSigninRequestBody memberSigninRequestBody) {
         UserAuthenticationResponse response = memberService.login(memberSigninRequestBody.email(), memberSigninRequestBody.password());
+        System.out.println("response");
+        System.out.println("response = " + response);
         return ResponseEntity.ok(response);
     }
 }
