@@ -10,11 +10,12 @@ import lombok.Setter;
 @Setter
 @Data
 public class Review {
-    private Integer id;
+    private int id;
     private String title;
     private String content;
+    //private String author;
     private LocalDateTime createdDate;
-    private Integer views;
+    private int views;
 
 	/*
 	 * public Integer getId(){ return id; }

@@ -32,12 +32,26 @@ public class ReviewService {
 	}
 	
 	// 특정 리뷰 조회
-	public Review selectReviewById(Integer id) {
+	public Review selectReviewById(int id) {
 		return reviewMapper.selectReviewById(id);
 	}
 	
+	// 리뷰 조회수
+	public void increaseViews(int id) {
+		reviewMapper.increaseViews(id);
+	}
+	
+	// 리뷰게시글 검색
+	//public List<Review> getReview(String search){
+	//	if(search !=null && !search.isEmpty()) {
+	//		return reviewMapper.selectReviewBySearch(search);
+	//	} else {
+	//		return reviewMapper.selectAllReviews();
+	//	}
+	//}
+		
 	// 리뷰 삭제
-	public void deleteReview(Integer id) {
+	public void deleteReview(int id) {
 		reviewMapper.deleteReview(id);
 	}
 	
