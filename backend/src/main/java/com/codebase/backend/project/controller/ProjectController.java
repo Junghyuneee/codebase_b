@@ -38,6 +38,7 @@ public class ProjectController {
 	@GetMapping("/api/store/project/{id}")
 	public Project projectFindById(@PathVariable("id") Integer id) {
 		System.out.println(id);
+		
 		return projectService.findById(id);
 	}
 	

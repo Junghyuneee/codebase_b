@@ -1,5 +1,7 @@
 package com.codebase.backend.project.dto;
 
+import org.apache.ibatis.mapping.FetchType;
+
 import com.codebase.backend.member.dto.MemberDTO;
 
 import lombok.Data;
@@ -18,7 +20,7 @@ public class Project{
 
 	//private String username;
 	// 외래키ㅐ
-	private MemberDTO maker;
+	private int maker_id;
 	
 	
 	
