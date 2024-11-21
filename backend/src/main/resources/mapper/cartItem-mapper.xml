@@ -18,6 +18,11 @@
 		WHERE id = #{id};
 	</select>
 	
+	<select id="findByCartId" resultType="com.codebase.backend.project.dto.CartItem">
+		SELECT * FROM cartitem
+		WHERE cart_id = #{id};
+	</select>
+	
 	<delete id="deleteCartItemById" parameterType="int">
 		DELETE FROM cartitem WHERE id = #{id};
 	</delete>

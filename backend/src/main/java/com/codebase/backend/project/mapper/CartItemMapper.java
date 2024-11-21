@@ -8,5 +8,6 @@ public interface CartItemMapper {
     void insertCartItem(CartItem cartItem);
     List<CartItem> selectCartItemByCartId(int id);
     CartItem findById(int id);
+    List<CartItem> findByCartId(int id);
     void deleteCartItemById(int id);
 }
