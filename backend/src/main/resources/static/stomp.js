@@ -167,7 +167,7 @@ function exitChatroom(chatroomId) {
     $("#chatroom-id").val("");
     $("#conversation").hide();
     $("#send").prop("disabled", true);
-    $("#leave").prop("disabled", true);}
+    $("#leave").prop("disabled", true);
 }
 
 $(function () {

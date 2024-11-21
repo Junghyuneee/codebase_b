@@ -68,6 +68,7 @@ public class MemberService implements UserDetailsService {
         return member;
     }
 
+    // 로그인
     public UserAuthenticationResponse login(String email, String password) {
         Member member = memberRepository.findByEmail(email);
         if(member == null){

@@ -16,19 +16,19 @@ public class MemberChatroomMappingRepository {
     private final SqlSessionTemplate sql;
 
     public MemberChatroomMapping save(MemberChatroomMapping memberChatroomMapping) {
-        sql.insert("MemberChatroomMapping.save", memberChatroomMapping);
+        sql.insert("memberchatroom.save", memberChatroomMapping);
         return memberChatroomMapping;
     }
 
     public Boolean existsByMemberIdAndChatroomId(@Param("memberId") int memberId, @Param("chatroomId") int chatroomId) {
-        return sql.selectOne("MemberChatroomMapping.existsByMemberIdAndChatroomId", Map.of("memberId", memberId, "chatroomId", chatroomId));
+        return sql.selectOne("memberchatroom.existsByMemberIdAndChatroomId", Map.of("memberId", memberId, "chatroomId", chatroomId));
     }
 
     public void deleteByMemberIdAndChatroomId(@Param("memberId") int memberId, @Param("chatroomId") int chatroomId) {
-        sql.delete("MemberChatroomMapping.deleteByMemberIdAndChatroomId", Map.of("memberId", memberId, "chatroomId", chatroomId));
+        sql.delete("memberchatroom.deleteByMemberIdAndChatroomId", Map.of("memberId", memberId, "chatroomId", chatroomId));
     }
 
     public List<Integer> findChatroomIdsByMemberId(@Param("memberId") int memberId) {
-        return sql.selectList("MemberChatroomMapping.findAllByMemberId", memberId);
+        return sql.selectList("memberchatroom.findAllByMemberId", memberId);
     }
 }

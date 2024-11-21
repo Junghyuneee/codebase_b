@@ -2,7 +2,6 @@ package com.codebase.backend.configs;
 
 import com.codebase.backend.member.repository.MemberRepository;
 import com.codebase.backend.member.service.JwtService;
-import com.codebase.backend.member.service.MemberService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
