@@ -37,6 +37,8 @@ public class Member implements UserDetails {
 
     private int projectCount;
 
+    private int cart_id;
+
 
     // Foreign Key
     // private Project

@@ -1,7 +1,7 @@
 package com.codebase.backend.member.dto;
 
 public record MemberDTO(int id, String name, String email, String addr, String postcode, String tel, int projectCount,
-                        boolean role) {
+                        boolean role, int cartId) {
 
     public static MemberDTO from(Member member) {
         return new MemberDTO(
@@ -12,7 +12,8 @@ public record MemberDTO(int id, String name, String email, String addr, String p
                 member.getPostcode(),
                 member.getTel(),
                 member.getProjectCount(),
-                member.isRole()
+                member.isRole(),
+                member.getCart_id()
         );
     }
 }
