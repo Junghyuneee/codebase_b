@@ -29,11 +29,9 @@ public class MemberController {
         return ResponseEntity.ok(member);
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<UserAuthenticationResponse> login(@RequestBody MemberSigninRequestBody memberSigninRequestBody) {
+    @PostMapping("/signin")
+    public ResponseEntity<UserAuthenticationResponse> signin(@RequestBody MemberSigninRequestBody memberSigninRequestBody) {
         UserAuthenticationResponse response = memberService.login(memberSigninRequestBody.email(), memberSigninRequestBody.password());
-
         return ResponseEntity.ok(response);
-
     }
 }
