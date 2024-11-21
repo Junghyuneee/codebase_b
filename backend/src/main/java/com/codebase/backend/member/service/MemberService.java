@@ -20,7 +20,7 @@ public class MemberService implements UserDetailsService {
 
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
-    private JwtService jwtService;
+    private final JwtService jwtService;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -74,11 +74,12 @@ public class MemberService implements UserDetailsService {
             throw new UsernameNotFoundException(email);
         }
 
-        if(!passwordEncoder.matches(password, member.getPassword())){
+        if(passwordEncoder.matches(password, member.getPassword())){
             String accessToken = jwtService.generateAccessToken(member);
+            System.out.println("accessToken = " + accessToken);
             return new UserAuthenticationResponse(accessToken);
         } else{
-            throw new UsernameNotFoundException(email);
+            return new UserAuthenticationResponse("Invalid password");
         }
     }
 }

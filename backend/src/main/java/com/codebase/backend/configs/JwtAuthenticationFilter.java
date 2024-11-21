@@ -1,5 +1,6 @@
 package com.codebase.backend.configs;
 
+import com.codebase.backend.member.repository.MemberRepository;
 import com.codebase.backend.member.service.JwtService;
 import com.codebase.backend.member.service.MemberService;
 import jakarta.servlet.FilterChain;
@@ -24,13 +25,11 @@ import java.io.IOException;
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    private JwtService jwtService;
-    private MemberService memberService;
+    private final JwtService jwtService;
+    private final MemberRepository memberRepository;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        // TODO: JWT 검증
-
         String BEARER_PREFIX = "Bearer ";
         String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
         SecurityContext securityContext = SecurityContextHolder.getContext();
@@ -39,7 +38,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             String accessToken = authorization.substring(BEARER_PREFIX.length());
 
             String username = jwtService.getUsername(accessToken);
-            UserDetails userDetails = memberService.loadUserByUsername(username);
+            UserDetails userDetails = memberRepository.findByEmail(username);
 
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                     userDetails, null, userDetails.getAuthorities()
