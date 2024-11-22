@@ -36,7 +36,6 @@ INDEX VERSION 1.134+C:\Users\AI-HUB-1\jung\codebase_b\.metadata\.plugins\org.ecl
 548206076.index
 3373042014.index
 3725434093.index
-1965174767.index
 69447078.index
 1347440557.index
 3119110634.index
