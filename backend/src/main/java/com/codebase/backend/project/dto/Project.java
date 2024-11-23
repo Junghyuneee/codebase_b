@@ -1,7 +1,5 @@
 package com.codebase.backend.project.dto;
 
-import org.apache.ibatis.mapping.FetchType;
-
 import com.codebase.backend.member.dto.MemberDTO;
 
 import lombok.Data;

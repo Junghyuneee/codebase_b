@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="memberchatroom">
+
+    <insert id="save" parameterType="memberchatroom" useGeneratedKeys="true" keyProperty="id">
+        INSERT into memberchatroom (member, chatroom)
+        values (#{member.id}, #{chatroom.id})
+    </insert>
+
+<!--    select -->
+    <select id="existsByMemberIdAndChatroomId" resultType="boolean">
+        Select count(1)
+        FROM memberchatroom
+        where member=#{memberId} AND chatroom=#{chatroomId}
+    </select>
+
+    <select id="findAllByMemberId" parameterType="int" resultType="Integer">
+        select chatroom
+        from memberchatroom
+        where member=#{memberId}
+    </select>
+
+
+<!--    delete    -->
+    <delete id="deleteByMemberIdAndChatroomId">
+        delete from memchatroom
+        where member=#{memberId} AND chatroom=#{chatroomId}
+    </delete>
+
+</mapper>

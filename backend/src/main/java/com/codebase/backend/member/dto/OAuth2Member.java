@@ -14,7 +14,7 @@ import java.util.Map;
 public class OAuth2Member implements OAuth2User, UserDetails {
 
     @Getter
-    MemberDTO member;
+    Member member;
     Map<String, Object> attributeMap;
 
 

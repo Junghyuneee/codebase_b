@@ -1,38 +1,19 @@
 package com.codebase.backend.member.dto;
 
-import lombok.*;
+public record MemberDTO(int id, String name, String email, String addr, String postcode, String tel, int projectCount,
+                        boolean role, int cartId) {
 
-import java.time.LocalDate;
-
-@Getter
-@Setter
-@ToString
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class MemberDTO {
-    private int id;
-
-    private String name;
-
-    private String email;
-
-    private String password;
-
-    // true: admin, false user
-    private boolean role;
-
-    private String addr;
-
-    private String postcode;
-
-    private String tel;
-
-    private LocalDate createdAt;
-
-    private int projectCount;
-
-
-    // Foreign Key
-    // private int cart_id
+    public static MemberDTO from(Member member) {
+        return new MemberDTO(
+                member.getId(),
+                member.getName(),
+                member.getEmail(),
+                member.getAddr(),
+                member.getPostcode(),
+                member.getTel(),
+                member.getProjectCount(),
+                member.isRole(),
+                member.getCart_id()
+        );
+    }
 }
