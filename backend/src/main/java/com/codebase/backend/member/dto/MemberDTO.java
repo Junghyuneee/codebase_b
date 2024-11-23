@@ -34,5 +34,5 @@ public class MemberDTO {
 
 
     // Foreign Key
-    // private Project
+    // private int cart_id
 }
