@@ -35,9 +35,10 @@ public class ProjectController {
 
 	}
 	
-	@GetMapping("/api/store/project/{id}")
+	@GetMapping("/api/store/{id}")
+	@ResponseBody
 	public Project projectFindById(@PathVariable("id") Integer id) {
-		System.out.println(id);
+		//System.out.println(id);
 		
 		return projectService.findById(id);
 	}

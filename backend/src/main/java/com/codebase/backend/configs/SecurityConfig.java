@@ -62,6 +62,7 @@ public class SecurityConfig {
 //                        .requestMatchers(HttpMethod.POST, "/**", "/auth/*/signup", "/auth/signin").permitAll()
 //                        .anyRequest().authenticated()
                 )
+
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .csrf(CsrfConfigurer::disable)
                 .oauth2Login(oauth2 -> oauth2
