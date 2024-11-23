@@ -59,7 +59,8 @@ public class SecurityConfig {
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers(HttpMethod.POST, "/**", "/auth/*/signup", "/auth/signin").permitAll()
-                        .anyRequest().authenticated())
+                        .requestMatchers("/api/store/**").permitAll()
+                        .anyRequest().authenticated())   		
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .csrf(CsrfConfigurer::disable)
                 .oauth2Login(oauth2 -> oauth2
