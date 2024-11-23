@@ -58,17 +58,19 @@ public class SecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers(HttpMethod.POST, "/**", "/auth/*/signup", "/auth/signin").permitAll()
-                        .requestMatchers("/api/store/**").permitAll()
-                        .anyRequest().authenticated())   		
+                        .requestMatchers("/**").permitAll()
+//                        .requestMatchers(HttpMethod.POST, "/**", "/auth/*/signup", "/auth/signin").permitAll()
+//                        .anyRequest().authenticated()
+                )
+
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .csrf(CsrfConfigurer::disable)
                 .oauth2Login(oauth2 -> oauth2
                         .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint.userService(customOAuth2UserService))
                         .successHandler(customOAuth2SuccessHandler)
                         .failureHandler(customOAuth2FailureHandler))
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(jwtExceptionFilter, jwtAuthenticationFilter.getClass())
+//                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+//                .addFilterBefore(jwtExceptionFilter, jwtAuthenticationFilter.getClass())
                 .logout((logout) -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/auth/signout")) //로그아웃 경로
                         .logoutSuccessUrl("http://localhost:5173")  //로그아웃 성공한 후에 이동할 위치
