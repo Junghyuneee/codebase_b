@@ -16,6 +16,8 @@ public class MemberChatroomMappingRepository {
     private final SqlSessionTemplate sql;
 
     public MemberChatroomMapping save(MemberChatroomMapping memberChatroomMapping) {
+        System.out.println("memberChatroomMapping.getChatroom() = " + memberChatroomMapping.getChatroom());
+        System.out.println("memberChatroomMapping.getMember() = " + memberChatroomMapping.getMember());
         sql.insert("memberchatroom.save", memberChatroomMapping);
         return memberChatroomMapping;
     }

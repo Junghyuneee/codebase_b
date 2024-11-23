@@ -27,7 +27,7 @@ stompClient.onStompError = (frame) => {
 function setConnected(connected) {
     $("#connect").prop("disabled", connected);
     $("#disconnect").prop("disabled", !connected);
-    $("#create").prop("disabled", connected);
+    $("#create").prop("disabled", !connected);
     if (connected) {
         $("#conversation").show();
     } else {
@@ -114,7 +114,7 @@ function enterChatroom(chatroomId, newMember) {
     $("#send").prop("disabled", true);
     $("#leave").prop("disabled", true);
 
-    if (subscription != undefined) {
+    if (subscription !== undefined) {
         subscription.unsubscribe();
     }
 

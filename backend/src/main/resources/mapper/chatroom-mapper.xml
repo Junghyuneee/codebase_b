@@ -3,8 +3,8 @@
 <mapper namespace="chatroom">
 
     <insert id="save" parameterType="chatroom" useGeneratedKeys="true" keyProperty="id">
-        INSERT into chatroom (createdDate)
-        values (#{createdDate})
+        INSERT into chatroom (createdDate, title)
+        values (#{createdDate}, #{title})
     </insert>
 
     <select id="findById" parameterType="int" resultType="chatroom">
