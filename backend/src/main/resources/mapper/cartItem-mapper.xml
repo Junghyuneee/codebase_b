@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.codebase.backend.project.mapper.CartItemMapper">
+
+	<!-- 앞쪽 묶음이 테이블 컬럼, 뒤쪽 묶음 DTO필드 -->
+	<insert id="insertCartItem" parameterType="com.codebase.backend.project.dto.CartItem">
+		INSERT INTO cartitem (name, price, cart_id) 
+		VALUES (#{name},#{price},#{cart_id});
+	</insert>
+
+	<select id="selectCartItemByCartId" resultType="com.codebase.backend.project.dto.CartItem">
+		SELECT * FROM cartitem
+		WHERE cart_id = #{id};
+	</select>
+	
+	<select id="findById" resultType="com.codebase.backend.project.dto.CartItem">
+		SELECT * FROM cartitem
+		WHERE id = #{id};
+	</select>
+	
+	<select id="findByCartId" resultType="com.codebase.backend.project.dto.CartItem">
+		SELECT * FROM cartitem
+		WHERE cart_id = #{id};
+	</select>
+	
+	<delete id="deleteCartItemById" parameterType="int">
+		DELETE FROM cartitem WHERE id = #{id};
+	</delete>
+
+
+</mapper>

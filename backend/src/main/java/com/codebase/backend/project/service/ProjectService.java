@@ -1,4 +1,4 @@
-package com.codebase.backend.project;
+package com.codebase.backend.project.service;
 
 import java.util.List;
 
@@ -24,7 +24,8 @@ public class ProjectService {
 		return projectMapper.selectAllProject();
 	}
 	
-	public Project findById(Integer id){ //반환타입 리스트아니어도 되는지..? ㅠ
+	public Project findById(Integer id){ 
+		System.out.print(projectMapper.findById(id)); 
 		return projectMapper.findById(id);
 	}
 	
