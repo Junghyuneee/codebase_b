@@ -63,11 +63,12 @@ public class MemberService implements UserDetailsService {
         }
 
         Member member = memberRepository.findByEmail(memberSignUpRequestBody.email());
-
+        
         member.setName(memberSignUpRequestBody.name());
         member.setAddr(memberSignUpRequestBody.addr());
         member.setPostcode(memberSignUpRequestBody.postcode());
         member.setTel(memberSignUpRequestBody.tel());
+        
 
         memberRepository.update(member);
 
