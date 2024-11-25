@@ -1,10 +1,12 @@
-package com.codebase.backend.member.service;
+package com.codebase.backend.member.handler;
 
-import com.codebase.backend.member.dto.MemberDTO;
+import com.codebase.backend.member.dto.Member;
 import com.codebase.backend.member.dto.OAuth2Member;
+import com.codebase.backend.member.service.JwtService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -14,17 +16,20 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
+@RequiredArgsConstructor
 @Component
 public class CustomOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
+    private final JwtService jwtService;
     @Value("${frontend.url}")
     private String frontendUrl;
+
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
         OAuth2Member oAuth2Member = (OAuth2Member) authentication.getPrincipal();
-        MemberDTO member = oAuth2Member.getMember();
+        Member member = oAuth2Member.getMember();
 
         boolean needsSignup = false;
 
@@ -48,8 +53,9 @@ public class CustomOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHa
             System.out.println("Redirecting to: " + redirectUrl);
             getRedirectStrategy().sendRedirect(request, response, redirectUrl);
         } else {
-            // 기본 성공 URL로 리디렉션
-            super.onAuthenticationSuccess(request, response, authentication);
+            String accessToken = jwtService.generateAccessToken(member);
+            String redirectUrl = frontendUrl + "/oauth" + "?token=" + accessToken;
+            response.sendRedirect(redirectUrl);
         }
     }
 }
