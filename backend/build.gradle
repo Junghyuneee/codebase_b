@@ -34,7 +34,8 @@ dependencies {
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6' // Thymeleaf와 Spring Security 통합 기능 지원
 
     // == Spring Security (보안) ==
-    implementation 'org.springframework.boot:spring-boot-starter-security' // Spring Security 기능 지원
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'// Spring Security 기능 지원
     testImplementation 'org.springframework.security:spring-security-test' // Spring Security 테스트 지원 라이브러리 (보안 관련 테스트용)
 
     // == 메일 기능 ==
@@ -57,6 +58,14 @@ dependencies {
     // == 테스트 지원 라이브러리 ==
     testImplementation 'org.springframework.boot:spring-boot-starter-test' // Spring Boot 기본 테스트 라이브러리
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher' // JUnit 플랫폼 실행기 (테스트 런타임에서 필요)
+
+    // == 채팅 ==
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+
+    // == JWT ==
+    implementation 'io.jsonwebtoken:jjwt-api:0.12.6'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.6'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.6'
 
 }
 
