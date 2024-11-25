@@ -1,3 +1,7 @@
+/*
+김은지
+2024 11 25
+*/
 package com.codebase.backend.admin.controller;
 
 import com.codebase.backend.admin.dto.Report;
@@ -19,7 +23,6 @@ public class ReportController {
     @PostMapping("/create")
     public void createReport(@RequestBody Report report) {
         // ResponseEntity<?> 리턴 타입 => 성공 여부를 프런트로 전달해서 성공/실패를 판단할 수 있나?
-        System.out.println("신고 넘어옴 : "+report.getContent());
 
         try {
             // 신고 데이터 처리
@@ -39,7 +42,6 @@ public class ReportController {
     @CrossOrigin(origins = "http://localhost:5713")
     @GetMapping("/readAll")
     public List<ReportDTO> getAllReport() {
-        System.out.println(reportService.getAllReport().get(0).getMemberName());
         return reportService.getAllReport();
     }
 

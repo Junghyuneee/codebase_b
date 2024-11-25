@@ -1,3 +1,7 @@
+/*
+김은지
+2024 11 25
+*/
 package com.codebase.backend.admin.repository;
 
 import com.codebase.backend.admin.dto.Report;
