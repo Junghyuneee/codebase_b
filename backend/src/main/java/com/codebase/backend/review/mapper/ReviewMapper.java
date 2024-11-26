@@ -18,19 +18,17 @@ public interface ReviewMapper {
 	//@Select("SELECT * FROM reviews")
     List<Review> selectAllReviews();
 	
-	// ID로 리뷰 조회
+	// 특정 리뷰 조회
 	//@Select("SELECT * FROM reviews WHERE id = #{id}")
     Review selectReviewById(int id);
 	
     // 리뷰 조회수
+    // @Update("UPDATE review SET views = views + 1 WHERE id = #{id}")
     void increaseViews(@Param("id") int id);
     
-    // 리뷰게시글 검색
-    //List<Review> selectReviewBySearch(String search);
-    
-	// 리뷰 업데이트
+	// 리뷰 수정
 	//@Update("UPDATE reviews SET title = #{title}, content = #{content} WHERE id = #{id}")
-	void updateReview(Review review);
+	void updateReview(@Param("id") int id, @Param("title") String title, @Param("content") String content);
 	
 	// 리뷰 삭제
 	//@Delete("DELETE FROM reviews WHERE id = #{id}")

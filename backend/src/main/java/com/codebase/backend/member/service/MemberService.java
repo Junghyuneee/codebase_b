@@ -5,6 +5,8 @@ import com.codebase.backend.member.repository.MemberRepository;
 import com.codebase.backend.member.response.post.MemberSignUpRequestBody;
 import com.codebase.backend.member.response.exception.UserAlreadyExistsException;
 import com.codebase.backend.member.response.post.UserAuthenticationResponse;
+import com.codebase.backend.project.service.CartService;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,6 +21,7 @@ import java.time.LocalDate;
 public class MemberService implements UserDetailsService {
 
     private final MemberRepository memberRepository;
+    private final CartService cartService;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
@@ -32,7 +35,9 @@ public class MemberService implements UserDetailsService {
         if(memberRepository.findByEmail(memberSignUpRequestBody.email()) != null){
             throw new UserAlreadyExistsException(memberSignUpRequestBody.email());
         }
-
+        
+        int cart_id = cartService.insertCart(memberSignUpRequestBody.email());
+    
         Member member = Member.builder()
                 .email(memberSignUpRequestBody.email())
                 .name(memberSignUpRequestBody.name())
@@ -43,6 +48,7 @@ public class MemberService implements UserDetailsService {
                 .createdAt(LocalDate.now())
                 .role(false)
                 .projectCount(3)
+                .cart_id(cart_id)
                 .build();
 
         memberRepository.save(member);
@@ -57,11 +63,12 @@ public class MemberService implements UserDetailsService {
         }
 
         Member member = memberRepository.findByEmail(memberSignUpRequestBody.email());
-
+        
         member.setName(memberSignUpRequestBody.name());
         member.setAddr(memberSignUpRequestBody.addr());
         member.setPostcode(memberSignUpRequestBody.postcode());
         member.setTel(memberSignUpRequestBody.tel());
+        
 
         memberRepository.update(member);
 

@@ -22,18 +22,15 @@
         UPDATE review SET views = views + 1 WHERE id = #{id}
     </update>
     
-    <!-- 리뷰게시글 검색 -->
-    <!-- <select id="selectAllReviewsSearch" resultType="com.codebase.backend.review.dto.Review">
-    	SELECT * FROM review WHERE title LIKE CONCAT('%', #{search}, '%') ORDER BY createddate DESC
-    </select> -->
-    
     <!-- 리뷰 삭제 -->
     <delete id="deleteReview" parameterType="int">
     	DELETE FROM review WHERE id = #{id}
     </delete>
     
     <!-- 리뷰 수정 -->
-    <update id="updateReview" parameterType="com.codebase.backend.review.dto.Review">
-    	UPDATE review SET title = #{title}, content = #{content} WHERE id = #{id}
+    <update id="updateReview">
+    	UPDATE review 
+    	SET title = #{title}, content = #{content} 
+    	WHERE id = #{id}
     </update>
 </mapper>

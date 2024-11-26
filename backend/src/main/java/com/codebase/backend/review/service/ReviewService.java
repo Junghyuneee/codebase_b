@@ -40,15 +40,6 @@ public class ReviewService {
 	public void increaseViews(int id) {
 		reviewMapper.increaseViews(id);
 	}
-	
-	// 리뷰게시글 검색
-	//public List<Review> getReview(String search){
-	//	if(search !=null && !search.isEmpty()) {
-	//		return reviewMapper.selectReviewBySearch(search);
-	//	} else {
-	//		return reviewMapper.selectAllReviews();
-	//	}
-	//}
 		
 	// 리뷰 삭제
 	public void deleteReview(int id) {
@@ -56,8 +47,9 @@ public class ReviewService {
 	}
 	
 	// 리뷰 수정
-	public void updateReview(Review review) {
-		reviewMapper.updateReview(review);
+	public Review updateReview(int id, String title, String content) {
+		reviewMapper.updateReview(id, title, content); //DB에서 업데이트 수행
+		return reviewMapper.selectReviewById(id); //수정된 리뷰를 DB에서 다시 조회
 	}
 
 }

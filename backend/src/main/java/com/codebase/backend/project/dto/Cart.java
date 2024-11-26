@@ -9,7 +9,7 @@ public class Cart {
 	private int id;
 
 	//이메일 unique 확인
-	private int member_email;
+	private String member_email;
 
 	
 }

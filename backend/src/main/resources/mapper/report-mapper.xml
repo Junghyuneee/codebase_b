@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Report">
+    <resultMap id="ReportResultMap" type="report">
+        <result property="reportId" column="id" />
+        <result property="categoryId" column="category_id" />
+        <result property="categoryTitle" column="category_title" />
+        <result property="memberName" column="member_name" />
+    </resultMap>
+    <insert id="save" parameterType="report">
+        insert into report(content, rdate, category, category_id, category_title, member_id, member_name, completed)
+        values(#{content}, #{date}, #{category}, #{categoryId}, #{categoryTitle}, #{memberId}, #{memberName}, #{completed})
+    </insert>
+    <select id="selectAllReports" resultType="report" resultMap="ReportResultMap">
+        SELECT * FROM report
+    </select>
+    <select id="selectReportsByCategory" parameterType="int" resultType="report" resultMap="ReportResultMap">
+        SELECT * FROM report WHERE category = #{category}
+    </select>
+</mapper>
