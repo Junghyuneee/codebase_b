@@ -12,4 +12,5 @@ public class PostDTO {
     private String author;
     private LocalDateTime createdDate;
     private int views;
+    
 }
