@@ -26,8 +26,24 @@ public class ReportService {
         this.reportRepository.saveReport(report);
     }
 
-    public List<ReportDTO> getAllReport() {
-        return this.reportRepository.getAllReport()
+    public List<ReportDTO> getReports(int category) {
+
+        if(category == 3) {
+            return this.reportRepository.getAllReports()
+                    .stream()
+                    .map(report -> new ReportDTO(
+                            report.getReportId(),
+                            report.getContent(),
+                            report.getCategory(),
+                            report.getCategoryId(),
+                            report.getCategoryTitle(),
+                            report.getMemberName(),
+                            report.isCompleted()
+                    ))
+                    .toList();
+        }
+
+        return this.reportRepository.getReportsByCategory(category)
                 .stream()
                 .map(report -> new ReportDTO(
                         report.getReportId(),

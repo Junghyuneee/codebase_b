@@ -12,7 +12,10 @@
         insert into report(content, rdate, category, category_id, category_title, member_id, member_name, completed)
         values(#{content}, #{date}, #{category}, #{categoryId}, #{categoryTitle}, #{memberId}, #{memberName}, #{completed})
     </insert>
-    <select id="selectAllReport" resultType="report" resultMap="ReportResultMap">
+    <select id="selectAllReports" resultType="report" resultMap="ReportResultMap">
         SELECT * FROM report
+    </select>
+    <select id="selectReportsByCategory" parameterType="int" resultType="report" resultMap="ReportResultMap">
+        SELECT * FROM report WHERE category = #{category}
     </select>
 </mapper>
