@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="Visitor">
+<mapper namespace="com.codebase.backend.model.Visitor">
+    <typeAliases>
+        <typeAlias alias="visitor" type="com.codebase.backend.model.Visitor"/>
+    </typeAliases>
+
     <insert id="save" parameterType="visitor">
         insert into visitor(visit_ip, visit_date) values(#{visitIp}, #{visitDate})
     </insert>
