@@ -40,7 +40,7 @@ public class ReportController {
     }
 
     @CrossOrigin(origins = "http://localhost:5713")
-    @GetMapping("/{category}")
+    @GetMapping("/read/{category}")
     public List<ReportDTO> getAllReport(@PathVariable int category) {
         System.out.println(category);
         return reportService.getReports(category);
