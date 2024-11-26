@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.mapper.projectteam-mapper">
+<mapper namespace="com.codebase.backend.projectteam.mapper.ProjectteamMapper">
 
  <!-- 특정 ID의 ProjectTeam 조회 -->
-    <select id="getProjectTeamById" parameterType="integer" resultType="com.example.dto.ProjectTeamDTO">
-        SELECT 
+    <select id="getProjectTeamById" parameterType="integer" resultType="com.codebase.backend.projectteam.DTO.ProjectteamDTO">SELECT 
             pjt_id AS pjtId,
             pjtname,
             pjtowner,
@@ -12,14 +11,12 @@
             pjtdescription,
             pjcategory
         FROM 
-            project_team
+            projectteam
         WHERE 
-            pjt_id = #{id}
-    </select>
+            pjt_id = #{id}</select>
 
     <!-- 모든 프로젝트 조회 -->
-    <select id="getAllProjectTeams" resultType="com.example.dto.ProjectTeamDTO">
-        SELECT 
+    <select id="getAllProjectTeams" resultType="com.codebase.backend.projectteam.DTO.ProjectteamDTO">SELECT 
             pjt_id AS pjtId,
             pjtname,
             pjtowner,
@@ -27,12 +24,10 @@
             pjtdescription,
             pjcategory
         FROM 
-            project_team
-    </select>
+            projectteam</select>
 
     <!-- 프로젝트 삽입 -->
-    <insert id="insertProjectTeam" parameterType="com.example.dto.ProjectTeamDTO">
-        INSERT INTO project_team (
+    <insert id="insertProjectTeam" parameterType="com.codebase.backend.projectteam.DTO.ProjectteamDTO">INSERT INTO projectteam (
             pjtname, 
             pjtowner, 
             pjtimg, 
@@ -44,12 +39,10 @@
             #{pjtimg}, 
             #{pjtdescription}, 
             #{pjcategory}
-        )
-    </insert>
+        )</insert>
 
     <!-- 프로젝트 업데이트 -->
-    <update id="updateProjectTeam" parameterType="com.example.dto.ProjectTeamDTO">
-        UPDATE project_team
+    <update id="updateProjectTeam" parameterType="com.codebase.backend.projectteam.DTO.ProjectteamDTO">UPDATE projectteam
         SET 
             pjtname = #{pjtname},
             pjtowner = #{pjtowner},
@@ -57,13 +50,10 @@
             pjtdescription = #{pjtdescription},
             pjcategory = #{pjcategory}
         WHERE 
-            pjt_id = #{pjtId}
-    </update>
+            pjt_id = #{pjtId}</update>
 
     <!-- 프로젝트 삭제 -->
-    <delete id="deleteProjectTeam" parameterType="integer">
-        DELETE FROM project_team WHERE pjt_id = #{id}
-    </delete>
+    <delete id="deleteProjectTeam" parameterType="integer">DELETE FROM projectteam WHERE pjt_id = #{id}</delete>
 
 </mapper>
 

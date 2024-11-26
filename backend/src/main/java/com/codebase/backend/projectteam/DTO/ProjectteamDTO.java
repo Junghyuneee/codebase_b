@@ -1,7 +1,10 @@
 package com.codebase.backend.projectteam.DTO;
 
+import lombok.Data;
+
+@Data
 public class ProjectteamDTO {
-	private Integer pjtId;           // 프로젝트 ID
+	private Integer pjt_id;           // 프로젝트 ID
     private String pjtname;       // 프로젝트 이름
     private String pjtowner;      // 프로젝트 소유자
     private String pjtimg;        // 프로젝트 이미지
@@ -10,11 +13,11 @@ public class ProjectteamDTO {
 
     // Getters and Setters
     public Integer getPjtId() {
-        return pjtId;
+        return pjt_id;
     }
 
-    public void setPjtId(Integer pjtId) {
-        this.pjtId = pjtId;
+    public void setPjtId(Integer pjt_id) {
+        this.pjt_id = pjt_id;
     }
 
     public String getPjtname() {
