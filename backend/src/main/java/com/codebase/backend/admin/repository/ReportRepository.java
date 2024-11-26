@@ -21,8 +21,12 @@ public class ReportRepository {
         this.sql.insert("Report.save", report);
     }
 
-    public List<Report> getAllReport() {
-        return this.sql.selectList("Report.selectAllReport");
+    public List<Report> getAllReports() {
+        return this.sql.selectList("Report.selectAllReports");
+    }
+
+    public List<Report> getReportsByCategory(int category) {
+        return this.sql.selectList("Report.selectReportsByCategory", category);
     }
 
 }

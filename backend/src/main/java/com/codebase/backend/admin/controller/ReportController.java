@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/report")
+@RequestMapping("/reports")
 public class ReportController {
 
     @Autowired
@@ -40,9 +40,10 @@ public class ReportController {
     }
 
     @CrossOrigin(origins = "http://localhost:5713")
-    @GetMapping("/readAll")
-    public List<ReportDTO> getAllReport() {
-        return reportService.getAllReport();
+    @GetMapping("/read/{category}")
+    public List<ReportDTO> getAllReport(@PathVariable int category) {
+        System.out.println(category);
+        return reportService.getReports(category);
     }
 
 }
