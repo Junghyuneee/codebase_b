@@ -25,7 +25,7 @@ public class ProjectService {
 	}
 	
 	public Project findById(Integer id){ 
-		System.out.print(projectMapper.findById(id)); 
+		//System.out.print(projectMapper.findById(id)); 
 		return projectMapper.findById(id);
 	}
 	
