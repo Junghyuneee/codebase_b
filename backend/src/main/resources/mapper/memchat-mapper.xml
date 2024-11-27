@@ -4,7 +4,7 @@
 
     <insert id="save" parameterType="memberchatroom" useGeneratedKeys="true" keyProperty="id">
         INSERT into memberchatroom (member, chatroom)
-        values (#{member.id}, #{chatroom.id})
+        values (#{member}, #{chatroom})
     </insert>
 
 <!--    select -->

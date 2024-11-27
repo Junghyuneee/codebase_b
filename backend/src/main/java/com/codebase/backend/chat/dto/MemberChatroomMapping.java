@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class MemberChatroomMapping {
-
     int id;
     int member;
     int chatroom;

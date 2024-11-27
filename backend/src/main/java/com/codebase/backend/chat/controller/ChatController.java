@@ -1,6 +1,7 @@
 package com.codebase.backend.chat.controller;
 
 import com.codebase.backend.chat.dto.Chatroom;
+import com.codebase.backend.chat.dto.ChatroomDTO;
 import com.codebase.backend.chat.service.ChatService;
 import com.codebase.backend.member.dto.Member;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -19,8 +21,10 @@ public class ChatController {
     private final ChatService chatService;
 
     @PostMapping
-    public Chatroom createChatroom(@AuthenticationPrincipal Member user) {
-        return chatService.createChatroom(user);
+    public ChatroomDTO createChatroom(@AuthenticationPrincipal Member user, String title) {
+        System.out.println("user = " + user);
+        Chatroom chatroom = chatService.createChatroom(user, title);
+        return ChatroomDTO.from(chatroom);
     }
 
     @PostMapping("/{chatroomId}")
@@ -34,7 +38,10 @@ public class ChatController {
     }
 
     @GetMapping
-    public List<Chatroom> getChatrooms(@AuthenticationPrincipal Member user) {
-        return chatService.getChatroomList(user);
+    public List<ChatroomDTO> getChatrooms(@AuthenticationPrincipal Member user) {
+        List<Chatroom> chatrooms = chatService.getChatroomList(user);
+
+
+        return chatrooms.stream().map(ChatroomDTO::from).collect(Collectors.toList());
     }
 }

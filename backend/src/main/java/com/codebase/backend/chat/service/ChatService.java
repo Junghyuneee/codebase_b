@@ -21,14 +21,17 @@ public class ChatService {
     private final ChatroomRepository chatroomRepository;
     private final MemberChatroomMappingRepository memberChatroomMappingRepository;
 
-    public Chatroom createChatroom(Member member) {
+    public Chatroom createChatroom(Member member, String title) {
         Chatroom chatroom = Chatroom.builder()
+                .title(title)
                 .createdDate(LocalDate.now())
                 .build();
 
         chatroom = chatroomRepository.save(chatroom);
 
-        MemberChatroomMapping memberChatroomMapping = new MemberChatroomMapping().builder()
+        System.out.println("chatroom.getId() = " + chatroom.getId());
+
+        MemberChatroomMapping memberChatroomMapping = MemberChatroomMapping.builder()
                 .member(member.getId())
                 .chatroom(chatroom.getId())
                 .build();
