@@ -34,8 +34,7 @@ public class MemberController {
     @PostMapping("/signin")
     public ResponseEntity<UserAuthenticationResponse> signin(@RequestBody MemberSigninRequestBody memberSigninRequestBody) {
         UserAuthenticationResponse response = memberService.login(memberSigninRequestBody.email(), memberSigninRequestBody.password());
-        System.out.println("response");
-        System.out.println("response = " + response);
+//        System.out.println("response = " + response);
         return ResponseEntity.ok(response);
     }
 }

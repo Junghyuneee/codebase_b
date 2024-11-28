@@ -4,7 +4,7 @@
 <configuration>
     <typeAliases>
         <typeAlias type="com.codebase.backend.member.dto.Member" alias="member"/>
-    	  <typeAlias type="com.codebase.backend.admin.dto.Visitor" alias="visitor"/>
+        <typeAlias type="com.codebase.backend.admin.dto.Visitor" alias="visitor"/>
         <typeAlias type="com.codebase.backend.admin.dto.Report" alias="report"/>
         <typeAlias type="com.codebase.backend.chat.dto.Chatroom" alias="chatroom"/>
         <typeAlias type="com.codebase.backend.chat.dto.ChatMessage" alias="message"/>
