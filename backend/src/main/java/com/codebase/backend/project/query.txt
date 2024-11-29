@@ -9,6 +9,7 @@ CREATE TABLE project(
 	maker_id INT,
 	hit INT DEFAULT 0,
 	link VARCHAR(255),
+	img VARCHAR(255),
 	TYPES VARCHAR(255),
 	FOREIGN KEY (maker_id) REFERENCES member(id) ON DELETE CASCADE
 );

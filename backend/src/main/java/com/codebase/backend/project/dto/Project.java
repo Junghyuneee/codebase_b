@@ -12,6 +12,7 @@ public class Project{
 	
 	private int hit;
 	private String link;
+	private String img;
 	private String types;
 
 	//private String username;
