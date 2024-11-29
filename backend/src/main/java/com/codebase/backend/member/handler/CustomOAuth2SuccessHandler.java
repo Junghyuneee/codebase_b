@@ -49,12 +49,21 @@ public class CustomOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHa
 //            String name = URLEncoder.encode(customer.getName() != null ? customer.getName() : "", StandardCharsets.UTF_8);
 //            String ctel = customer.getCtel() != null ? customer.getCtel() : "";
 
-            String redirectUrl = String.format("%s/register?username=%s", frontendUrl, username);
+            String redirectUrl = String.format("%s/register?username=%s", frontendUrl, URLEncoder.encode(username, StandardCharsets.UTF_8));
             System.out.println("Redirecting to: " + redirectUrl);
             getRedirectStrategy().sendRedirect(request, response, redirectUrl);
         } else {
             String accessToken = jwtService.generateAccessToken(member);
-            String redirectUrl = frontendUrl + "/oauth" + "?token=" + accessToken;
+            String redirectUrl = String.format(
+                    "%s/oauth?token=%s&email=%s&name=%s&memberId=%s&project_count=%d",
+                    frontendUrl,
+                    URLEncoder.encode(accessToken, StandardCharsets.UTF_8),
+                    URLEncoder.encode(member.getEmail(), StandardCharsets.UTF_8),
+                    URLEncoder.encode(member.getName(), StandardCharsets.UTF_8),
+                    member.getId(),
+                    member.getProjectCount()
+            );
+
             response.sendRedirect(redirectUrl);
         }
     }

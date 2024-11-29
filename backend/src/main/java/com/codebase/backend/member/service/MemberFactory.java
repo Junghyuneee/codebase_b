@@ -22,9 +22,13 @@ public class MemberFactory {
             }
             case "google" -> {
                 Map<String, Object> attributeMap = oAuth2User.getAttributes();
+                System.out.println("attributeMap = " + attributeMap.get("email"));
+                System.out.println("attributeMap.get(\"name\") = " + attributeMap.get("name"));
                 yield Member.builder()
                         .email(attributeMap.get("email").toString())
                         .name(attributeMap.get("name").toString())
+                        .createdAt(LocalDate.now())
+                        .projectCount(3)
                         .role(false)
                         .build();
             }

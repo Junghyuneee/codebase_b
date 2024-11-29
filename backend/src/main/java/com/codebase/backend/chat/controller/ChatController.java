@@ -14,14 +14,14 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("chats")
+@RequestMapping("/chats")
 @RestController
 public class ChatController {
 
     private final ChatService chatService;
 
     @PostMapping
-    public ChatroomDTO createChatroom(@AuthenticationPrincipal Member user, String title) {
+    public ChatroomDTO createChatroom(@AuthenticationPrincipal Member user, @RequestParam String title) {
         System.out.println("user = " + user);
         Chatroom chatroom = chatService.createChatroom(user, title);
         return ChatroomDTO.from(chatroom);
@@ -39,8 +39,8 @@ public class ChatController {
 
     @GetMapping
     public List<ChatroomDTO> getChatrooms(@AuthenticationPrincipal Member user) {
+        System.out.println("user = " + user);
         List<Chatroom> chatrooms = chatService.getChatroomList(user);
-
 
         return chatrooms.stream().map(ChatroomDTO::from).collect(Collectors.toList());
     }
