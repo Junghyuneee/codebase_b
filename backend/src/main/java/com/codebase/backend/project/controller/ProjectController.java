@@ -1,8 +1,6 @@
 package com.codebase.backend.project.controller;
 
-import java.util.Enumeration;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -10,9 +8,10 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.codebase.backend.member.dto.Member;
 import com.codebase.backend.member.service.JwtService;
@@ -55,32 +54,16 @@ public class ProjectController {
 	}
 	
 
-	@PostMapping("/api/store")
-	public ResponseEntity<String> postTest(@RequestBody Map<String, Object> data, @AuthenticationPrincipal Member user, HttpServletRequest request) {
+	//프로젝트 생성
+	@PostMapping("/api/store/add")
+	//public ResponseEntity<String> postTest(@RequestBody Map<String, Object> data, @AuthenticationPrincipal Member user, HttpServletRequest request) {
+	public ResponseEntity<String> postTest( @RequestParam("title") String title,
+            								@RequestParam("content") String content,
+            								@RequestParam("file") MultipartFile file, 
+            								@AuthenticationPrincipal Member user) {
 		
+		System.out.println(file.toString());
 		
-		System.out.println(data.toString());
-		//System.out.println(user.toString());
-		
-//		//요청확인용
-//		Enumeration<String> headerNames = request.getHeaderNames();
-//        while (headerNames.hasMoreElements()) {
-//            String headerName = headerNames.nextElement();
-//            String headerValue = request.getHeader(headerName);
-//            System.out.println(headerName + ": " + headerValue); // 헤더 이름과 값 출력
-//        }
-//
-//	    // Authorization 헤더에서 토큰 추출
-//	    String authHeader = request.getHeader("Authorization");
-//	    if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-//	        throw new RuntimeException("Missing or invalid Authorization header.");
-//	    }
-//	    String token = authHeader.substring(7); // "Bearer " 이후의 토큰 추출
-//		System.out.println(token);
-//		if(user == null) {
-//			System.out.println("null임");
-//			return ResponseEntity.ok("string---");
-//		}
 		System.out.println("user = " + user);
 		
 		return ResponseEntity.ok("string---");
