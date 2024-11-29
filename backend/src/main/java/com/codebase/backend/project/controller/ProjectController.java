@@ -32,7 +32,7 @@ public class ProjectController {
 	@GetMapping("/api/store")
 	@ResponseBody
 	public List<Project> getProjects() {
-		// System.out.println(projectService.readlist());
+		 System.out.println(projectService.readlist());
 		return projectService.readlist();
 
 	}
@@ -63,6 +63,7 @@ public class ProjectController {
 		System.out.println("File Size: " + file.getSize() + " bytes");
 		System.out.println("File Type: " + file.getContentType());
 		System.out.println("user = " + user);
+			
 
 	
 		//projectService.create(null);

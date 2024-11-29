@@ -6,11 +6,12 @@ CREATE TABLE project(
 	name VARCHAR(255) NOT NULL,
 	content LONGTEXT,
 	price INT NOT NULL,
-	maker_id INT,
 	hit INT DEFAULT 0,
 	link VARCHAR(255),
 	img VARCHAR(255),
 	TYPES VARCHAR(255),
+	username VARCHAR(255),
+	maker_id INT,
 	FOREIGN KEY (maker_id) REFERENCES member(id) ON DELETE CASCADE
 );
 
