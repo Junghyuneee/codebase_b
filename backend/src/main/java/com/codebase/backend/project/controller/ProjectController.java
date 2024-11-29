@@ -54,19 +54,20 @@ public class ProjectController {
 
 	// 프로젝트 생성
 	@PostMapping("/api/store/add")
-	public ResponseEntity<String> postTest(@RequestParam("title") String title, @RequestParam("content") String content,
+	public ResponseEntity<String> postTest(Project p,
 			@RequestParam("file") MultipartFile file, @AuthenticationPrincipal Member user) {
 
-		System.out.println("Title: " + title);
-		System.out.println("Content: " + content);
+		System.out.println(p.toString());
 		System.out.println("File Name: " + file.getOriginalFilename());
 		System.out.println("File Size: " + file.getSize() + " bytes");
 		System.out.println("File Type: " + file.getContentType());
 		System.out.println("user = " + user);
-			
-
-	
-		//projectService.create(null);
+		
+		//
+		
+		p.setUsername(user.getName());
+		p.setMaker_id(user.getId());
+		projectService.create(p);
 		
 		return ResponseEntity.ok("string---");
 	}
