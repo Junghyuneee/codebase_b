@@ -28,19 +28,19 @@ public class ProjectController {
 
 	private final ProjectService projectService;
 	private final JwtService jwtService;
-	
+
 	@GetMapping("/api/store")
 	@ResponseBody
 	public List<Project> getProjects() {
-		//System.out.println(projectService.readlist());
+		// System.out.println(projectService.readlist());
 		return projectService.readlist();
 
 	}
-	
+
 	@GetMapping("/api/store/{id}")
 	@ResponseBody
 	public Project projectFindById(@PathVariable("id") Integer id, HttpServletRequest request) {
-		
+
 //		//요청확인용
 //		Enumeration<String> headerNames = request.getHeaderNames();
 //        while (headerNames.hasMoreElements()) {
@@ -49,22 +49,23 @@ public class ProjectController {
 //            System.out.println(headerName + ": " + headerValue); // 헤더 이름과 값 출력
 //        }
 
-		
 		return projectService.findById(id);
 	}
-	
 
-	//프로젝트 생성
+	// 프로젝트 생성
 	@PostMapping("/api/store/add")
-	//public ResponseEntity<String> postTest(@RequestBody Map<String, Object> data, @AuthenticationPrincipal Member user, HttpServletRequest request) {
-	public ResponseEntity<String> postTest( @RequestParam("title") String title,
-            								@RequestParam("content") String content,
-            								@RequestParam("file") MultipartFile file, 
-            								@AuthenticationPrincipal Member user) {
-		
-		System.out.println(file.toString());
-		
+	public ResponseEntity<String> postTest(@RequestParam("title") String title, @RequestParam("content") String content,
+			@RequestParam("file") MultipartFile file, @AuthenticationPrincipal Member user) {
+
+		System.out.println("Title: " + title);
+		System.out.println("Content: " + content);
+		System.out.println("File Name: " + file.getOriginalFilename());
+		System.out.println("File Size: " + file.getSize() + " bytes");
+		System.out.println("File Type: " + file.getContentType());
 		System.out.println("user = " + user);
+
+	
+		//projectService.create(null);
 		
 		return ResponseEntity.ok("string---");
 	}
