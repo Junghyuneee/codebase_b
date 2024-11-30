@@ -4,8 +4,8 @@
 
 	<!-- 앞쪽 묶음이 테이블 컬럼, 뒤쪽 묶음 DTO필드 -->
 	<insert id="insertProject" parameterType="com.codebase.backend.project.dto.Project">
-		INSERT INTO project (name, content, price, hit, link, type, maker_id) 
-		VALUES (#{name},#{content},#{price},#{hit},#{link},#{types},#{maker_id});
+		INSERT INTO project (title, content, price, hit, link, img, types, username, maker_id) 
+		VALUES (#{title},#{content},#{price},#{hit},#{link},#{img},#{types},#{username},#{maker_id});
 	</insert>
 
 	<select id="selectAllProject" resultType="com.codebase.backend.project.dto.Project">
