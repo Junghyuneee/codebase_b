@@ -68,7 +68,10 @@ dependencies {
     implementation 'io.jsonwebtoken:jjwt-api:0.12.6'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.6'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.6'
-
+	
+	// S3 설정
+    implementation group: 'com.amazonaws', name: 'aws-java-sdk-s3', version: '1.12.770'
+	
 }
 
 tasks.named('test') {

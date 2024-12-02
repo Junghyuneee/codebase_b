@@ -1,18 +1,25 @@
 package com.codebase.backend.projectteam.service;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.codebase.backend.configs.S3Service;
 import com.codebase.backend.projectteam.DTO.ProjectteamDTO;
 import com.codebase.backend.projectteam.mapper.ProjectteamMapper;
-
-import java.util.List;
 
 @Service
 public class ProjectteamService {
 
     @Autowired
     private ProjectteamMapper projectteamMapper;
+    
+    @Autowired
+    private S3Service s3Service;
 
     // 특정 프로젝트 조회
     public ProjectteamDTO getProjectTeamById(Integer id) {
@@ -25,7 +32,17 @@ public class ProjectteamService {
     }
 
     // 새 프로젝트 생성
-    public void createProjectTeam(ProjectteamDTO projectTeam) {
+    public void createProjectTeam(ProjectteamDTO projectTeam, MultipartFile file) throws IOException {
+    	
+    	if ( file != null && !file.isEmpty()) {
+    		UUID uuid = UUID.randomUUID();
+    		String fileName = uuid + "_" + file.getOriginalFilename();
+    		
+    		s3Service.uploadFile(file, fileName);
+    		
+    		projectTeam.setPjtimg(fileName);
+    	}   		
+    	
         projectteamMapper.insertProjectTeam(projectTeam);
     }
 
