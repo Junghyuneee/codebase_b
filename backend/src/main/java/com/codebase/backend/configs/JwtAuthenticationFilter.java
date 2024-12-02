@@ -33,7 +33,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
         SecurityContext securityContext = SecurityContextHolder.getContext();
 
-        if (!ObjectUtils.isEmpty(authorization) && authorization.startsWith(BEARER_PREFIX) && securityContext.getAuthentication() == null) {
+        if (!ObjectUtils.isEmpty(authorization) && authorization.startsWith(BEARER_PREFIX) && securityContext.getAuthentication() == null && !request.getServletPath().contains("/get-ip")) {
             String accessToken = authorization.substring(BEARER_PREFIX.length());
 
             String username = jwtService.getUsername(accessToken);
