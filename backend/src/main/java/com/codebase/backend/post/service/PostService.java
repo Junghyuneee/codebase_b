@@ -44,5 +44,17 @@ public class PostService {
     public PostDTO updatePost(Long id, String topic, String title, String content) {
         postMapper.updatePost(id, topic, title, content); // DB에서 업데이트 수행
         return postMapper.selectPostById(id); // 수정된 게시글을 DB에서 다시 조회
+        
+    }  
+   // 좋아요
+
+    public PostDTO likePost(Long id) {
+        postMapper.increaseLikeCount(id); // 좋아요 수 증가
+        return postMapper.selectPostById(id); // 수정된 게시물 반환
+    }
+  //싫어요
+    public PostDTO dislikePost(Long id) {
+        postMapper.increaseDislikeCount(id); // 싫어요 수 증가
+        return postMapper.selectPostById(id); // 수정된 게시물 반환
     }
 }
