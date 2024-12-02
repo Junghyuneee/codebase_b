@@ -28,7 +28,7 @@ public class ReportService {
 
     public List<ReportDTO> getReports(int category) {
 
-        if(category == 3) {
+        if(category == 4) {
             return this.reportRepository.getAllReports()
                     .stream()
                     .map(report -> new ReportDTO(
