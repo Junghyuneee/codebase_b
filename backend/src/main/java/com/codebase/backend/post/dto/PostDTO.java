@@ -12,5 +12,6 @@ public class PostDTO {
     private String author;
     private LocalDateTime createdDate;
     private int views;
-    
+    private int likeCount; // 좋아요 수
+    private int dislikeCount; // 싫어요 수
 }

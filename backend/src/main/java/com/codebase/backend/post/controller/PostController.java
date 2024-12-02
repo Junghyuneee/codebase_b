@@ -79,4 +79,18 @@ public class PostController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); // 404 Not Found
         }
     }
+    
+    // 좋아요 처리
+    @PutMapping("/{id}/like")
+    public ResponseEntity<PostDTO> likePost(@PathVariable Long id) {
+        PostDTO updatedPost = postService.likePost(id);
+        return ResponseEntity.ok(updatedPost);
+    }
+
+    // 싫어요 처리
+    @PutMapping("/{id}/dislike")
+    public ResponseEntity<PostDTO> dislikePost(@PathVariable Long id) {
+        PostDTO updatedPost = postService.dislikePost(id);
+        return ResponseEntity.ok(updatedPost);
+    }
 }
