@@ -3,28 +3,51 @@
 <mapper namespace="memberchatroom">
 
     <insert id="save" parameterType="memberchatroom" useGeneratedKeys="true" keyProperty="id">
-        INSERT into memberchatroom (member, chatroom)
-        values (#{member}, #{chatroom})
+        INSERT into memberchatroom (member, chatroom, lastCheckedAt)
+        values (#{member}, #{chatroom}, #{lastCheckedAt})
     </insert>
 
-<!--    select -->
-    <select id="existsByMemberIdAndChatroomId" resultType="boolean">
+    <!--    select -->
+    <select id="existsByMemberIdAndChatroomId" parameterType="map"  resultType="boolean">
         Select count(1)
         FROM memberchatroom
-        where member=#{memberId} AND chatroom=#{chatroomId}
+        where member = #{memberId}
+          AND chatroom = #{chatroomId}
     </select>
 
-    <select id="findAllByMemberId" parameterType="int" resultType="Integer">
-        select chatroom
+    <select id="findAllByMemberId" parameterType="int" resultType="memberchatroom">
+        select *
         from memberchatroom
-        where member=#{memberId}
+        where member = #{memberId}
     </select>
 
+    <select id="countMemberByChatroomId" parameterType="int" resultType="int">
+        SELECT count(1)
+        FROM memberchatroom
+        where chatroom = #{chatroomId}
+    </select>
 
-<!--    delete    -->
+    <select id="findByMemberIdAndChatroomId" parameterType="map"  resultType="memberchatroom">
+        SELECt *
+        FROm memberchatroom
+        where member = #{memberId}
+          AND chatroom = #{chatroomId}
+    </select>
+
+    <!-- update  -->
+    <update id="updateLastCheckedByMemberIdAndChatroomId" parameterType="map" statementType="PREPARED">
+        UPDATE memberchatroom
+        SET lastCheckedAt = #{checked}
+        where member = #{memberId}
+          AND chatroom = #{chatroomId}
+    </update>
+
+    <!--    delete    -->
     <delete id="deleteByMemberIdAndChatroomId">
-        delete from memberchatroom
-        where member=#{memberId} AND chatroom=#{chatroomId}
+        delete
+        from memberchatroom
+        where member = #{memberId}
+          AND chatroom = #{chatroomId}
     </delete>
 
 </mapper>

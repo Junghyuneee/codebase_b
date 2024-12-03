@@ -8,6 +8,7 @@ import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
 @Slf4j
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Controller;
 public class StompChatController {
 
     private final ChatService chatService;
+    private final SimpMessagingTemplate messagingTemplate;
 
     @MessageMapping("/chats/{chatroomId}")
     @SendTo("/sub/chats/{chatroomId}")
@@ -24,13 +26,11 @@ public class StompChatController {
     ) {
         String authorization = headerAccessor.getFirstNativeHeader("Authorization");
         if (authorization != null) {
-
+            messagingTemplate.convertAndSend("/sub/chats/news", chatroomId);
             return chatService.saveMessage(authorization, payload, chatroomId);
         } else {
             System.out.println("Authorization header is missing.");
         }
         return null;
     }
-
-
 }

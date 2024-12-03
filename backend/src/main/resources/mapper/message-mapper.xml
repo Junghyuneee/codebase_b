@@ -13,4 +13,11 @@
         WHERE room_id=#{chatroomId}
     </select>
 
+    <select id="existsByChatroomIdAndCreatedAtAfter" parameterType="map" resultType="boolean">
+    SELECT COUNT(1) > 0
+    FROM message
+    WHERE room_id = #{chatroomId}
+    AND timestamp > #{createdAt}
+    </select>
+
 </mapper>

@@ -1,12 +1,12 @@
 package com.codebase.backend.chat.repository;
 
-import com.codebase.backend.chat.dto.Chatroom;
 import com.codebase.backend.chat.dto.MemberChatroomMapping;
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.annotations.Param;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +28,19 @@ public class MemberChatroomMappingRepository {
         sql.delete("memberchatroom.deleteByMemberIdAndChatroomId", Map.of("memberId", memberId, "chatroomId", chatroomId));
     }
 
-    public List<Integer> findChatroomIdsByMemberId(@Param("memberId") int memberId) {
+    public List<MemberChatroomMapping> findAllByMemberId(@Param("memberId") int memberId) {
         return sql.selectList("memberchatroom.findAllByMemberId", memberId);
+    }
+
+    public int countMemberByChatroomId(int chatroomId) {
+        return sql.selectOne("memberchatroom.countMemberByChatroomId", chatroomId);
+    }
+//
+//    public MemberChatroomMapping findByMemberIdAndChatroomId(int memberId, int chatroomId) {
+//        return sql.selectOne("memberchatroom.findByMemberIdAndChatroomId", Map.of("memberId", memberId, "chatroomId", chatroomId));
+//    }
+
+    public void updateLastCheckedByMemberIdAndChatroomId(int memberId, int chatroomId) {
+        sql.update("memberchatroom.updateLastCheckedByMemberIdAndChatroomId", Map.of("memberId", memberId, "chatroomId", chatroomId, "checked", LocalDateTime.now()));
     }
 }

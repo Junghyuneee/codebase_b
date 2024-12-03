@@ -5,6 +5,7 @@ import com.codebase.backend.chat.dto.ChatMessageDTO;
 import com.codebase.backend.chat.dto.Chatroom;
 import com.codebase.backend.chat.dto.ChatroomDTO;
 import com.codebase.backend.chat.repository.ChatroomRepository;
+import com.codebase.backend.chat.repository.MemberChatroomMappingRepository;
 import com.codebase.backend.chat.service.ChatService;
 import com.codebase.backend.member.dto.Member;
 import lombok.RequiredArgsConstructor;
@@ -23,16 +24,18 @@ public class ChatController {
 
     private final ChatService chatService;
     private final ChatroomRepository chatroomRepository;
+    private final MemberChatroomMappingRepository memberChatroomMappingRepository;
 
     @PostMapping
     public ChatroomDTO createChatroom(@AuthenticationPrincipal Member user, @RequestParam String title) {
         Chatroom chatroom = chatService.createChatroom(user, title);
-        return ChatroomDTO.from(chatroom);
+        int memberCount = memberChatroomMappingRepository.countMemberByChatroomId(chatroom.getId());
+        return ChatroomDTO.from(chatroom, memberCount);
     }
 
     @PostMapping("/{chatroomId}")
-    public Boolean joinChatroom(@AuthenticationPrincipal Member user, @PathVariable int chatroomId) {
-        return chatService.joinChatroom(user, chatroomId);
+    public Boolean joinChatroom(@AuthenticationPrincipal Member user, @PathVariable int chatroomId, @RequestParam(required = false) Integer currentChatroomId) {
+        return chatService.joinChatroom(user, chatroomId, currentChatroomId);
     }
 
     @DeleteMapping("/{chatroomId}")
@@ -42,8 +45,10 @@ public class ChatController {
 
     @GetMapping
     public List<ChatroomDTO> getChatrooms(@AuthenticationPrincipal Member user) {
-        List<Chatroom> chatrooms = chatService.getChatroomList(user);
-        return chatrooms.stream().map(ChatroomDTO::from).collect(Collectors.toList());
+        List<Chatroom> chatroomList = chatService.getChatroomList(user);
+        return chatroomList.stream().map(
+                chatroom -> ChatroomDTO.from(chatroom, memberChatroomMappingRepository.countMemberByChatroomId(chatroom.getId()))
+        ).collect(Collectors.toList());
     }
 
     @GetMapping("/{chatroomId}/messages")

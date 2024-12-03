@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -43,6 +42,7 @@ public class ChatService {
         MemberChatroomMapping memberChatroomMapping = MemberChatroomMapping.builder()
                 .member(member.getId())
                 .chatroom(chatroom.getId())
+                .lastCheckedAt(LocalDateTime.now())
                 .build();
 
         memberChatroomMappingRepository.save(memberChatroomMapping);
@@ -51,17 +51,22 @@ public class ChatService {
     }
 
 
-    public Boolean joinChatroom(Member member, int chatroomId) {
-        if (memberChatroomMappingRepository.existsByMemberIdAndChatroomId(member.getId(), chatroomId)) {
+    public Boolean joinChatroom(Member member, Integer newChatroomId, Integer currentChatroomId) {
+        if(currentChatroomId != null) {
+            memberChatroomMappingRepository.updateLastCheckedByMemberIdAndChatroomId(member.getId(), currentChatroomId);
+        }
+
+        if (memberChatroomMappingRepository.existsByMemberIdAndChatroomId(member.getId(), newChatroomId)) {
             log.info("이미 참여한 채팅방입니다.");
             return false;
         }
 
-        Chatroom chatroom = chatroomRepository.findById(chatroomId);
+        Chatroom chatroom = chatroomRepository.findById(newChatroomId);
 
         MemberChatroomMapping memberChatroomMapping = MemberChatroomMapping.builder()
                 .member(member.getId())
                 .chatroom(chatroom.getId())
+                .lastCheckedAt(LocalDateTime.now())
                 .build();
 
         memberChatroomMappingRepository.save(memberChatroomMapping);
@@ -81,13 +86,16 @@ public class ChatService {
     }
 
     public List<Chatroom> getChatroomList(Member member) {
-        List<Integer> chatroomIds = memberChatroomMappingRepository.findChatroomIdsByMemberId(member.getId());
+        List<MemberChatroomMapping> memberChatroomMappingRepositoryList = memberChatroomMappingRepository.findAllByMemberId(member.getId());
 
-        if (chatroomIds == null || chatroomIds.isEmpty()) {
-            return Collections.emptyList();
-        }
-
-        return chatroomRepository.findAllByIds(chatroomIds);
+        return memberChatroomMappingRepositoryList.stream().map(
+                memberChatroomMapping -> {
+                    Chatroom chatroom = chatroomRepository.findById(memberChatroomMapping.getChatroom());
+                    chatroom.setHasNewMessage(
+                            messageRepository.existsByChatroomIdAndCreatedAtAfter(chatroom.getId(), memberChatroomMapping.getLastCheckedAt()));
+                    return chatroom;
+                })
+                .toList();
     }
 
     public ChatMessageDTO saveMessage(String authorization, String payload, int chatroomId) {

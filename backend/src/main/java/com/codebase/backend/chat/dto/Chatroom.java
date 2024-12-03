@@ -1,14 +1,10 @@
 package com.codebase.backend.chat.dto;
 
-import com.codebase.backend.member.dto.Member;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
+import lombok.*;
 import java.time.LocalDate;
 
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,4 +12,6 @@ public class Chatroom {
     Integer id;
     LocalDate createdDate;
     String title;
+
+    Boolean hasNewMessage;
 }
