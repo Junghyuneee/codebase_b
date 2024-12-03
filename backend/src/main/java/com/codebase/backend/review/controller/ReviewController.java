@@ -78,12 +78,13 @@ public class ReviewController {
     
     // 리뷰 수정
     @PutMapping("/update/{id}")
-    public ResponseEntity<Review> updateReview(@PathVariable("id") int id, @RequestBody Review review){
+    public ResponseEntity<String> updateReview(@PathVariable("id") int id, @RequestBody Review updatedReview){
     	try {
-            Review updatedReview = reviewService.updateReview(id, review.getTitle(), review.getContent());
-            return ResponseEntity.ok(updatedReview); // 수정된 리뷰 반환
+            reviewService.updateReview(id, updatedReview);
+            return ResponseEntity.ok("리뷰가 성공적으로 수정되었습니다."); // 수정된 리뷰 반환
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            e.printStackTrace(); // 예외 로그 추가
+            return ResponseEntity.status(500).body("리뷰 수정에 실패했습니다."); // 500 오류 반환
         }
     }
 }
