@@ -2,6 +2,7 @@ package com.codebase.backend.post.mapper;
 
 import java.util.List;
 
+import com.codebase.backend.admin.dto.PopularResponse;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -34,4 +35,6 @@ public interface PostMapper {
 
     // 싫어요 수 증가
     void increaseDislikeCount(Long id);
+
+    List<PopularResponse> findPopularPosts(); // 관리자 페이지 인기 프로젝트 차트에 사용
 }
