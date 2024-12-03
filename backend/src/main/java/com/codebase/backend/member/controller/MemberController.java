@@ -10,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -36,5 +38,10 @@ public class MemberController {
         UserAuthenticationResponse response = memberService.login(memberSigninRequestBody.email(), memberSigninRequestBody.password());
 //        System.out.println("response = " + response);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/search/{memberName}")
+    public ResponseEntity<List<Member>> search(@PathVariable("memberName") String memberName) {
+        return ResponseEntity.ok(memberService.searchMember(memberName));
     }
 }

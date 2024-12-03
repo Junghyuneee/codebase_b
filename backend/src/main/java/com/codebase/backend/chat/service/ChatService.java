@@ -56,7 +56,8 @@ public class ChatService {
         }
     }
 
-    public Boolean joinChatroom(Member member, Integer newChatroomId) {
+    public Boolean joinChatroom(String email, Integer newChatroomId) {
+        Member member = memberRepository.findByEmail(email);
 
         if (memberChatroomMappingRepository.existsByMemberIdAndChatroomId(member.getId(), newChatroomId)) {
             log.info("이미 참여한 채팅방입니다.");

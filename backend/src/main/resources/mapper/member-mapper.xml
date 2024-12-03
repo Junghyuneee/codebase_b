@@ -18,4 +18,17 @@
         FROM member
         WHERE email = #{email}
     </select>
+
+    <select id="findByName" parameterType="String" resultType="member">
+        SELECt *
+        FROM member
+        WHERE name = #{name}
+    </select>
+
+    <select id="searchByName" parameterType="String" resultType="member">
+        SELECt *
+        FROM member
+        WHERE name LIKE CONCAT ('%', #{name}, '%')
+        OR email LIKE CONCAT ('%', #{name}, '%')
+    </select>
 </mapper>
