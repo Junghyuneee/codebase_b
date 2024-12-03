@@ -18,4 +18,14 @@
         FROM member
         WHERE email = #{email}
     </select>
+
+    <!-- 관리자 페이지 신규 회원 수 차트에 사용 -->
+    <select id="getWeeklyNewMemberCount" resultType="map">
+        select DATE(createdAt) As joinDate, Count(id) As memberCount
+        FROM member
+        where createdAt >= CURDATE() - INTERVAL 6 DAY
+        group by DATE(createdAt)
+        order by createdAt
+    </select>
+
 </mapper>
