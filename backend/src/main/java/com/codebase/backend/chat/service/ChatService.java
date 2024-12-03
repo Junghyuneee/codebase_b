@@ -50,11 +50,13 @@ public class ChatService {
         return chatroom;
     }
 
-
-    public Boolean joinChatroom(Member member, Integer newChatroomId, Integer currentChatroomId) {
+    public void exitChatroom(Member member, Integer currentChatroomId) {
         if(currentChatroomId != null) {
             memberChatroomMappingRepository.updateLastCheckedByMemberIdAndChatroomId(member.getId(), currentChatroomId);
         }
+    }
+
+    public Boolean joinChatroom(Member member, Integer newChatroomId) {
 
         if (memberChatroomMappingRepository.existsByMemberIdAndChatroomId(member.getId(), newChatroomId)) {
             log.info("이미 참여한 채팅방입니다.");

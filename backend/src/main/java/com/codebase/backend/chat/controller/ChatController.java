@@ -33,9 +33,14 @@ public class ChatController {
         return ChatroomDTO.from(chatroom, memberCount);
     }
 
+    @GetMapping("/exit/{chatroomId}")
+    public void exitChatroom(@AuthenticationPrincipal Member user, @PathVariable int chatroomId) {
+        chatService.exitChatroom(user, chatroomId);
+    }
+
     @PostMapping("/{chatroomId}")
-    public Boolean joinChatroom(@AuthenticationPrincipal Member user, @PathVariable int chatroomId, @RequestParam(required = false) Integer currentChatroomId) {
-        return chatService.joinChatroom(user, chatroomId, currentChatroomId);
+    public Boolean joinChatroom(@AuthenticationPrincipal Member user, @PathVariable int chatroomId) {
+        return chatService.joinChatroom(user, chatroomId);
     }
 
     @DeleteMapping("/{chatroomId}")
