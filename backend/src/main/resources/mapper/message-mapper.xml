@@ -3,8 +3,8 @@
 <mapper namespace="message">
 
     <insert id="save" parameterType="message" useGeneratedKeys="true" keyProperty="id">
-        INSERT into message (text, timestamp, user_id, room_id)
-        values (#{text}, #{timestamp},#{user_id}, #{room_id})
+        INSERT into message (text, timestamp, user_id, room_id, sender, senderMail)
+        values (#{text}, #{timestamp}, #{user_id}, #{room_id}, #{sender}, #{senderMail})
     </insert>
 
     <select id="findAllByChatroomId" parameterType="int" resultType="message">

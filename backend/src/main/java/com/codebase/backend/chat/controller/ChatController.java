@@ -47,12 +47,12 @@ public class ChatController {
     }
 
     @GetMapping("/{chatroomId}/messages")
-    public List<ChatMessageDTO> getMessages(@AuthenticationPrincipal Member user, @PathVariable int chatroomId) {
+    public List<ChatMessageDTO> getMessages(@PathVariable int chatroomId) {
         List<ChatMessage> messages = chatService.getMessageList(chatroomId);
         Chatroom chatroom = chatroomRepository.findById(chatroomId);
 
         return messages.stream().map(
-                message -> ChatMessageDTO.from(message, user.getName(),chatroom.getTitle())
+                message -> ChatMessageDTO.from(message, chatroom.getTitle())
         ).collect(Collectors.toList());
     }
 }

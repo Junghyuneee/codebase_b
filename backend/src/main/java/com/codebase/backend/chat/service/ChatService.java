@@ -107,11 +107,13 @@ public class ChatService {
                 .text(text)
                 .room_id(chatroom.getId())
                 .user_id(member.getId())
+                .sender(member.getName())
+                .senderMail(member.getEmail())
                 .timestamp(LocalDateTime.now())
                 .build();
         message = messageRepository.save(message);
 
-        return ChatMessageDTO.from(message, member.getName(), chatroom.getTitle());
+        return ChatMessageDTO.from(message, chatroom.getTitle());
     }
 
     public List<ChatMessage> getMessageList(int chatroomId) {

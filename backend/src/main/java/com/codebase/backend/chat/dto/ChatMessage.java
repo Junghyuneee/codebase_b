@@ -15,6 +15,8 @@ public class ChatMessage {
     String text;
     LocalDateTime timestamp;
 
+    String senderMail;
+    String sender;
     int user_id;
     int room_id;
 }
