@@ -1,17 +1,17 @@
 package com.codebase.backend.chat.dto;
 
-import java.time.LocalDate;
-
 public record ChatroomDTO(
         int id,
         String title,
-        LocalDate createDate
+        int memberCount,
+        Boolean hasNewMessage
 ) {
 
-    public static ChatroomDTO from(Chatroom chatroom) {
+    public static ChatroomDTO from(Chatroom chatroom, int memberCount) {
         return new ChatroomDTO(chatroom.getId(),
                 chatroom.getTitle(),
-                chatroom.getCreatedDate()
+                memberCount,
+                chatroom.getHasNewMessage()
         );
     }
 }

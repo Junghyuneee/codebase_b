@@ -4,16 +4,20 @@ const stompClient = new StompJs.Client({
 
 stompClient.onConnect = (frame) => {
     setConnected(true);
+    stompClient.subscribe('/sub/chats/news',
+        (chatMessage) => {
+            toggleNewMessageIcon(JSON.parse(chatMessage.body), true);
+        });
     console.log('Connected: ' + frame);
-    stompClient.subscribe('/sub/chats', (chatMessage) => {
-        showMessage(JSON.parse(chatMessage.body));
-    });
-    stompClient.publish({
-        destination: "/pub/chats",
-        body: JSON.stringify(
-            {'sender': $("#username").val(), 'message': "connected"})
-    })
 };
+
+function toggleNewMessageIcon(chatroomId, toggle) {
+    if (toggle) {
+        $("#new_" + chatroomId).show();
+    } else {
+        $("#new_" + chatroomId).hide();
+    }
+}
 
 stompClient.onWebSocketError = (error) => {
     console.error('Error with websocket', error);
@@ -101,9 +105,21 @@ function renderChatrooms(chatrooms) {
     for (let i = 0; i < chatrooms.length; i++) {
         $("#chatroom-list").append(
             "<tr onclick='joinChatroom(" + chatrooms[i].id + ")'><td>"
-            + chatrooms[i].id + "</td><td>" + chatrooms[i].memberCount + "</td><td>" + chatrooms[i].createdAt + "</td></tr>"
+            + chatrooms[i].id + "</td><td>"
+            + "<img src='new.png' id='new_" + chatrooms[i].id + "' style='display: "
+            + getDisplayValue(chatrooms[i].hasNewMessage) + "'/></td>"
+            + chatrooms[i].memberCount
+            + "</td><td>" + chatrooms[i].createdAt
+            + "</td></tr>"
         )
     }
+}
+
+function getDisplayValue(hasNewMessage) {
+    if (hasNewMessage) {
+        return "inline"
+    }
+    return "none";
 }
 
 let subscription;
@@ -113,6 +129,9 @@ function enterChatroom(chatroomId, newMember) {
     $("#conversation").show();
     $("#send").prop("disabled", true);
     $("#leave").prop("disabled", true);
+
+    toggleNewMEsageIcon(chatroomId, false);
+
 
     if (subscription !== undefined) {
         subscription.unsubscribe();

@@ -2,7 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="message">
 
+    <insert id="save" parameterType="message" useGeneratedKeys="true" keyProperty="id">
+        INSERT into message (text, timestamp, user_id, room_id, sender, senderMail)
+        values (#{text}, #{timestamp}, #{user_id}, #{room_id}, #{sender}, #{senderMail})
+    </insert>
 
+    <select id="findAllByChatroomId" parameterType="int" resultType="message">
+        SELECT *
+        FROM message
+        WHERE room_id=#{chatroomId}
+    </select>
 
+    <select id="existsByChatroomIdAndCreatedAtAfter" parameterType="map" resultType="boolean">
+    SELECT COUNT(1) > 0
+    FROM message
+    WHERE room_id = #{chatroomId}
+    AND timestamp > #{createdAt}
+    </select>
 
 </mapper>

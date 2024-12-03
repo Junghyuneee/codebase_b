@@ -63,13 +63,11 @@ public class MemberService implements UserDetailsService {
         }
 
         Member member = memberRepository.findByEmail(memberSignUpRequestBody.email());
-        
         member.setName(memberSignUpRequestBody.name());
         member.setAddr(memberSignUpRequestBody.addr());
         member.setPostcode(memberSignUpRequestBody.postcode());
         member.setTel(memberSignUpRequestBody.tel());
         
-
         memberRepository.update(member);
 
         return member;
@@ -84,7 +82,6 @@ public class MemberService implements UserDetailsService {
 
         if(passwordEncoder.matches(password, member.getPassword())){
             String accessToken = jwtService.generateAccessToken(member);
-            System.out.println("accessToken = " + accessToken);
             return new UserAuthenticationResponse(accessToken, member.getEmail(), member.getName(), member.getId(), member.getProjectCount());
         } else{
             return new UserAuthenticationResponse("Invalid password", null, null, -1, -1);
