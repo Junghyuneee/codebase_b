@@ -24,8 +24,8 @@
 
     <!-- 프로젝트 삽입 -->
     <insert id="insertProjectTeam" parameterType="com.codebase.backend.projectteam.DTO.ProjectteamDTO">
-        INSERT INTO projectteam (pjtname, pjtowner, pjtimg, pjtdescription, pjcategory)
-        VALUES (#{pjtname}, #{pjtowner}, #{pjtimg}, #{pjtdescription}, #{pjcategory})
+        INSERT INTO projectteam (pjtname, pjtowner, pjtimg, pjtdescription, pjcategory, member_id)
+        VALUES (#{pjtname}, #{pjtowner}, #{pjtimg}, #{pjtdescription}, #{pjcategory}, #{member_id})
     </insert>
 
     <!-- 프로젝트 업데이트 -->
