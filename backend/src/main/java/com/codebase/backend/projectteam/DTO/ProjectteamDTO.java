@@ -10,6 +10,7 @@ public class ProjectteamDTO {
     private String pjtimg;        // 프로젝트 이미지
     private String pjtdescription; // 프로젝트 설명
     private String pjcategory;    // 프로젝트 카테고리
+    private Integer member_id;   //외래 키
 
     // Getters and Setters
     public Integer getPjtId() {

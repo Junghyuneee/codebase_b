@@ -34,5 +34,16 @@
         SET topic = #{topic}, title = #{title}, content = #{content} 
         WHERE id = #{id}
     </update>
+    
+    
+       <!-- 좋아요 수 증가 -->
+    <update id="increaseLikeCount" parameterType="long">
+        UPDATE post SET like_count = like_count + 1 WHERE id = #{id}
+    </update>
+
+    <!-- 싫어요 수 증가 -->
+    <update id="increaseDislikeCount" parameterType="long">
+        UPDATE post SET dislike_count = dislike_count + 1 WHERE id = #{id}
+    </update>
 
 </mapper>
