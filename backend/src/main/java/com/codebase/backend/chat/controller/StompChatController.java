@@ -1,13 +1,9 @@
 package com.codebase.backend.chat.controller;
 
-import com.codebase.backend.chat.dto.ChatMessage;
 import com.codebase.backend.chat.dto.ChatMessageDTO;
 import com.codebase.backend.chat.service.ChatService;
-import com.codebase.backend.member.service.JwtService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.minidev.json.JSONObject;
-import net.minidev.json.JSONValue;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -35,4 +31,6 @@ public class StompChatController {
         }
         return null;
     }
+
+
 }

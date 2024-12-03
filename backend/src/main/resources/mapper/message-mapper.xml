@@ -7,5 +7,10 @@
         values (#{text}, #{timestamp},#{user_id}, #{room_id})
     </insert>
 
+    <select id="findAllByChatroomId" parameterType="int" resultType="message">
+        SELECT *
+        FROM message
+        WHERE room_id=#{chatroomId}
+    </select>
 
 </mapper>

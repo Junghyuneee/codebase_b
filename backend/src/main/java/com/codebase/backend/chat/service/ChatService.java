@@ -45,7 +45,7 @@ public class ChatService {
                 .chatroom(chatroom.getId())
                 .build();
 
-        memberChatroomMapping = memberChatroomMappingRepository.save(memberChatroomMapping);
+        memberChatroomMappingRepository.save(memberChatroomMapping);
 
         return chatroom;
     }
@@ -64,7 +64,7 @@ public class ChatService {
                 .chatroom(chatroom.getId())
                 .build();
 
-        memberChatroomMapping = memberChatroomMappingRepository.save(memberChatroomMapping);
+        memberChatroomMappingRepository.save(memberChatroomMapping);
 
         return true;
     }
@@ -112,5 +112,9 @@ public class ChatService {
         message = messageRepository.save(message);
 
         return ChatMessageDTO.from(message, member.getName(), chatroom.getTitle());
+    }
+
+    public List<ChatMessage> getMessageList(int chatroomId) {
+        return messageRepository.findAllByChatroomId(chatroomId);
     }
 }

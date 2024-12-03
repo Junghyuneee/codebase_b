@@ -1,7 +1,10 @@
 package com.codebase.backend.chat.controller;
 
+import com.codebase.backend.chat.dto.ChatMessage;
+import com.codebase.backend.chat.dto.ChatMessageDTO;
 import com.codebase.backend.chat.dto.Chatroom;
 import com.codebase.backend.chat.dto.ChatroomDTO;
+import com.codebase.backend.chat.repository.ChatroomRepository;
 import com.codebase.backend.chat.service.ChatService;
 import com.codebase.backend.member.dto.Member;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +22,7 @@ import java.util.stream.Collectors;
 public class ChatController {
 
     private final ChatService chatService;
+    private final ChatroomRepository chatroomRepository;
 
     @PostMapping
     public ChatroomDTO createChatroom(@AuthenticationPrincipal Member user, @RequestParam String title) {
@@ -40,5 +44,15 @@ public class ChatController {
     public List<ChatroomDTO> getChatrooms(@AuthenticationPrincipal Member user) {
         List<Chatroom> chatrooms = chatService.getChatroomList(user);
         return chatrooms.stream().map(ChatroomDTO::from).collect(Collectors.toList());
+    }
+
+    @GetMapping("/{chatroomId}/messages")
+    public List<ChatMessageDTO> getMessages(@AuthenticationPrincipal Member user, @PathVariable int chatroomId) {
+        List<ChatMessage> messages = chatService.getMessageList(chatroomId);
+        Chatroom chatroom = chatroomRepository.findById(chatroomId);
+
+        return messages.stream().map(
+                message -> ChatMessageDTO.from(message, user.getName(),chatroom.getTitle())
+        ).collect(Collectors.toList());
     }
 }

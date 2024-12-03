@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 @RequiredArgsConstructor
 public class MessageRepository {
@@ -14,5 +16,9 @@ public class MessageRepository {
     public ChatMessage save(ChatMessage chatMessage) {
         sql.insert("message.save", chatMessage);
         return chatMessage;
+    }
+
+    public List<ChatMessage> findAllByChatroomId(int chatroomId) {
+        return sql.selectList("message.findAllByChatroomId", chatroomId);
     }
 }
