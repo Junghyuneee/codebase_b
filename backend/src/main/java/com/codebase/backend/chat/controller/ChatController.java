@@ -1,7 +1,11 @@
 package com.codebase.backend.chat.controller;
 
+import com.codebase.backend.chat.dto.ChatMessage;
+import com.codebase.backend.chat.dto.ChatMessageDTO;
 import com.codebase.backend.chat.dto.Chatroom;
 import com.codebase.backend.chat.dto.ChatroomDTO;
+import com.codebase.backend.chat.repository.ChatroomRepository;
+import com.codebase.backend.chat.repository.MemberChatroomMappingRepository;
 import com.codebase.backend.chat.service.ChatService;
 import com.codebase.backend.member.dto.Member;
 import lombok.RequiredArgsConstructor;
@@ -19,12 +23,19 @@ import java.util.stream.Collectors;
 public class ChatController {
 
     private final ChatService chatService;
+    private final ChatroomRepository chatroomRepository;
+    private final MemberChatroomMappingRepository memberChatroomMappingRepository;
 
     @PostMapping
     public ChatroomDTO createChatroom(@AuthenticationPrincipal Member user, @RequestParam String title) {
-        System.out.println("user = " + user);
         Chatroom chatroom = chatService.createChatroom(user, title);
-        return ChatroomDTO.from(chatroom);
+        int memberCount = memberChatroomMappingRepository.countMemberByChatroomId(chatroom.getId());
+        return ChatroomDTO.from(chatroom, memberCount);
+    }
+
+    @GetMapping("/exit/{chatroomId}")
+    public void exitChatroom(@AuthenticationPrincipal Member user, @PathVariable int chatroomId) {
+        chatService.exitChatroom(user, chatroomId);
     }
 
     @PostMapping("/{chatroomId}")
@@ -39,9 +50,19 @@ public class ChatController {
 
     @GetMapping
     public List<ChatroomDTO> getChatrooms(@AuthenticationPrincipal Member user) {
-        System.out.println("user = " + user);
-        List<Chatroom> chatrooms = chatService.getChatroomList(user);
+        List<Chatroom> chatroomList = chatService.getChatroomList(user);
+        return chatroomList.stream().map(
+                chatroom -> ChatroomDTO.from(chatroom, memberChatroomMappingRepository.countMemberByChatroomId(chatroom.getId()))
+        ).collect(Collectors.toList());
+    }
 
-        return chatrooms.stream().map(ChatroomDTO::from).collect(Collectors.toList());
+    @GetMapping("/{chatroomId}/messages")
+    public List<ChatMessageDTO> getMessages(@PathVariable int chatroomId) {
+        List<ChatMessage> messages = chatService.getMessageList(chatroomId);
+        Chatroom chatroom = chatroomRepository.findById(chatroomId);
+
+        return messages.stream().map(
+                message -> ChatMessageDTO.from(message, chatroom.getTitle())
+        ).collect(Collectors.toList());
     }
 }
