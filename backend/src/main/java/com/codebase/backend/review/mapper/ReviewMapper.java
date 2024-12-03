@@ -28,7 +28,8 @@ public interface ReviewMapper {
     
 	// 리뷰 수정
 	//@Update("UPDATE reviews SET title = #{title}, content = #{content} WHERE id = #{id}")
-	void updateReview(@Param("id") int id, @Param("title") String title, @Param("content") String content);
+	//void updateReview(@Param("id") int id, @Param("title") String title, @Param("content") String content);
+    void updateReview(Review review);
 	
 	// 리뷰 삭제
 	//@Delete("DELETE FROM reviews WHERE id = #{id}")

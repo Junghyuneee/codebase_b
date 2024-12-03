@@ -28,9 +28,7 @@
     </delete>
     
     <!-- 리뷰 수정 -->
-    <update id="updateReview">
-    	UPDATE review 
-    	SET title = #{title}, content = #{content} 
-    	WHERE id = #{id}
+    <update id="updateReview" parameterType="com.codebase.backend.review.dto.Review">
+    	UPDATE review SET title = #{title}, content = #{content}, createdDate = NOW() WHERE id = #{id}
     </update>
 </mapper>

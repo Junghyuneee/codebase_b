@@ -3,6 +3,7 @@ package com.codebase.backend.review.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.codebase.backend.review.dto.Review;
 import com.codebase.backend.review.mapper.ReviewMapper;
@@ -47,9 +48,16 @@ public class ReviewService {
 	}
 	
 	// 리뷰 수정
-	public Review updateReview(int id, String title, String content) {
-		reviewMapper.updateReview(id, title, content); //DB에서 업데이트 수행
-		return reviewMapper.selectReviewById(id); //수정된 리뷰를 DB에서 다시 조회
+	@Transactional
+	public void updateReview(int id, Review updatedReview) {
+		/*
+		 * try { reviewMapper.updateReview(id, title, content); // DB에서 업데이트 수행 return
+		 * reviewMapper.selectReviewById(id); // 수정된 리뷰를 DB에서 다시 조회 } catch (Exception
+		 * e) { e.printStackTrace(); // 오류 로그 추가 throw new
+		 * RuntimeException("리뷰 수정 중 오류 발생", e); }
+		 */
+		updatedReview.setId(id);
+		reviewMapper.updateReview(updatedReview);
 	}
 
 }
