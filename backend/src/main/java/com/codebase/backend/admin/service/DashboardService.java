@@ -5,6 +5,7 @@ import com.codebase.backend.admin.dto.PopularResponse;
 import com.codebase.backend.admin.dto.Visitor;
 import com.codebase.backend.admin.repository.DashboardRepository;
 
+import com.codebase.backend.post.mapper.PostMapper;
 import com.codebase.backend.project.mapper.ProjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,8 @@ public class DashboardService {
 
     @Autowired
     private ProjectMapper projectMapper;
+    @Autowired
+    private PostMapper postMapper;
 
     // 방문자 수
     public void  save(Visitor visitor) {
@@ -36,11 +39,6 @@ public class DashboardService {
     public List<Map<String, Object>> getWeeklyVisitorCount() {
         return this.dashboardRepository.getWeeklyVisitorCount();
     }
-
-    // 인기 프로젝트
-    public List<PopularResponse> getPopularProjects() {
-        return projectMapper.findPopularProjects();
-    }
     
     // 신규 회원 수
     public List<NewMemberResponse> getWeeklyNewMemberCount() {
@@ -51,6 +49,16 @@ public class DashboardService {
                         ((Date) row.get("joinDate")).toLocalDate()
                 ))
                 .collect(Collectors.toList());
+    }
+
+    // 인기 프로젝트
+    public List<PopularResponse> getPopularProjects() {
+        return projectMapper.findPopularProjects();
+    }
+
+    // 인기 자유게시글
+    public List<PopularResponse> getPopularPosts() {
+        return postMapper.findPopularPosts();
     }
 
 }

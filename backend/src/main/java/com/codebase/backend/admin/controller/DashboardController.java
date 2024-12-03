@@ -40,16 +40,24 @@ public class DashboardController {
         return dashboardService.getWeeklyVisitorCount();
     }
 
-    // 인기 프로젝트
-    @GetMapping("/popular/project")
-    public List<PopularResponse> popularProjects() {
-        return dashboardService.getPopularProjects();
-    }
-    
     // 신규 회원 수
     @GetMapping("/newMember/weekly")
     public List<NewMemberResponse> newMemberWeekly() {
         return dashboardService.getWeeklyNewMemberCount();
     }
+
+    // 인기 프로젝트
+    @GetMapping("/popular/project")
+    public List<PopularResponse> popularProjects() {
+        return dashboardService.getPopularProjects();
+    }
+
+
+    // 인기 자유게시글
+    @GetMapping("/popular/post")
+    public List<PopularResponse> popularPosts() {
+        return dashboardService.getPopularPosts();
+    }
+
 
 }
