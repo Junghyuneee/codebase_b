@@ -22,7 +22,6 @@ public class ChatController {
 
     @PostMapping
     public ChatroomDTO createChatroom(@AuthenticationPrincipal Member user, @RequestParam String title) {
-        System.out.println("user = " + user);
         Chatroom chatroom = chatService.createChatroom(user, title);
         return ChatroomDTO.from(chatroom);
     }
@@ -39,9 +38,7 @@ public class ChatController {
 
     @GetMapping
     public List<ChatroomDTO> getChatrooms(@AuthenticationPrincipal Member user) {
-        System.out.println("user = " + user);
         List<Chatroom> chatrooms = chatService.getChatroomList(user);
-
         return chatrooms.stream().map(ChatroomDTO::from).collect(Collectors.toList());
     }
 }

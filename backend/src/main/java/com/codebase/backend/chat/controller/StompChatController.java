@@ -1,28 +1,38 @@
 package com.codebase.backend.chat.controller;
 
 import com.codebase.backend.chat.dto.ChatMessage;
+import com.codebase.backend.chat.dto.ChatMessageDTO;
+import com.codebase.backend.chat.service.ChatService;
+import com.codebase.backend.member.service.JwtService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.minidev.json.JSONObject;
+import net.minidev.json.JSONValue;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.stereotype.Controller;
-
-import java.security.Principal;
-import java.util.Map;
 
 @Slf4j
 @Controller
+@RequiredArgsConstructor
 public class StompChatController {
 
-    @MessageMapping("/chats")
-    @SendTo("/sub/chats")
-    public ChatMessage handleMeaasge(
-            @AuthenticationPrincipal Principal principal,
-            @Payload Map<String, String> payload) {
-        System.out.println("principal = " + principal);
-        log.info("{} received", payload);
+    private final ChatService chatService;
 
-        return new ChatMessage(principal.getName(), payload.get("message"));
+    @MessageMapping("/chats/{chatroomId}")
+    @SendTo("/sub/chats/{chatroomId}")
+    public ChatMessageDTO handleMessage(
+            @DestinationVariable int chatroomId, String payload, SimpMessageHeaderAccessor headerAccessor
+    ) {
+        String authorization = headerAccessor.getFirstNativeHeader("Authorization");
+        if (authorization != null) {
+
+            return chatService.saveMessage(authorization, payload, chatroomId);
+        } else {
+            System.out.println("Authorization header is missing.");
+        }
+        return null;
     }
 }

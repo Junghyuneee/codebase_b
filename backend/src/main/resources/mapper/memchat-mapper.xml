@@ -23,7 +23,7 @@
 
 <!--    delete    -->
     <delete id="deleteByMemberIdAndChatroomId">
-        delete from memchatroom
+        delete from memberchatroom
         where member=#{memberId} AND chatroom=#{chatroomId}
     </delete>
 

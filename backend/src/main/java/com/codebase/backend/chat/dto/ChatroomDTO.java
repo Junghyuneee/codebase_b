@@ -4,14 +4,14 @@ import java.time.LocalDate;
 
 public record ChatroomDTO(
         int id,
-        String title,
-        LocalDate createDate
+        String title
+//        LocalDate createDate
 ) {
 
     public static ChatroomDTO from(Chatroom chatroom) {
         return new ChatroomDTO(chatroom.getId(),
-                chatroom.getTitle(),
-                chatroom.getCreatedDate()
+                chatroom.getTitle()
+//                chatroom.getCreatedDate()
         );
     }
 }

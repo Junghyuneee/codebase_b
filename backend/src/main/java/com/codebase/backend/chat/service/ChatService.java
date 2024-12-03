@@ -1,15 +1,23 @@
 package com.codebase.backend.chat.service;
 
+import com.codebase.backend.chat.dto.ChatMessage;
+import com.codebase.backend.chat.dto.ChatMessageDTO;
 import com.codebase.backend.chat.dto.Chatroom;
 import com.codebase.backend.chat.dto.MemberChatroomMapping;
 import com.codebase.backend.chat.repository.ChatroomRepository;
+import com.codebase.backend.chat.repository.MessageRepository;
 import com.codebase.backend.member.dto.Member;
 import com.codebase.backend.chat.repository.MemberChatroomMappingRepository;
+import com.codebase.backend.member.repository.MemberRepository;
+import com.codebase.backend.member.service.JwtService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.minidev.json.JSONObject;
+import net.minidev.json.JSONValue;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
@@ -20,6 +28,9 @@ public class ChatService {
 
     private final ChatroomRepository chatroomRepository;
     private final MemberChatroomMappingRepository memberChatroomMappingRepository;
+    private final JwtService jwtService;
+    private final MemberRepository memberRepository;
+    private final MessageRepository messageRepository;
 
     public Chatroom createChatroom(Member member, String title) {
         Chatroom chatroom = Chatroom.builder()
@@ -28,8 +39,6 @@ public class ChatService {
                 .build();
 
         chatroom = chatroomRepository.save(chatroom);
-
-        System.out.println("chatroom.getId() = " + chatroom.getId());
 
         MemberChatroomMapping memberChatroomMapping = MemberChatroomMapping.builder()
                 .member(member.getId())
@@ -79,5 +88,29 @@ public class ChatService {
         }
 
         return chatroomRepository.findAllByIds(chatroomIds);
+    }
+
+    public ChatMessageDTO saveMessage(String authorization, String payload, int chatroomId) {
+
+        // Parsing
+        JSONObject jsonObject = (JSONObject) JSONValue.parse(payload);
+        String text = (String) jsonObject.get("message");
+
+        authorization = authorization.substring(7);
+        String username = jwtService.getUsername(authorization);
+
+        // Find Entity
+        Chatroom chatroom = chatroomRepository.findById(chatroomId);
+        Member member = memberRepository.findByEmail(username);
+
+        ChatMessage message = ChatMessage.builder()
+                .text(text)
+                .room_id(chatroom.getId())
+                .user_id(member.getId())
+                .timestamp(LocalDateTime.now())
+                .build();
+        message = messageRepository.save(message);
+
+        return ChatMessageDTO.from(message, member.getName(), chatroom.getTitle());
     }
 }
