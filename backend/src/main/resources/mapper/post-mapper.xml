@@ -46,4 +46,11 @@
         UPDATE post SET dislike_count = dislike_count + 1 WHERE id = #{id}
     </update>
 
+    <!-- 인기게시글 차트를 위한 id, 제목, 조회수 select -->
+    <select id="findPopularPosts" resultType="com.codebase.backend.admin.dto.PopularResponse">
+        SELECT id, title, views AS hits FROM post
+        ORDER BY views DESC, id DESC
+        LIMIT 5;
+    </select>
+
 </mapper>
