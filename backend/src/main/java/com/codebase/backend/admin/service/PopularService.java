@@ -14,7 +14,6 @@ public class PopularService {
     private ProjectMapper projectMapper;
 
     public List<PopularResponse> getPopularProjects() {
-        System.out.println("실행O????");
         return projectMapper.findPopularProjects();
     }
 

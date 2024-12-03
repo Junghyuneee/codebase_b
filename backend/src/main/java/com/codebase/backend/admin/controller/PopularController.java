@@ -18,7 +18,6 @@ public class PopularController {
 
     @GetMapping("/project")
     public List<PopularResponse> popularProjects() {
-        System.out.println("실행O?");
         return popularService.getPopularProjects();
     }
 
