@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/dashboard")
+@RequestMapping("/dashboard/visitor")
 public class VisitorController {
 
     @Autowired
@@ -33,7 +33,7 @@ public class VisitorController {
     }
 
     @CrossOrigin(origins = "http://localhost:5713")
-    @GetMapping("/weekly-visitors")
+    @GetMapping("/weekly")
     public List<Map<String, Object>> getWeeklyVisitorCount() {
         return visitorService.getWeeklyVisitorCount();
     }
