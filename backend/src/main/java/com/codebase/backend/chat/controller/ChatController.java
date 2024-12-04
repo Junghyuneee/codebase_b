@@ -33,17 +33,17 @@ public class ChatController {
         return ChatroomDTO.from(chatroom, memberCount);
     }
     @GetMapping("/exit/{chatroomId}")
-    public void exitChatroom(@AuthenticationPrincipal Member user, @PathVariable int chatroomId) {
+    public void exitChatroom(@AuthenticationPrincipal Member user, @PathVariable("chatroomId") int chatroomId) {
         chatService.exitChatroom(user, chatroomId);
     }
 
     @PostMapping("/{chatroomId}")
-    public Boolean joinChatroom(@PathVariable int chatroomId, @RequestParam String memberMail) {
+    public Boolean joinChatroom(@PathVariable int chatroomId, @RequestParam(value = "memberMail") String memberMail) {
         return chatService.joinChatroom(memberMail, chatroomId);
     }
 
     @DeleteMapping("/{chatroomId}")
-    public Boolean leaveChatroom(@AuthenticationPrincipal Member user, @PathVariable int chatroomId) {
+    public Boolean leaveChatroom(@AuthenticationPrincipal Member user, @PathVariable("chatroomId") int chatroomId) {
         return chatService.leaveChatroom(user, chatroomId);
     }
 
@@ -56,7 +56,7 @@ public class ChatController {
     }
 
     @GetMapping("/{chatroomId}/messages")
-    public List<ChatMessageDTO> getMessages(@PathVariable int chatroomId) {
+    public List<ChatMessageDTO> getMessages(@PathVariable("chatroomId") int chatroomId) {
         List<ChatMessage> messages = chatService.getMessageList(chatroomId);
         Chatroom chatroom = chatroomRepository.findById(chatroomId);
 
