@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -86,5 +87,10 @@ public class MemberService implements UserDetailsService {
         } else{
             return new UserAuthenticationResponse("Invalid password", null, null, -1, -1);
         }
+    }
+
+    // 검색
+    public List<Member> searchMember(String name) {
+        return memberRepository.searchByName(name);
     }
 }
