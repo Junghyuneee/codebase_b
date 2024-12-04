@@ -22,7 +22,7 @@ public class StompChatController {
     @MessageMapping("/chats/{chatroomId}")
     @SendTo("/sub/chats/{chatroomId}")
     public ChatMessageDTO handleMessage(
-            @DestinationVariable int chatroomId, String payload, SimpMessageHeaderAccessor headerAccessor
+            @DestinationVariable("chatroomId") int chatroomId, String payload, SimpMessageHeaderAccessor headerAccessor
     ) {
         String authorization = headerAccessor.getFirstNativeHeader("Authorization");
         if (authorization != null) {
