@@ -31,10 +31,10 @@ public interface PostMapper {
     
     
     // 좋아요 수 증가
-    void increaseLikeCount(Long id);
-
+    void increaseLikeCount(@Param("id") Long id);
+    
     // 싫어요 수 증가
-    void increaseDislikeCount(Long id);
+    void increaseDislikeCount(@Param("id") Long id);
 
     List<PopularResponse> findPopularPosts(); // 관리자 페이지 인기 프로젝트 차트에 사용
 }

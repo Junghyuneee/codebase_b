@@ -34,17 +34,19 @@
         SET topic = #{topic}, title = #{title}, content = #{content} 
         WHERE id = #{id}
     </update>
-    
-    
-       <!-- 좋아요 수 증가 -->
-    <update id="increaseLikeCount" parameterType="long">
-        UPDATE post SET like_count = like_count + 1 WHERE id = #{id}
-    </update>
 
-    <!-- 싫어요 수 증가 -->
-    <update id="increaseDislikeCount" parameterType="long">
-        UPDATE post SET dislike_count = dislike_count + 1 WHERE id = #{id}
-    </update>
+
+	<!-- 좋아요 수 증가 -->
+	<update id="increaseLikeCount" parameterType="long">
+		UPDATE post SET likeCount = likeCount + 1 WHERE id = #{id}
+	</update>
+
+
+	<!-- 싫어요 수 증가 -->
+	<update id="increaseDislikeCount" parameterType="long">
+		UPDATE post SET dislikeCount = dislikeCount + 1 WHERE id = #{id}
+	</update>
+
 
     <!-- 인기게시글 차트를 위한 id, 제목, 조회수 select -->
     <select id="findPopularPosts" resultType="com.codebase.backend.admin.dto.PopularResponse">
