@@ -27,12 +27,11 @@ public class ChatController {
     private final MemberChatroomMappingRepository memberChatroomMappingRepository;
 
     @PostMapping
-    public ChatroomDTO createChatroom(@AuthenticationPrincipal Member user, @RequestParam String title) {
+    public ChatroomDTO createChatroom(@AuthenticationPrincipal Member user, @RequestParam(value = "title") String title) {
         Chatroom chatroom = chatService.createChatroom(user, title);
         int memberCount = memberChatroomMappingRepository.countMemberByChatroomId(chatroom.getId());
         return ChatroomDTO.from(chatroom, memberCount);
     }
-
     @GetMapping("/exit/{chatroomId}")
     public void exitChatroom(@AuthenticationPrincipal Member user, @PathVariable int chatroomId) {
         chatService.exitChatroom(user, chatroomId);
