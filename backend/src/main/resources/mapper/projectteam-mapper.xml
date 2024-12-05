@@ -4,7 +4,7 @@
 
     <!-- 공통 SQL 정의 -->
     <sql id="projectTeamColumns">
-        pjt_id AS pjtId, pjtname, pjtowner, pjtimg, pjtdescription, pjcategory
+        pjt_id AS pjtId, pjtname, pjtowner, pjtimg, pjtdescription, pjcategory, member_id
     </sql>
 
     <!-- 특정 ID의 ProjectTeam 조회 -->

@@ -60,4 +60,12 @@ public class ProjectteamDTO {
     public void setPjcategory(String pjcategory) {
         this.pjcategory = pjcategory;
     }
+
+    public Integer getMemberId() {
+        return member_id;
+    }
+
+    public void setMemberId(Integer member_id) {
+        this.member_id = member_id;
+    }
 }
