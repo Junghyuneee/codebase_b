@@ -3,19 +3,21 @@
 <mapper namespace="com.codebase.backend.post.mapper.PostMapper">
 
     <!-- 게시글 생성 -->
-   <insert id="insertPost" parameterType="com.codebase.backend.post.dto.PostDTO">
-    INSERT INTO post (topic, title, content, author, views) VALUES (#{topic}, #{title}, #{content}, #{author}, 0)
-   </insert>
-
+    <insert id="insertPost" parameterType="com.codebase.backend.post.dto.PostDTO">
+        INSERT INTO post (topic, title, content, author, createDate, views) 
+        VALUES (#{topic}, #{title}, #{content}, #{author}, CURRENT_TIMESTAMP, 0)
+    </insert>
 
     <!-- 모든 게시글 조회 -->
     <select id="selectAllPosts" resultType="com.codebase.backend.post.dto.PostDTO">
-        SELECT * FROM post
+        SELECT id, topic, title, content, author, createDate, views, likeCount, dislikeCount
+        FROM post
     </select>
 
     <!-- 특정 게시글 조회 -->
     <select id="selectPostById" parameterType="long" resultType="com.codebase.backend.post.dto.PostDTO">
-        SELECT * FROM post WHERE id = #{id}
+        SELECT id, topic, title, content, author, createDate, views, likeCount, dislikeCount
+        FROM post WHERE id = #{id}
     </select>
     
     <!-- 게시글 조회수 증가 -->
@@ -35,24 +37,22 @@
         WHERE id = #{id}
     </update>
 
-
-	<!-- 좋아요 수 증가 -->
-	<update id="increaseLikeCount" parameterType="long">
-		UPDATE post SET likeCount = likeCount + 1 WHERE id = #{id}
-	</update>
-
-
-	<!-- 싫어요 수 증가 -->
-	<update id="increaseDislikeCount" parameterType="long">
-		UPDATE post SET dislikeCount = dislikeCount + 1 WHERE id = #{id}
-	</update>
+    <!-- 좋아요 수 증가 -->
+    <update id="increaseLikeCount" parameterType="long">
+    UPDATE post SET likeCount = likeCount + 1 WHERE id = #{id}
+    </update>
 
 
-    <!-- 인기게시글 차트를 위한 id, 제목, 조회수 select -->
+    <!-- 싫어요 수 증가 -->
+    <update id="increaseDislikeCount" parameterType="long">
+        UPDATE post SET dislikeCount = dislikeCount + 1 WHERE id = #{id}
+    </update>
+
+    <!-- 인기 게시글 차트를 위한 id, 제목, 조회수 select -->
     <select id="findPopularPosts" resultType="com.codebase.backend.admin.dto.PopularResponse">
         SELECT id, title, views AS hits FROM post
         ORDER BY views DESC, id DESC
-        LIMIT 5;
+        LIMIT 5
     </select>
 
 </mapper>
