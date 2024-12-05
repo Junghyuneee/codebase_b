@@ -37,10 +37,7 @@ public class PostController {
     @GetMapping("/detail/{id}")
     public ResponseEntity<PostDTO> selectPostById(@PathVariable("id") Long id) {
         PostDTO post = postService.selectPostById(id);
-        if (post == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); // 404 Not Found
-        }
-        return ResponseEntity.ok(post);
+        return ResponseEntity.ok(post); // 404 Not Found는 서비스에서 처리
     }
 
     // 게시글 조회수 증가
@@ -53,21 +50,18 @@ public class PostController {
     // 게시글 삭제
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deletePost(@PathVariable("id") Long id) {
-        if (postService.selectPostById(id) == null) {
+        boolean isDeleted = postService.deletePost(id);
+        if (!isDeleted) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); // 404 Not Found
         }
-        postService.deletePost(id);
         return ResponseEntity.noContent().build(); // 204 No Content
     }
 
     // 게시글 수정
     @PutMapping("/update/{id}")
     public ResponseEntity<PostDTO> updatePost(@PathVariable("id") Long id, @RequestBody PostDTO post) {
-        PostDTO updatedPost = postService.updatePost(id, post.getTopic(), post.getTitle(), post.getContent());
-        if (updatedPost == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); // 404 Not Found
-        }
-        return ResponseEntity.ok(updatedPost);
+        PostDTO updatedPost = postService.updatePost(id, post.getTopic(), post.getTitle(), post.getContent(), post.getTags());
+        return ResponseEntity.ok(updatedPost); // 404 Not Found는 서비스에서 처리
     }
 
     // 좋아요 처리

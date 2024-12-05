@@ -4,8 +4,14 @@
 
     <!-- 게시글 생성 -->
     <insert id="insertPost" parameterType="com.codebase.backend.post.dto.PostDTO">
-        INSERT INTO post (topic, title, content, author, createDate, views) 
-        VALUES (#{topic}, #{title}, #{content}, #{author}, CURRENT_TIMESTAMP, 0)
+        INSERT INTO post (topic, title, content, author, createDate, views, likeCount, dislikeCount) 
+        VALUES (#{topic}, #{title}, #{content}, #{author}, CURRENT_TIMESTAMP, 0, 0, 0)
+    </insert>
+
+    <!-- 게시글과 태그 연관 생성 -->
+    <insert id="insertPostTags" parameterType="map">
+        INSERT INTO post_tags (post_id, tag_id) 
+        VALUES (#{postId}, #{tagId})
     </insert>
 
     <!-- 모든 게시글 조회 -->
@@ -39,9 +45,8 @@
 
     <!-- 좋아요 수 증가 -->
     <update id="increaseLikeCount" parameterType="long">
-    UPDATE post SET likeCount = likeCount + 1 WHERE id = #{id}
+        UPDATE post SET likeCount = likeCount + 1 WHERE id = #{id}
     </update>
-
 
     <!-- 싫어요 수 증가 -->
     <update id="increaseDislikeCount" parameterType="long">

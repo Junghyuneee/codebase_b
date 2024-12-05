@@ -41,13 +41,18 @@ public class PostService {
     }
 
     // 게시글 삭제
-    public void deletePost(Long id) {
-        postMapper.deletePost(id);
+    public boolean deletePost(Long id) {
+        boolean isDeleted = postMapper.deletePost(id); // 삭제 성공 여부 반환
+        if (!isDeleted) {
+            throw new RuntimeException("게시물 삭제 실패: 게시물이 존재하지 않거나 이미 삭제되었습니다.");
+        }
+        return isDeleted;
     }
 
     // 게시글 수정
-    public PostDTO updatePost(Long id, String topic, String title, String content) {
-        postMapper.updatePost(id, topic, title, content);
+    public PostDTO updatePost(Long id, String topic, String title, String content, List<String> tags) {
+        PostDTO existingPost = selectPostById(id); // 게시글 존재 여부 확인
+        postMapper.updatePost(id, topic, title, content, tags); // tags 추가
         return postMapper.selectPostById(id); // 수정된 게시글을 DB에서 다시 조회
     }
 
@@ -63,10 +68,15 @@ public class PostService {
         }
     }
 
-
     // 싫어요
     public PostDTO dislikePost(Long id) {
-        postMapper.increaseDislikeCount(id); // 싫어요 수 증가
-        return postMapper.selectPostById(id); // 수정된 게시물 반환
+        try {
+            postMapper.increaseDislikeCount(id); // 싫어요 수 증가
+            return postMapper.selectPostById(id); // 수정된 게시물 반환
+        } catch (Exception e) {
+            // 로그 추가
+            System.err.println("싫어요 처리 중 오류 발생: " + e.getMessage());
+            throw new RuntimeException("싫어요 처리 실패: " + e.getMessage());
+        }
     }
 }

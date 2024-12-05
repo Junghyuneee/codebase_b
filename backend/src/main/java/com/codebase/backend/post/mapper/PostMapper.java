@@ -24,7 +24,11 @@ public interface PostMapper {
     void increaseViews(@Param("id") Long id);
     
     // 게시글 수정
-    void updatePost(@Param("id") Long id, @Param("topic") String topic, @Param("title") String title, @Param("content") String content);
+    void updatePost(@Param("id") Long id, 
+                    @Param("topic") String topic, 
+                    @Param("title") String title, 
+                    @Param("content") String content,
+                    @Param("tags") List<String> tags); // 태그 업데이트 추가
     
     // 게시글 삭제 (성공 여부 반환)
     boolean deletePost(@Param("id") Long id);
