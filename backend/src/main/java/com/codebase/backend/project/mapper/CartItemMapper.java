@@ -13,6 +13,6 @@ public interface CartItemMapper {
     List<CartItem> selectCartItemByCartId(int id);
     CartItem findById(int id);
     List<CartItem> findByCartId(int id);
-    CartItem findByProjectCartId(@Param("cart_id") int cart_Id, @Param("project_id") int project_Id);
+    CartItem findByProjectCartId(@Param("cart_id") int cart_id, @Param("project_id") int project_id);
     void deleteCartItemById(int id);
 }
