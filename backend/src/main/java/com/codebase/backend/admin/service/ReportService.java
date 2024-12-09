@@ -5,6 +5,7 @@
 package com.codebase.backend.admin.service;
 
 import com.codebase.backend.admin.dto.Report;
+import com.codebase.backend.admin.dto.ReportDetails;
 import com.codebase.backend.admin.dto.ReportDTO;
 import com.codebase.backend.admin.repository.ReportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,25 +20,28 @@ public class ReportService {
     @Autowired
     private ReportRepository reportRepository;
 
-    public void  save(Report report) {
-        report.setDate(LocalDateTime.now());
-        report.setCompleted(false);
-
+    public void saveReport(ReportDetails reportDetail) {
+        Report report = new Report(reportDetail.getCategory(),
+                reportDetail.getCategoryId(), reportDetail.getCategoryTitle());
         this.reportRepository.saveReport(report);
+    }
+
+    public void saveReportDetail(ReportDetails report) {
+        this.reportRepository.saveReportDetail(report);
     }
 
     public List<ReportDTO> getReports(int category) {
 
         if(category == 4) {
+
             return this.reportRepository.getAllReports()
                     .stream()
                     .map(report -> new ReportDTO(
                             report.getReportId(),
-                            report.getContent(),
                             report.getCategory(),
                             report.getCategoryId(),
                             report.getCategoryTitle(),
-                            report.getMemberName(),
+                            report.getCount(),
                             report.isCompleted()
                     ))
                     .toList();
@@ -47,11 +51,10 @@ public class ReportService {
                 .stream()
                 .map(report -> new ReportDTO(
                         report.getReportId(),
-                        report.getContent(),
                         report.getCategory(),
                         report.getCategoryId(),
                         report.getCategoryTitle(),
-                        report.getMemberName(),
+                        report.getCount(),
                         report.isCompleted()
                 ))
                 .toList();

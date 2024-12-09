@@ -4,7 +4,7 @@
 */
 package com.codebase.backend.admin.controller;
 
-import com.codebase.backend.admin.dto.Report;
+import com.codebase.backend.admin.dto.ReportDetails;
 import com.codebase.backend.admin.dto.ReportDTO;
 import com.codebase.backend.admin.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +24,15 @@ public class ReportController {
 
     @CrossOrigin(origins = "http://localhost:5713")
     @PostMapping("/create")
-    public ResponseEntity<?> createReport(@RequestBody Report report) {
+    public ResponseEntity<?> createReport(@RequestBody ReportDetails report) {
+        // RequestBody = category, categoryId, categoryTitle memberId, content
+
         // ResponseEntity<?> 리턴 타입 => 성공 여부를 프런트로 전달해서 성공/실패를 판단할 수 있나?
         Map<String, Object> response = new HashMap<>();
         try {
             // 신고 데이터 처리
-            reportService.save(report);
+            reportService.saveReport(report); // 신고 테이블
+            reportService.saveReportDetail(report); // 신고 상세 테이블
             // 성공 응답 (JSON 형식)
             response.put("title", report.getCategoryTitle());
             response.put("status", "success");
@@ -48,7 +51,6 @@ public class ReportController {
     @CrossOrigin(origins = "http://localhost:5713")
     @GetMapping("/read/{category}")
     public List<ReportDTO> getAllReport(@PathVariable int category) {
-        System.out.println(category);
         return reportService.getReports(category);
     }
 
