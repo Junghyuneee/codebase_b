@@ -24,7 +24,7 @@
     </insert>
 
     <!-- 신고할 때마다 신고 디테일 정보 저장 -->
-    <insert id="insertReportDetails" parameterType="map">
+    <insert id="insertReportDetail" parameterType="map">
         INSERT INTO report_details (report_id, member_id, content, report_date)
         VALUES (
             (SELECT report_id FROM report_summary WHERE category = #{category} AND category_id = #{categoryId}),
@@ -34,11 +34,13 @@
 
     <!-- 신고 리스트 띄우기 -->
     <select id="selectAllReports" resultType="report" resultMap="ReportMap">
-        select * from report_summary;
+        select * from report_summary
+        order by count desc;
     </select>
 
     <select id="selectReportsByCategory" parameterType="int" resultType="report" resultMap="ReportMap">
-        select * from report_summary where category = #{category};
+        select * from report_summary where category = #{category}
+        order by count desc;
     </select>
 
     <!-- 신고 디테일 띄우기 -->

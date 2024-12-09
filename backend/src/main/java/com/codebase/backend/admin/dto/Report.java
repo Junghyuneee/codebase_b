@@ -23,10 +23,13 @@ public class Report {
 
     private boolean completed; // 신고 처리
 
-    public Report(int category, int categoryId, String categoryTitle) {
+    public Report(int reportId, int category, int categoryId, String categoryTitle, int count, boolean completed) {
+        this.reportId = reportId;
         this.category = category;
         this.categoryId = categoryId;
         this.categoryTitle = categoryTitle;
+        this.count = count;
+        this.completed = completed;
     }
 
 }
