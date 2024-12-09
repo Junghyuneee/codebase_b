@@ -42,4 +42,34 @@
         DELETE FROM projectteam WHERE pjt_id = #{id}
     </delete>
 
+    <!-- 특정 멤버의 프로젝트 목록 조회 -->
+    <select id="getProjectTeamsByMemberId" parameterType="integer" resultType="com.codebase.backend.projectteam.DTO.ProjectteamDTO">
+        SELECT 
+            <include refid="projectTeamColumns" />
+        FROM projectteam
+        WHERE member_id = #{member_id}
+    </select>
+
+    <!-- 카테고리별 프로젝트 검색 -->
+    <select id="getProjectTeamsByCategory" parameterType="string" resultType="com.codebase.backend.projectteam.DTO.ProjectteamDTO">
+        SELECT 
+            <include refid="projectTeamColumns" />
+        FROM projectteam
+        WHERE pjcategory = #{pjcategory}
+    </select>
+
+    <!-- 멤버별 프로젝트 수 카운트 -->
+    <select id="countProjectTeamsByMemberId" parameterType="integer" resultType="integer">
+        SELECT COUNT(*)
+        FROM projectteam
+        WHERE member_id = #{member_id}
+    </select>
+
+    <!-- 프로젝트 존재 여부 확인 -->
+    <select id="existsById" parameterType="integer" resultType="boolean">
+        SELECT COUNT(*) > 0
+        FROM projectteam
+        WHERE pjt_id = #{pjt_id}
+    </select>
+
 </mapper>

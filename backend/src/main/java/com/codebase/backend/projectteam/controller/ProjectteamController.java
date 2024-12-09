@@ -80,7 +80,7 @@ public class ProjectteamController {
     // 프로젝트 수정
     @PutMapping("/{pjt_id}")
     public ResponseEntity<Void> updateProjectTeam(@PathVariable("pjt_id") Integer id, @RequestBody ProjectteamDTO projectTeam) {
-        projectTeam.setPjtId(id);
+        projectTeam.setPjt_id(id);
         projectTeamService.updateProjectTeam(projectTeam);
         return ResponseEntity.ok().build();
     }
@@ -90,5 +90,29 @@ public class ProjectteamController {
     public ResponseEntity<Void> deleteProjectTeam(@PathVariable("pjt_id") Integer id) {
         projectTeamService.deleteProjectTeam(id);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/member/{member_id}")
+    public ResponseEntity<List<ProjectteamDTO>> getProjectTeamsByMemberId(@PathVariable("member_id") Integer memberId) {
+        List<ProjectteamDTO> projectTeams = projectTeamService.getProjectTeamsByMemberId(memberId);
+        return ResponseEntity.ok(projectTeams);
+    }
+
+    @GetMapping("/category/{category}")
+    public ResponseEntity<List<ProjectteamDTO>> getProjectTeamsByCategory(@PathVariable("category") String category) {
+        List<ProjectteamDTO> projectTeams = projectTeamService.getProjectTeamsByCategory(category);
+        return ResponseEntity.ok(projectTeams);
+    }
+
+    @GetMapping("/count/member/{member_id}")
+    public ResponseEntity<Integer> countProjectTeamsByMemberId(@PathVariable("member_id") Integer memberId) {
+        Integer count = projectTeamService.countProjectTeamsByMemberId(memberId);
+        return ResponseEntity.ok(count);
+    }
+
+    @GetMapping("/exists/{pjt_id}")
+    public ResponseEntity<Boolean> checkProjectTeamExists(@PathVariable("pjt_id") Integer projectId) {
+        boolean exists = projectTeamService.existsProjectTeam(projectId);
+        return ResponseEntity.ok(exists);
     }
 }
