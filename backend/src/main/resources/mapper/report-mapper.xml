@@ -44,6 +44,9 @@
     </select>
 
     <!-- 신고 디테일 띄우기 -->
-
+    <select id="selectReportDetails" parameterType="int" resultType="reportDetail" resultMap="ReportDetailMap">
+        select * from report_details
+        where report_id = #{reportID};
+    </select>
 
 </mapper>

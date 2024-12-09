@@ -5,6 +5,7 @@
 package com.codebase.backend.admin.service;
 
 import com.codebase.backend.admin.dto.Report;
+import com.codebase.backend.admin.dto.ReportDetail;
 import com.codebase.backend.admin.dto.ReportRequest;
 import com.codebase.backend.admin.repository.ReportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +55,10 @@ public class ReportService {
                         report.isCompleted()
                 ))
                 .toList();
+    }
+
+    public List<ReportDetail> getReportDetails(int reportId) {
+        return this.reportRepository.getReportDetails(reportId);
     }
 
 }

@@ -5,6 +5,7 @@
 package com.codebase.backend.admin.controller;
 
 import com.codebase.backend.admin.dto.Report;
+import com.codebase.backend.admin.dto.ReportDetail;
 import com.codebase.backend.admin.dto.ReportRequest;
 import com.codebase.backend.admin.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,12 @@ public class ReportController {
     @GetMapping("/read/{category}")
     public List<Report> getAllReport(@PathVariable int category) {
         return reportService.getReports(category);
+    }
+
+    @CrossOrigin(origins = "http://localhost:5713")
+    @GetMapping("/details/{reportId}")
+    public List<ReportDetail> getReportDetails(@PathVariable int reportId) {
+        return reportService.getReportDetails(reportId);
     }
 
 }

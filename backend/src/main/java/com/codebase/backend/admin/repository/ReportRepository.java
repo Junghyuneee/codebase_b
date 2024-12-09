@@ -35,4 +35,8 @@ public class ReportRepository {
         return this.sql.selectList("Report.selectReportsByCategory", category);
     }
 
+    public List<ReportDetail> getReportDetails(int reportId) {
+        return this.sql.selectList("Report.selectReportDetails", reportId);
+    }
+
 }
