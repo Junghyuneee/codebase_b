@@ -17,21 +17,27 @@ public class CartItemService {
 	private final CartItemMapper cartItemMapper;
 	
 	
-	void insertCartItem(CartItem cartItem) {
+	public void insertCartItem(CartItem cartItem) {	
 		cartItemMapper.insertCartItem(cartItem);
 	}
-    List<CartItem> selectCartItemByCartId(int id){
+	public List<CartItem> selectCartItemByCartId(int id){
     	return cartItemMapper.selectCartItemByCartId(id);
     }
-    CartItem findById(int id) {
+	public CartItem findById(int id) {
     	return cartItemMapper.findById(id);
     }
-    List<CartItem> findByCartId(int id){
+	public List<CartItem> findByCartId(int id){
     	return cartItemMapper.findByCartId(id);
     }
-    void deleteCartItemById(int id) {
+	public CartItem findByProjectCartId(int cart_id, int project_id){
+		return cartItemMapper.findByProjectCartId(cart_id, project_id);
+	}
+	public void deleteCartItemById(int id) {
     	cartItemMapper.deleteCartItemById(id);
     }
+	public void deleteByProjectCartId(int cart_id, int project_id) {
+		cartItemMapper.deleteByProjectCartId(cart_id, project_id);
+	}
 
 	
 }
