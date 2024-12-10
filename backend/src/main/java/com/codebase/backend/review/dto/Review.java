@@ -16,6 +16,8 @@ public class Review {
     private String author;
     private LocalDateTime createdDate;
     private int views;
+    private int likes;
+    private int dislikes;
 
 	/*
 	 * public Integer getId(){ return id; }

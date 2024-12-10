@@ -34,4 +34,8 @@ public interface ReviewMapper {
 	// 리뷰 삭제
 	//@Delete("DELETE FROM reviews WHERE id = #{id}")
 	void deleteReview(int id);
+	
+	// 리뷰 좋아요 싫어요
+	void updateLikes(int id);
+	void updateDislikes(int id);
 }

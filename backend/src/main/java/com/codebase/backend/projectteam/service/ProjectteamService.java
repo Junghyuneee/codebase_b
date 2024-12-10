@@ -55,4 +55,20 @@ public class ProjectteamService {
     public void deleteProjectTeam(Integer id) {
         projectteamMapper.deleteProjectTeam(id);
     }
+
+    public List<ProjectteamDTO> getProjectTeamsByMemberId(Integer memberId) {
+        return projectteamMapper.getProjectTeamsByMemberId(memberId);
+    }
+
+    public List<ProjectteamDTO> getProjectTeamsByCategory(String category) {
+        return projectteamMapper.getProjectTeamsByCategory(category);
+    }
+
+    public Integer countProjectTeamsByMemberId(Integer memberId) {
+        return projectteamMapper.countProjectTeamsByMemberId(memberId);
+    }
+
+    public boolean existsProjectTeam(Integer projectId) {
+        return projectteamMapper.existsById(projectId);
+    }
 }

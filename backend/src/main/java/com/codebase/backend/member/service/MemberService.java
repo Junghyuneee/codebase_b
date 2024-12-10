@@ -1,21 +1,22 @@
 package com.codebase.backend.member.service;
 
-import com.codebase.backend.member.dto.Member;
-import com.codebase.backend.member.repository.MemberRepository;
-import com.codebase.backend.member.response.post.MemberSignUpRequestBody;
-import com.codebase.backend.member.response.exception.UserAlreadyExistsException;
-import com.codebase.backend.member.response.post.UserAuthenticationResponse;
-import com.codebase.backend.project.service.CartService;
+import java.time.LocalDate;
+import java.util.List;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.util.List;
+import com.codebase.backend.member.dto.Member;
+import com.codebase.backend.member.repository.MemberRepository;
+import com.codebase.backend.member.response.exception.UserAlreadyExistsException;
+import com.codebase.backend.member.response.post.MemberSignUpRequestBody;
+import com.codebase.backend.member.response.post.UserAuthenticationResponse;
+import com.codebase.backend.project.service.CartService;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
@@ -92,5 +93,10 @@ public class MemberService implements UserDetailsService {
     // 검색
     public List<Member> searchMember(String name) {
         return memberRepository.searchByName(name);
+    }
+
+    // ID로 회원 조회하는 메소드 추가
+    public Member getMemberById(Integer id) {
+        return memberRepository.findById(id);
     }
 }
