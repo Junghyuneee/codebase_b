@@ -18,7 +18,7 @@ public class JwtService {
     private static final SecretKey key = Jwts.SIG.HS256.key().build();
 
     public String generateAccessToken(UserDetails userDetails) {
-        return generateToken(userDetails.getUsername(), 1000 * 60 * 60); // 1시간
+        return generateToken(userDetails.getUsername(), 1000 * 60 * 30); // 30분
     }
 
     public String generateRefreshToken(UserDetails userDetails) {
