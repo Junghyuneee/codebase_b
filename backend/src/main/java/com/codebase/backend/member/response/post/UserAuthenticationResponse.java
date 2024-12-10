@@ -4,7 +4,7 @@ public record UserAuthenticationResponse(
         String accessToken,
         String email,
         String username,
-        int member_id,
-        int project_count
+        Integer member_id,
+        Integer project_count
 ) {
 }
