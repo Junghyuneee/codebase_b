@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class PostDTO {
-    private Long id; // 게시글 ID
+    private int id; // 게시글 ID
     private String topic; // 게시글 주제
     private String title; // 게시글 제목
     private String content; // 게시글 내용

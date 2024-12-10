@@ -21,18 +21,18 @@
     </select>
 
     <!-- 특정 게시글 조회 -->
-    <select id="selectPostById" parameterType="long" resultType="com.codebase.backend.post.dto.PostDTO">
+    <select id="selectPostById" parameterType="int" resultType="com.codebase.backend.post.dto.PostDTO">
         SELECT id, topic, title, content, author, createDate, views, likeCount, dislikeCount
         FROM post WHERE id = #{id}
     </select>
     
     <!-- 게시글 조회수 증가 -->
-    <update id="increaseViews" parameterType="long">
+    <update id="increaseViews" parameterType="int">
         UPDATE post SET views = views + 1 WHERE id = #{id}
     </update>
     
     <!-- 게시글 삭제 -->
-    <delete id="deletePost" parameterType="long">
+    <delete id="deletePost" parameterType="int">
         DELETE FROM post WHERE id = #{id}
     </delete>
     
@@ -44,13 +44,23 @@
     </update>
 
     <!-- 좋아요 수 증가 -->
-    <update id="increaseLikeCount" parameterType="long">
+    <update id="increaseLikeCount" parameterType="int">
         UPDATE post SET likeCount = likeCount + 1 WHERE id = #{id}
     </update>
 
+    <!-- 좋아요 수 감소 -->
+    <update id="decreaseLikeCount" parameterType="int">
+        UPDATE post SET likeCount = likeCount - 1 WHERE id = #{id}
+    </update>
+
     <!-- 싫어요 수 증가 -->
-    <update id="increaseDislikeCount" parameterType="long">
+    <update id="increaseDislikeCount" parameterType="int">
         UPDATE post SET dislikeCount = dislikeCount + 1 WHERE id = #{id}
+    </update>
+
+    <!-- 싫어요 수 감소 -->
+    <update id="decreaseDislikeCount" parameterType="int">
+        UPDATE post SET dislikeCount = dislikeCount - 1 WHERE id = #{id}
     </update>
 
     <!-- 인기 게시글 차트를 위한 id, 제목, 조회수 select -->
