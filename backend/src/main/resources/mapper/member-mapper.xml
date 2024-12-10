@@ -41,4 +41,8 @@
         WHERE name LIKE CONCAT ('%', #{name}, '%')
         OR email LIKE CONCAT ('%', #{name}, '%')
     </select>
+
+    <select id="findById" parameterType="Integer" resultType="com.codebase.backend.member.dto.Member">
+        SELECT * FROM member WHERE id = #{id}
+    </select>
 </mapper>

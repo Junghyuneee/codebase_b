@@ -87,4 +87,16 @@ public class ReviewController {
             return ResponseEntity.status(500).body("리뷰 수정에 실패했습니다."); // 500 오류 반환
         }
     }
+    
+    // 리뷰 좋아요
+    @PostMapping("/like/{id}")
+    public void likeReview(@PathVariable("id") int id) {
+    	reviewService.updateLikes(id);
+    }
+    
+    // 리뷰 싫어요
+    @PostMapping("/dislike/{id}")
+    public void dislikeReview(@PathVariable("id") int id) {
+    	reviewService.updateDislikes(id);
+    }
 }
