@@ -40,7 +40,7 @@ public class ProjectController {
 	@GetMapping("/api/store/{id}")
 	@ResponseBody
 	public Project projectFindById(@PathVariable("id") Integer id, HttpServletRequest request) {
-
+		System.out.println("DETAIL PAGE REQUEST");
 //		//요청확인용
 //		Enumeration<String> headerNames = request.getHeaderNames();
 //        while (headerNames.hasMoreElements()) {

@@ -59,5 +59,15 @@ public class ReviewService {
 		updatedReview.setId(id);
 		reviewMapper.updateReview(updatedReview);
 	}
+	
+	// 리뷰 좋아요
+	public void updateLikes(int id) {
+		reviewMapper.updateLikes(id);
+	}
+	
+	// 리뷰 싫어요
+	public void updateDislikes(int id) {
+		reviewMapper.updateDislikes(id);
+	}
 
 }

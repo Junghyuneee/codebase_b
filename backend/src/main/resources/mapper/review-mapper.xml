@@ -31,4 +31,14 @@
     <update id="updateReview" parameterType="com.codebase.backend.review.dto.Review">
     	UPDATE review SET title = #{title}, content = #{content}, createdDate = NOW() WHERE id = #{id}
     </update>
+    
+    <!-- 리뷰 좋아요 -->
+    <update id="updateLikes" parameterType="int">
+    	UPDATE review SET likes = likes + 1 WHERE id = #{id}
+    </update>
+    
+    <!-- 리뷰 싫어요 -->
+    <update id="updateDislikes" parameterType="int">
+    	UPDATE review SET dislikes = dislikes + 1 WHERE id = #{id}
+    </update>
 </mapper>
