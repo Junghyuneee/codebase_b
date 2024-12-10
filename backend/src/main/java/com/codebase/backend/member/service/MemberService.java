@@ -1,10 +1,19 @@
 package com.codebase.backend.member.service;
 
+import java.time.LocalDate;
+import java.util.List;
+
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
 import com.codebase.backend.member.dto.Member;
 import com.codebase.backend.member.dto.MemberDTO;
 import com.codebase.backend.member.repository.MemberRepository;
-import com.codebase.backend.member.response.post.MemberSignUpRequestBody;
 import com.codebase.backend.member.response.exception.UserAlreadyExistsException;
+import com.codebase.backend.member.response.post.MemberSignUpRequestBody;
 import com.codebase.backend.member.response.post.UserAuthenticationResponse;
 import com.codebase.backend.project.service.CartService;
 
@@ -72,7 +81,7 @@ public class MemberService implements UserDetailsService {
         member.setAddr(memberSignUpRequestBody.addr());
         member.setPostcode(memberSignUpRequestBody.postcode());
         member.setTel(memberSignUpRequestBody.tel());
-
+        
         memberRepository.update(member);
 
         return member;
@@ -146,5 +155,10 @@ public class MemberService implements UserDetailsService {
     // 검색
     public List<MemberDTO> searchMember(String name) {
         return memberRepository.searchByName(name).stream().map(MemberDTO::from).collect(Collectors.toList());
+    }
+
+    // ID로 회원 조회하는 메소드 추가
+    public Member getMemberById(Integer id) {
+        return memberRepository.findById(id);
     }
 }

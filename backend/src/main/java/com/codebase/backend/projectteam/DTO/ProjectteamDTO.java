@@ -11,8 +11,7 @@ public class ProjectteamDTO {
     private String pjtdescription; // 프로젝트 설명
     private String pjcategory;    // 프로젝트 카테고리
     private Integer member_id;   //외래 키
-
-    // Getters and Setters
+ // Getters and Setters
     public Integer getPjtId() {
         return pjt_id;
     }
@@ -60,4 +59,13 @@ public class ProjectteamDTO {
     public void setPjcategory(String pjcategory) {
         this.pjcategory = pjcategory;
     }
+
+    public Integer getMemberId() {
+        return member_id;
+    }
+
+    public void setMemberId(Integer member_id) {
+        this.member_id = member_id;
+    }
+    
 }

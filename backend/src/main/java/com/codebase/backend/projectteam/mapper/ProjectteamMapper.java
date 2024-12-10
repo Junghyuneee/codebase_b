@@ -18,4 +18,12 @@ public interface ProjectteamMapper {
     void updateProjectTeam(ProjectteamDTO projectTeam);
     
     void deleteProjectTeam(Integer id);
+    
+    List<ProjectteamDTO> getProjectTeamsByMemberId(Integer member_id);
+    
+    List<ProjectteamDTO> getProjectTeamsByCategory(String pjcategory);
+    
+    Integer countProjectTeamsByMemberId(Integer member_id);
+    
+    boolean existsById(Integer pjt_id);
 }
