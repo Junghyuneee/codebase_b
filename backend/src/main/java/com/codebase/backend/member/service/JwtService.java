@@ -1,5 +1,7 @@
 package com.codebase.backend.member.service;
 
+import com.codebase.backend.member.response.exception.TokenExpiredException;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import lombok.extern.slf4j.Slf4j;
@@ -16,17 +18,21 @@ public class JwtService {
     private static final SecretKey key = Jwts.SIG.HS256.key().build();
 
     public String generateAccessToken(UserDetails userDetails) {
-        return generateToken(userDetails.getUsername());
+        return generateToken(userDetails.getUsername(), 1000 * 60 * 60); // 1시간
+    }
+
+    public String generateRefreshToken(UserDetails userDetails) {
+        return generateToken(userDetails.getUsername(), 1000L * 60 * 60 * 24 * 7); // 7일
     }
 
     public String getUsername(String accessToken) {
         return getSubject(accessToken);
     }
 
-    private String generateToken(String subject) {
+    private String generateToken(String subject, long validityDurationMs) {
 
         Date now = new Date();
-        Date exp = new Date(now.getTime() + 1000 * 60 * 60 * 3);
+        Date exp = new Date(now.getTime() + validityDurationMs);
 
         return Jwts.builder().subject(subject).signWith(key)
                 .issuedAt(now)
@@ -38,7 +44,11 @@ public class JwtService {
         try {
             return Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload().getSubject();
 
-        } catch (JwtException e) {
+        }catch (ExpiredJwtException e){
+            log.error("Token expired: {}", e.getMessage());
+            throw new TokenExpiredException("Token has expired.");
+        }
+        catch (JwtException e) {
             log.error(e.getMessage());
             throw e;
         }

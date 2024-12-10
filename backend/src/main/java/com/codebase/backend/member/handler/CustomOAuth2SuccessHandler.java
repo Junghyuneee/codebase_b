@@ -4,6 +4,7 @@ import com.codebase.backend.member.dto.Member;
 import com.codebase.backend.member.dto.OAuth2Member;
 import com.codebase.backend.member.service.JwtService;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -53,6 +54,8 @@ public class CustomOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHa
             System.out.println("Redirecting to: " + redirectUrl);
             getRedirectStrategy().sendRedirect(request, response, redirectUrl);
         } else {
+
+            String refreshToken = jwtService.generateRefreshToken(member);
             String accessToken = jwtService.generateAccessToken(member);
             String redirectUrl = String.format(
                     "%s/oauth?token=%s&email=%s&name=%s&memberId=%s&project_count=%d",
@@ -63,6 +66,15 @@ public class CustomOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHa
                     member.getId(),
                     member.getProjectCount()
             );
+
+            Cookie refreshCookie = new Cookie("refresh", refreshToken);
+            refreshCookie.setPath("/");
+            refreshCookie.setHttpOnly(true);
+            refreshCookie.setSecure(true);
+            refreshCookie.setPath("/");
+            refreshCookie.setMaxAge(7 * 24 * 60 * 60);
+
+            response.addCookie(refreshCookie);
 
             response.sendRedirect(redirectUrl);
         }
