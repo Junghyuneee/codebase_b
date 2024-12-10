@@ -51,8 +51,11 @@ public class ReportController {
 
     @CrossOrigin(origins = "http://localhost:5713")
     @GetMapping("/read/{category}")
-    public List<Report> getAllReport(@PathVariable int category) {
-        return reportService.getReports(category);
+    public ResponseEntity<Map<String, Object>> getAllReport(@PathVariable int category,
+                                     @RequestParam(defaultValue = "1") int page,
+                                     @RequestParam(defaultValue = "10") int size) {
+        Map<String, Object> response = reportService.getReports(category, page, size);
+        return ResponseEntity.ok(response);
     }
 
     @CrossOrigin(origins = "http://localhost:5713")

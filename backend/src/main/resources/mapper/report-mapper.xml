@@ -32,15 +32,29 @@
         );
     </insert>
 
-    <!-- 신고 리스트 띄우기 -->
-    <select id="selectAllReports" resultType="report" resultMap="ReportMap">
+    <!-- 전체 신고 리스트 띄우기 + 페이징 처리-->
+    <select id="selectAllReports" parameterType="map" resultType="report" resultMap="ReportMap">
         select * from report_summary
-        order by count desc;
+        order by count desc
+        limit #{limit} offset #{offset};
     </select>
 
-    <select id="selectReportsByCategory" parameterType="int" resultType="report" resultMap="ReportMap">
+    <!-- 전체 신고 개수 -->
+    <select id="countAllReports" resultType="int">
+        select count(*) from report_summary;
+    </select>
+
+    <!-- 카테고리별 신고 리스트 띄우기 -->
+    <select id="selectReportsByCategory" parameterType="map" resultType="report" resultMap="ReportMap">
         select * from report_summary where category = #{category}
-        order by count desc;
+        order by count desc
+        limit #{limit} offset #{offset};
+    </select>
+
+    <!-- 카테고리별 신고 개수 -->
+    <select id="countReportsByCategory" parameterType="int" resultType="int">
+        select count(*) from report_summary
+        where category = #{category};
     </select>
 
     <!-- 신고 디테일 띄우기 -->
