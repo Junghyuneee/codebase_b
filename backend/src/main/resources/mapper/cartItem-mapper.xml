@@ -38,6 +38,11 @@
 		DELETE FROM
 		cartitem WHERE id = #{id};
 	</delete>
+	
+	<delete id="deleteByProjectCartId" parameterType="int">
+		DELETE FROM cartitem 
+		WHERE cart_id = #{cart_id} AND project_id = #{project_id};
+	</delete>
 
 
 </mapper>

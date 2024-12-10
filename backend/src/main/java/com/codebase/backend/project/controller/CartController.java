@@ -11,6 +11,7 @@ import com.codebase.backend.member.dto.Member;
 import com.codebase.backend.project.dto.CartItem;
 import com.codebase.backend.project.service.CartItemService;
 
+import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -28,6 +29,12 @@ public class CartController {
 		cartitem.setCart_id(user.getCart_id());
 		System.out.println(cartitem.toString());
 		cartItemService.insertCartItem(cartitem);
+		return;
+	} 
+	@PostMapping("/delete/{id}")
+	public void addCartItem(@PathVariable("id") int project_id, @AuthenticationPrincipal Member user) {
+		System.out.println(project_id);
+		cartItemService.deleteByProjectCartId(user.getCart_id(), project_id);
 		return;
 	} 
 	
