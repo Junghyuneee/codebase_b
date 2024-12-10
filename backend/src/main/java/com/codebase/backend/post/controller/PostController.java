@@ -35,52 +35,51 @@ public class PostController {
 
     // 특정 게시글 조회
     @GetMapping("/detail/{id}")
-    public ResponseEntity<PostDTO> selectPostById(@PathVariable("id") Long id) {
+    public ResponseEntity<PostDTO> selectPostById(@PathVariable("id") int  id) {
         PostDTO post = postService.selectPostById(id);
-        if (post == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); // 404 Not Found
-        }
-        return ResponseEntity.ok(post);
+        return ResponseEntity.ok(post); // 404 Not Found는 서비스에서 처리
     }
 
     // 게시글 조회수 증가
     @PutMapping("/increaseViews/{id}")
-    public ResponseEntity<String> increaseViews(@PathVariable("id") Long id) {
-        postService.increaseViews(id);
-        return ResponseEntity.ok("조회수 증가 성공");
+    public ResponseEntity<String> increaseViews(@PathVariable("id") int id) {
+        System.out.println("increaseViews 호출됨, id: " + id); // 디버깅 
+        try {
+            postService.increaseViews(id);
+            return ResponseEntity.ok("조회수 증가 성공");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("조회수 증가 실패: " + e.getMessage());
+        }
     }
 
     // 게시글 삭제
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deletePost(@PathVariable("id") Long id) {
-        if (postService.selectPostById(id) == null) {
+    public ResponseEntity<Void> deletePost(@PathVariable("id") int  id) {
+        boolean isDeleted = postService.deletePost(id);
+        if (!isDeleted) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); // 404 Not Found
         }
-        postService.deletePost(id);
         return ResponseEntity.noContent().build(); // 204 No Content
     }
 
     // 게시글 수정
     @PutMapping("/update/{id}")
-    public ResponseEntity<PostDTO> updatePost(@PathVariable("id") Long id, @RequestBody PostDTO post) {
-        PostDTO updatedPost = postService.updatePost(id, post.getTopic(), post.getTitle(), post.getContent());
-        if (updatedPost == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); // 404 Not Found
-        }
-        return ResponseEntity.ok(updatedPost);
+    public ResponseEntity<PostDTO> updatePost(@PathVariable("id") int  id, @RequestBody PostDTO post) {
+        PostDTO updatedPost = postService.updatePost(id, post.getTopic(), post.getTitle(), post.getContent(), post.getTags());
+        return ResponseEntity.ok(updatedPost); // 404 Not Found는 서비스에서 처리
     }
 
     // 좋아요 처리
     @PutMapping("/{id}/like")
-    public ResponseEntity<PostDTO> likePost(@PathVariable Long id) {
-        PostDTO updatedPost = postService.likePost(id);
+    public ResponseEntity<PostDTO> likePost(@PathVariable int id, @RequestParam boolean hasLiked) {
+        PostDTO updatedPost = postService.likePost(id, hasLiked);
         return ResponseEntity.ok(updatedPost);
     }
 
     // 싫어요 처리
     @PutMapping("/{id}/dislike")
-    public ResponseEntity<PostDTO> dislikePost(@PathVariable Long id) {
-        PostDTO updatedPost = postService.dislikePost(id);
+    public ResponseEntity<PostDTO> dislikePost(@PathVariable int  id, @RequestParam boolean hasDisliked) {
+        PostDTO updatedPost = postService.dislikePost(id, hasDisliked);
         return ResponseEntity.ok(updatedPost);
     }
 }
