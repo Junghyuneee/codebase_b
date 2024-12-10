@@ -52,8 +52,8 @@ public class ReportController {
     @CrossOrigin(origins = "http://localhost:5713")
     @GetMapping("/read/{category}")
     public ResponseEntity<Map<String, Object>> getAllReport(@PathVariable int category,
-                                     @RequestParam(defaultValue = "1") int page,
-                                     @RequestParam(defaultValue = "10") int size) {
+                                                            @RequestParam(defaultValue = "1") int page,
+                                                            @RequestParam(defaultValue = "10") int size) {
         Map<String, Object> response = reportService.getReports(category, page, size);
         return ResponseEntity.ok(response);
     }
@@ -64,4 +64,26 @@ public class ReportController {
         return reportService.getReportDetails(reportId);
     }
 
+    @CrossOrigin(origins = "http://localhost:5713")
+    @PostMapping("/process/{reportId}")
+    public ResponseEntity<?> processReport(@PathVariable int reportId) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            // 신고 처리
+            reportService.processReport(reportId);
+
+            // 성공 응답 (JSON 형식)
+            response.put("title", "타이틀");
+            response.put("status", "success");
+            response.put("message", "게시글의 신고가 성공적으로 처리되었습니다.");
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            // 실패 응답 (JSON 형식)
+            response.put("title", "타이틀");
+            response.put("status", "fail");
+            response.put("message", "게시글의 신고 처리에 실패했습니다.");
+            return ResponseEntity.ok(response);
+        }
+    }
 }
