@@ -69,17 +69,15 @@ public class PostController {
         return ResponseEntity.ok(updatedPost); // 404 Not Found는 서비스에서 처리
     }
 
-    // 좋아요 처리
-    @PutMapping("/{id}/like")
-    public ResponseEntity<PostDTO> likePost(@PathVariable int id, @RequestParam boolean hasLiked) {
-        PostDTO updatedPost = postService.likePost(id, hasLiked);
-        return ResponseEntity.ok(updatedPost);
+    // 게시글 좋아요
+    @PostMapping("/like/{id}")
+    public void likeReview(@PathVariable("id") int id) {
+    	postService.updateLikes(id);
     }
-
-    // 싫어요 처리
-    @PutMapping("/{id}/dislike")
-    public ResponseEntity<PostDTO> dislikePost(@PathVariable int  id, @RequestParam boolean hasDisliked) {
-        PostDTO updatedPost = postService.dislikePost(id, hasDisliked);
-        return ResponseEntity.ok(updatedPost);
+    
+    // 게시글 싫어요
+    @PostMapping("/dislike/{id}")
+    public void dislikeReview(@PathVariable("id") int id) {
+    	postService.updateDislikes(id);
     }
 }

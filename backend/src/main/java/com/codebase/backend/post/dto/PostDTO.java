@@ -20,6 +20,6 @@ public class PostDTO {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss") // 날짜 형식 지정
     private LocalDateTime createDate; // 등록일
     private int views; // 조회수
-    private int likeCount; // 좋아요 수
-    private int dislikeCount; // 싫어요 수
+    private int likes;
+    private int dislikes;
 }

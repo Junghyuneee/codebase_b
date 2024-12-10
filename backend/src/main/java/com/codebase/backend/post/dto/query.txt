@@ -6,8 +6,8 @@ CREATE TABLE post (
     content TEXT NOT NULL,                         -- 게시물 내용
     topic VARCHAR(100),                            -- 게시물 주제
     createDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- 생성 날짜, 기본값 현재 시간
-    likeCount INT DEFAULT 0,                      -- 좋아요 수, 기본값 0
-    dislikeCount INT DEFAULT 0,                   -- 싫어요 수, 기본값 0
+    likes INT DEFAULT 0,                      -- 좋아요 수, 기본값 0
+    dislikes INT DEFAULT 0,                   -- 싫어요 수, 기본값 0
     views INT DEFAULT 0                            -- 조회수, 기본값 0
 );
 

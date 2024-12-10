@@ -4,7 +4,7 @@
 
     <!-- 게시글 생성 -->
     <insert id="insertPost" parameterType="com.codebase.backend.post.dto.PostDTO">
-        INSERT INTO post (topic, title, content, author, createDate, views, likeCount, dislikeCount) 
+        INSERT INTO post (topic, title, content, author, createDate, views, likes, dislikes) 
         VALUES (#{topic}, #{title}, #{content}, #{author}, CURRENT_TIMESTAMP, 0, 0, 0)
     </insert>
 
@@ -16,13 +16,13 @@
 
     <!-- 모든 게시글 조회 -->
     <select id="selectAllPosts" resultType="com.codebase.backend.post.dto.PostDTO">
-        SELECT id, topic, title, content, author, createDate, views, likeCount, dislikeCount
+        SELECT id, topic, title, content, author, createDate, views, likes, dislikes
         FROM post
     </select>
 
     <!-- 특정 게시글 조회 -->
     <select id="selectPostById" parameterType="int" resultType="com.codebase.backend.post.dto.PostDTO">
-        SELECT id, topic, title, content, author, createDate, views, likeCount, dislikeCount
+        SELECT id, topic, title, content, author, createDate, views, likes, dislikes
         FROM post WHERE id = #{id}
     </select>
     
@@ -43,24 +43,14 @@
         WHERE id = #{id}
     </update>
 
-    <!-- 좋아요 수 증가 -->
-    <update id="increaseLikeCount" parameterType="int">
-        UPDATE post SET likeCount = likeCount + 1 WHERE id = #{id}
+   <!-- 게시글 좋아요 -->
+    <update id="updateLikes" parameterType="int">
+    	UPDATE post SET likes = likes + 1 WHERE id = #{id}
     </update>
-
-    <!-- 좋아요 수 감소 -->
-    <update id="decreaseLikeCount" parameterType="int">
-        UPDATE post SET likeCount = likeCount - 1 WHERE id = #{id}
-    </update>
-
-    <!-- 싫어요 수 증가 -->
-    <update id="increaseDislikeCount" parameterType="int">
-        UPDATE post SET dislikeCount = dislikeCount + 1 WHERE id = #{id}
-    </update>
-
-    <!-- 싫어요 수 감소 -->
-    <update id="decreaseDislikeCount" parameterType="int">
-        UPDATE post SET dislikeCount = dislikeCount - 1 WHERE id = #{id}
+    
+    <!-- 게시글 싫어요 -->
+    <update id="updateDislikes" parameterType="int">
+    	UPDATE post SET dislikes = dislikes + 1 WHERE id = #{id}
     </update>
 
     <!-- 인기 게시글 차트를 위한 id, 제목, 조회수 select -->
