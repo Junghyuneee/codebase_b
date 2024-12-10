@@ -1,6 +1,5 @@
 package com.codebase.backend.member.service;
 
-import com.amazonaws.Response;
 import com.codebase.backend.member.dto.Member;
 import com.codebase.backend.member.dto.MemberDTO;
 import com.codebase.backend.member.repository.MemberRepository;
@@ -33,7 +32,7 @@ public class MemberService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return (UserDetails) memberRepository.findByEmail(email);
+        return memberRepository.findByEmail(email);
     }
 
     // 회원가입
@@ -129,16 +128,19 @@ public class MemberService implements UserDetailsService {
         return accessToken;
     }
 
-    public Boolean signout(HttpServletResponse response) {
-        Cookie invalidTokenCookie = new Cookie("refreshToken", "");
-        invalidTokenCookie.setHttpOnly(true);
-        invalidTokenCookie.setSecure(true);
+    public void signout(HttpServletResponse response) {
+
+        // 쿠키 삭제 (예시: JSESSIONID와 같은 세션 관련 쿠키 삭제)
+        Cookie cookie = new Cookie("JSESSIONID", null);
+        cookie.setPath("/");
+        cookie.setMaxAge(0); // 쿠키 삭제 설정
+        response.addCookie(cookie);
+
+        Cookie invalidTokenCookie = new Cookie("refreshToken", null);
         invalidTokenCookie.setPath("/");
-        invalidTokenCookie.setMaxAge(7 * 24 * 60 * 60);
+        invalidTokenCookie.setMaxAge(0);
 
         response.addCookie(invalidTokenCookie);
-
-        return true;
     }
 
     // 검색

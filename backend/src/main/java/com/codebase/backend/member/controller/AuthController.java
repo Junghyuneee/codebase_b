@@ -6,11 +6,11 @@ import com.codebase.backend.member.response.post.MemberSigninRequestBody;
 import com.codebase.backend.member.response.post.UserAuthenticationResponse;
 import com.codebase.backend.member.service.JwtService;
 import com.codebase.backend.member.service.MemberService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,8 +24,6 @@ import java.util.Map;
 public class AuthController {
 
     private final JwtService jwtService;
-    @Value("${frontend.url}")
-    private String frontendUrl;
     private final MemberService memberService;
 
     @PostMapping("/signup")
@@ -46,16 +44,15 @@ public class AuthController {
     }
 
     @PostMapping("/signout")
-    public ResponseEntity<Void> signout(HttpServletResponse response) {
-        System.out.println("signout");
+    public ResponseEntity<Void> signout(HttpServletRequest request, HttpServletResponse response) {
+        // 세션 무효화
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate(); // 세션을 무효화하여 로그아웃 처리
+        }
+
         memberService.signout(response);
-
-        // 리다이렉트할 URL
-        String redirectUrl = frontendUrl + "/";  // 메인 페이지로 리다이렉트
-
-        return ResponseEntity.status(HttpStatus.FOUND)  // 302 Found 상태 코드
-                .header(HttpHeaders.LOCATION, redirectUrl)  // 리다이렉트 URL
-                .build();
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/refresh")
@@ -69,13 +66,12 @@ public class AuthController {
 
             if (username != null) {
                 String accessToken = memberService.refreshToken(username, response);
-                return ResponseEntity.ok(Map.of("access_token", accessToken));
+                return ResponseEntity.ok(Map.of("accessToken", accessToken));
             } else {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or expired refresh token.");
             }
         } catch (Exception e) {
             // Log the error
-            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to refresh token.");
         }
     }

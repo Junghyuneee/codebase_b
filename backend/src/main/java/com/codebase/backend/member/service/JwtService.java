@@ -43,12 +43,15 @@ public class JwtService {
     private String getSubject(String token) {
         try {
             return Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload().getSubject();
-
         }catch (ExpiredJwtException e){
             log.error("Token expired: {}", e.getMessage());
             throw new TokenExpiredException("Token has expired.");
         }
         catch (JwtException e) {
+            log.error(e.getMessage());
+            throw e;
+        }catch (Exception e) {
+            System.out.println("e.getMessage() = " + e.getMessage());
             log.error(e.getMessage());
             throw e;
         }
