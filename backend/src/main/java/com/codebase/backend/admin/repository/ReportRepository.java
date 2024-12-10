@@ -49,4 +49,8 @@ public class ReportRepository {
         return this.sql.selectList("Report.selectReportDetails", reportId);
     }
 
+    public void processReport(int reportId) {
+        this.sql.selectList("Report.processReport", reportId);
+    }
+
 }

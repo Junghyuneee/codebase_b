@@ -63,4 +63,8 @@ public class ReportService {
         return this.reportRepository.getReportDetails(reportId);
     }
 
+    public void processReport(int reportId) {
+        this.reportRepository.processReport(reportId);
+    }
+
 }

@@ -60,7 +60,14 @@
     <!-- 신고 디테일 띄우기 -->
     <select id="selectReportDetails" parameterType="int" resultType="reportDetail" resultMap="ReportDetailMap">
         select * from report_details
-        where report_id = #{reportID};
+        where report_id = #{reportId};
     </select>
+
+    <!-- 신고 처리 -->
+    <update id="processReport" parameterType="int">
+        update report_summary
+        set completed = true
+        where report_id = #{reportId};
+    </update>
 
 </mapper>
