@@ -5,13 +5,15 @@
 package com.codebase.backend.admin.service;
 
 import com.codebase.backend.admin.dto.Report;
-import com.codebase.backend.admin.dto.ReportDTO;
+import com.codebase.backend.admin.dto.ReportDetail;
+import com.codebase.backend.admin.dto.ReportRequest;
 import com.codebase.backend.admin.repository.ReportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ReportService {
@@ -19,42 +21,46 @@ public class ReportService {
     @Autowired
     private ReportRepository reportRepository;
 
-    public void  save(Report report) {
-        report.setDate(LocalDateTime.now());
-        report.setCompleted(false);
-
-        this.reportRepository.saveReport(report);
+    public void saveReport(ReportRequest reportRequest) {
+        this.reportRepository.saveReport(reportRequest);
     }
 
-    public List<ReportDTO> getReports(int category) {
+    public void saveReportDetail(ReportRequest reportRequest) {
+        this.reportRepository.saveReportDetail(reportRequest);
+    }
 
+    public Map<String, Object> getReports(int category, int page, int size) {
+        int offset = (page - 1) * size;
+        Map<String, Object> params = new HashMap<>();
+        Map<String, Object> response = new HashMap<>();
         if(category == 4) {
-            return this.reportRepository.getAllReports()
-                    .stream()
-                    .map(report -> new ReportDTO(
-                            report.getReportId(),
-                            report.getContent(),
-                            report.getCategory(),
-                            report.getCategoryId(),
-                            report.getCategoryTitle(),
-                            report.getMemberName(),
-                            report.isCompleted()
-                    ))
-                    .toList();
+            params.put("offset", offset);
+            params.put("limit", size);
+            int totalData = reportRepository.countAllReports();
+
+            List<Report> reports = reportRepository.getAllReports(params);
+
+            response.put("data", reports);
+            response.put("totalPages", (int) Math.ceil((double) totalData / size));
+            response.put("currentPage", page);
+            return response;
         }
 
-        return this.reportRepository.getReportsByCategory(category)
-                .stream()
-                .map(report -> new ReportDTO(
-                        report.getReportId(),
-                        report.getContent(),
-                        report.getCategory(),
-                        report.getCategoryId(),
-                        report.getCategoryTitle(),
-                        report.getMemberName(),
-                        report.isCompleted()
-                ))
-                .toList();
+        params.put("category", category);
+        params.put("offset", offset);
+        params.put("limit", size);
+        int totalData = reportRepository.countReportsByCategory(category);
+
+        List<Report> reportsByCategory = reportRepository.getReportsByCategory(params);
+
+        response.put("data", reportsByCategory);
+        response.put("totalPages", (int) Math.ceil((double) totalData / size));
+        response.put("currentPage", page);
+        return response;
+    }
+
+    public List<ReportDetail> getReportDetails(int reportId) {
+        return this.reportRepository.getReportDetails(reportId);
     }
 
 }
