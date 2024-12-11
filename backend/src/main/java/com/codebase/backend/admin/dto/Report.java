@@ -14,16 +14,22 @@ import java.time.LocalDateTime;
 public class Report {
 
     private int reportId;
-    private String content;
-    private LocalDateTime date;
 
-    private int category; // 프로젝트 0, 게시글 1
+    private int category; // 프로젝트 0, 게시글 1, 게시글 댓글 2, 리뷰 3
     private int categoryId; // 각각 프로젝트, 게시글 id
     private String categoryTitle;
 
-    private int memberId;
-    private String memberName;
+    private int count; // 신고 수
 
-    private boolean completed;
+    private boolean completed; // 신고 처리
+
+    public Report(int reportId, int category, int categoryId, String categoryTitle, int count, boolean completed) {
+        this.reportId = reportId;
+        this.category = category;
+        this.categoryId = categoryId;
+        this.categoryTitle = categoryTitle;
+        this.count = count;
+        this.completed = completed;
+    }
 
 }

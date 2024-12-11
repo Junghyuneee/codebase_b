@@ -1,0 +1,27 @@
+-- 게시글 테이블 생성
+CREATE TABLE post (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,         -- 게시물 고유 ID, 자동 증가
+    title VARCHAR(255) NOT NULL,                  -- 게시물 제목
+    author VARCHAR(255) NOT NULL,                 -- 게시물 작성자 (길이 증가)
+    content TEXT NOT NULL,                         -- 게시물 내용
+    topic VARCHAR(100),                            -- 게시물 주제
+    createDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- 생성 날짜, 기본값 현재 시간
+    likes INT DEFAULT 0,                      -- 좋아요 수, 기본값 0
+    dislikes INT DEFAULT 0,                   -- 싫어요 수, 기본값 0
+    views INT DEFAULT 0                            -- 조회수, 기본값 0
+);
+
+-- 태그 테이블 생성
+CREATE TABLE tags (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,         -- 태그 고유 ID, 자동 증가
+    name VARCHAR(100) NOT NULL UNIQUE              -- 태그 이름, 고유해야 함
+);
+
+-- 게시글과 태그 간의 관계를 표현하는 연결 테이블 생성
+CREATE TABLE post_tags (
+    post_id BIGINT NOT NULL,                       -- 게시물 ID
+    tag_id BIGINT NOT NULL,                        -- 태그 ID
+    PRIMARY KEY (post_id, tag_id),                -- 복합 기본 키
+    FOREIGN KEY (post_id) REFERENCES post(id) ON DELETE CASCADE, -- 게시물 삭제 시 종속 태그도 삭제
+    FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE CASCADE    -- 태그 삭제 시 종속 게시물도 삭제
+);

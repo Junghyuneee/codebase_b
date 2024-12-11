@@ -5,9 +5,10 @@ import com.codebase.backend.member.handler.CustomOAuth2SuccessHandler;
 import com.codebase.backend.member.handler.CustomOAuth2FailureHandler;
 import com.codebase.backend.member.service.CustomOAuth2UserService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.filters.CorsFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -30,6 +31,7 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity
 @AllArgsConstructor
+@Slf4j
 public class SecurityConfig {
 
     private CustomOAuth2UserService customOAuth2UserService;
@@ -45,7 +47,7 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of("http://localhost:5173", "http://localhost:3000"));
         configuration.setAllowedMethods(List.of("GET", "POST", "DELETE", "PATCH", "PUT"));
-        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowedHeaders(List.of("Content-Type", "Authorization"));
         configuration.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
@@ -54,13 +56,14 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.cors(Customizer.withDefaults())
+        http.cors((cors) -> cors.configurationSource(corsConfigurationSource()))
                 .formLogin(AbstractHttpConfigurer::disable)
+                .logout(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/**").permitAll()
-//                        .requestMatchers(HttpMethod.POST, "/**", "/auth/*/signup", "/auth/signin").permitAll()
-//                        .anyRequest().authenticated()
+                                .requestMatchers("/**").permitAll()
+//                        .requestMatchers("/auth/*/signup", "/auth/signin").permitAll()
+                        .anyRequest().authenticated()
                 )
 
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -69,13 +72,8 @@ public class SecurityConfig {
                         .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint.userService(customOAuth2UserService))
                         .successHandler(customOAuth2SuccessHandler)
                         .failureHandler(customOAuth2FailureHandler))
-//                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-//                .addFilterBefore(jwtExceptionFilter, jwtAuthenticationFilter.getClass())
-                .logout((logout) -> logout
-                        .logoutRequestMatcher(new AntPathRequestMatcher("/auth/signout")) //로그아웃 경로
-                        .logoutSuccessUrl("http://localhost:5173")  //로그아웃 성공한 후에 이동할 위치
-                        .invalidateHttpSession(true)) //세션 삭제
-        ;
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtExceptionFilter, jwtAuthenticationFilter.getClass());
 
         return http.build();
     }

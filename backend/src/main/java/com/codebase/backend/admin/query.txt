@@ -1,0 +1,30 @@
+============ 신고테이블 생성쿼리 ============
+CREATE TABLE report_summary (
+    report_id INT AUTO_INCREMENT PRIMARY KEY,
+    category int,
+    category_id INT,
+    category_title varchar(255),
+    count INT DEFAULT 0,
+    completed boolean,
+    UNIQUE(category, category_id) -- 중복 방지
+);
+
+============ 신고 디테일 테이블 생성쿼리 ============
+CREATE TABLE report_details (
+    detail_id INT AUTO_INCREMENT PRIMARY KEY,
+    report_id INT,
+    member_id INT,
+    content TEXT,
+    report_date DATE,
+    FOREIGN KEY (report_id) REFERENCES report_summary(report_id) ON DELETE CASCADE,
+    FOREIGN KEY (member_id) REFERENCES member(id) ON DELETE CASCADE
+);
+
+============ 컬럼 추가 ============
+ALTER TABLE 테이블명
+ADD COLUMN 컬럼명 데이터타입 [옵션-디폴트];
+
+============ 컬럼의 데이터 타입 변경 ============
+ALTER TABLE 테이블 이름
+MODIFY COLUMN 컬럼 이름 데이터타입;
+
