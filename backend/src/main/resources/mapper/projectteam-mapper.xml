@@ -4,7 +4,7 @@
 
     <!-- 공통 SQL 정의 -->
     <sql id="projectTeamColumns">
-        pjt_id AS pjtId, pjtname, pjtowner, pjtimg, pjtdescription, pjcategory, member_id
+        pjt_id AS pjtId, pjtname, pjtowner, pjtimg, pjtdescription, pjcategory, member_id, create_day AS createDay, deadline
     </sql>
 
     <!-- 특정 ID의 ProjectTeam 조회 -->
@@ -24,8 +24,8 @@
 
     <!-- 프로젝트 삽입 -->
     <insert id="insertProjectTeam" parameterType="com.codebase.backend.projectteam.DTO.ProjectteamDTO">
-        INSERT INTO projectteam (pjtname, pjtowner, pjtimg, pjtdescription, pjcategory, member_id)
-        VALUES (#{pjtname}, #{pjtowner}, #{pjtimg}, #{pjtdescription}, #{pjcategory}, #{member_id})
+        INSERT INTO projectteam (pjtname, pjtowner, pjtimg, pjtdescription, pjcategory, member_id, createDay, deadline)
+        VALUES (#{pjtname}, #{pjtowner}, #{pjtimg}, #{pjtdescription}, #{pjcategory}, #{member_id}, #{createDay}, deadline)
     </insert>
 
     <!-- 프로젝트 업데이트 -->
@@ -33,7 +33,7 @@
         UPDATE projectteam
         SET 
             pjtname = #{pjtname}, pjtowner = #{pjtowner}, pjtimg = #{pjtimg}, 
-            pjtdescription = #{pjtdescription}, pjcategory = #{pjcategory}
+            pjtdescription = #{pjtdescription}, pjcategory = #{pjcategory}, deadline = #{deadline}
         WHERE pjt_id = #{pjtId}
     </update>
 

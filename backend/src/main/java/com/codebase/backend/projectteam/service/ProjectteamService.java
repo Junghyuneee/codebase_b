@@ -1,6 +1,7 @@
 package com.codebase.backend.projectteam.service;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -41,6 +42,7 @@ public class ProjectteamService {
     		s3Service.uploadFile(file, fileName);
     		
     		projectTeam.setPjtimg(fileName);
+    		projectTeam.setCreate_day(LocalDate.now());
     	}   		
     	
         projectteamMapper.insertProjectTeam(projectTeam);
