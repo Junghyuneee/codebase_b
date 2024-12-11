@@ -32,6 +32,7 @@ public class ChatController {
         int memberCount = memberChatroomMappingRepository.countMemberByChatroomId(chatroom.getId());
         return ChatroomDTO.from(chatroom, memberCount);
     }
+
     @GetMapping("/exit/{chatroomId}")
     public void exitChatroom(@AuthenticationPrincipal Member user, @PathVariable int chatroomId) {
         chatService.exitChatroom(user, chatroomId);
@@ -63,5 +64,18 @@ public class ChatController {
         return messages.stream().map(
                 message -> ChatMessageDTO.from(message, chatroom.getTitle())
         ).collect(Collectors.toList());
+    }
+
+    @GetMapping("/find/{userMail}")
+    public ChatroomDTO findChatroom(
+            @AuthenticationPrincipal Member user,
+            @PathVariable("userMail") String userMail
+    ) {
+        Chatroom chatroom = chatService.findChatroom(user, userMail);
+        if(chatroom == null) {
+            chatroom = chatService.createChatroom(user, userMail + ", " + user.getName());
+            joinChatroom(chatroom.getId(), userMail);
+        }
+        return ChatroomDTO.from(chatroom, 2);
     }
 }

@@ -43,4 +43,8 @@ public class MemberChatroomMappingRepository {
     public void updateLastCheckedByMemberIdAndChatroomId(int memberId, int chatroomId) {
         sql.update("memberchatroom.updateLastCheckedByMemberIdAndChatroomId", Map.of("memberId", memberId, "chatroomId", chatroomId, "checked", LocalDateTime.now()));
     }
+
+    public Integer findByTwoMemberId(int memberId1, int memberId2) {
+        return sql.selectOne("memberchatroom.findByTwoMemberId", Map.of("memberId1", memberId1, "memberId2", memberId2));
+    }
 }
