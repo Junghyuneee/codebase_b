@@ -19,12 +19,6 @@
         WHERE email = #{email}
     </select>
 
-    <select id="findByName" parameterType="String" resultType="member">
-        SELECT *
-        FROM member
-        WHERE name = #{name}
-    </select>
-
     <!-- 관리자 페이지 신규 회원 수 차트에 사용 -->
     <select id="getWeeklyNewMemberCount" resultType="map">
         select DATE(createdAt) As joinDate, Count(id) As memberCount
