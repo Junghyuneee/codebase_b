@@ -30,4 +30,6 @@ public class MemberRepository {
     public Member findById(Integer id) {
         return sql.selectOne("Member.findById", id);
     }
+
+    public Member findByName(String name) { return sql.selectOne("Member.findByName", name); }
 }

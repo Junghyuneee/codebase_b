@@ -145,8 +145,18 @@ public class MemberService implements UserDetailsService {
     }
 
     // 검색
-    public List<MemberDTO> searchMember(String name) {
-        return memberRepository.searchByName(name).stream().map(MemberDTO::from).collect(Collectors.toList());
+    public List<Member> searchMember(String name) {
+        return memberRepository.searchByName(name);
+    }
+
+    // 메일로 찾기
+    public Member getMemberByEmail(String email) {
+        return memberRepository.findByEmail(email);
+    }
+
+    // 이름으로 찾기
+    public Member getMemberByName(String name){
+        return memberRepository.findByName(name);
     }
 
     // ID로 회원 조회하는 메소드 추가

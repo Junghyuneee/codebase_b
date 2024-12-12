@@ -1,19 +1,18 @@
 package com.codebase.backend.chat.service;
 
-import com.codebase.backend.chat.dto.ChatMessage;
-import com.codebase.backend.chat.dto.ChatMessageDTO;
-import com.codebase.backend.chat.dto.Chatroom;
-import com.codebase.backend.chat.dto.MemberChatroomMapping;
+import com.codebase.backend.chat.dto.*;
 import com.codebase.backend.chat.repository.ChatroomRepository;
 import com.codebase.backend.chat.repository.MessageRepository;
 import com.codebase.backend.member.dto.Member;
 import com.codebase.backend.chat.repository.MemberChatroomMappingRepository;
 import com.codebase.backend.member.repository.MemberRepository;
 import com.codebase.backend.member.service.JwtService;
+import com.codebase.backend.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -30,6 +29,7 @@ public class ChatService {
     private final JwtService jwtService;
     private final MemberRepository memberRepository;
     private final MessageRepository messageRepository;
+    private final MemberService memberService;
 
     public Chatroom createChatroom(Member member, String title) {
         Chatroom chatroom = Chatroom.builder()
@@ -51,7 +51,7 @@ public class ChatService {
     }
 
     public void exitChatroom(Member member, Integer currentChatroomId) {
-        if(currentChatroomId != null) {
+        if (currentChatroomId != null) {
             memberChatroomMappingRepository.updateLastCheckedByMemberIdAndChatroomId(member.getId(), currentChatroomId);
         }
     }
@@ -92,12 +92,12 @@ public class ChatService {
         List<MemberChatroomMapping> memberChatroomMappingRepositoryList = memberChatroomMappingRepository.findAllByMemberId(member.getId());
 
         return memberChatroomMappingRepositoryList.stream().map(
-                memberChatroomMapping -> {
-                    Chatroom chatroom = chatroomRepository.findById(memberChatroomMapping.getChatroom());
-                    chatroom.setHasNewMessage(
-                            messageRepository.existsByChatroomIdAndCreatedAtAfter(chatroom.getId(), memberChatroomMapping.getLastCheckedAt()));
-                    return chatroom;
-                })
+                        memberChatroomMapping -> {
+                            Chatroom chatroom = chatroomRepository.findById(memberChatroomMapping.getChatroom());
+                            chatroom.setHasNewMessage(
+                                    messageRepository.existsByChatroomIdAndCreatedAtAfter(chatroom.getId(), memberChatroomMapping.getLastCheckedAt()));
+                            return chatroom;
+                        })
                 .toList();
     }
 
@@ -129,5 +129,18 @@ public class ChatService {
 
     public List<ChatMessage> getMessageList(int chatroomId) {
         return messageRepository.findAllByChatroomId(chatroomId);
+    }
+
+    public Chatroom findChatroom(Member currentUser, String username) {
+        Member dmUser = memberService.getMemberByName(username);
+        if (dmUser == null) {
+            throw new UsernameNotFoundException(username);
+        }
+        Integer chatroomId = memberChatroomMappingRepository.findByTwoMemberId(currentUser.getId(), dmUser.getId());
+        if (chatroomId == null) {
+            return null;
+        } else {
+            return chatroomRepository.findById(chatroomId);
+        }
     }
 }
