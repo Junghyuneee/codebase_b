@@ -8,6 +8,7 @@ import com.codebase.backend.chat.repository.ChatroomRepository;
 import com.codebase.backend.chat.repository.MemberChatroomMappingRepository;
 import com.codebase.backend.chat.service.ChatService;
 import com.codebase.backend.member.dto.Member;
+import com.codebase.backend.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -25,6 +26,7 @@ public class ChatController {
     private final ChatService chatService;
     private final ChatroomRepository chatroomRepository;
     private final MemberChatroomMappingRepository memberChatroomMappingRepository;
+    private final MemberService memberService;
 
     @PostMapping
     public ChatroomDTO createChatroom(@AuthenticationPrincipal Member user, @RequestParam(value = "title") String title) {
@@ -66,15 +68,16 @@ public class ChatController {
         ).collect(Collectors.toList());
     }
 
-    @GetMapping("/find/{userMail}")
+    @GetMapping("/find/{username}")
     public ChatroomDTO findChatroom(
             @AuthenticationPrincipal Member user,
-            @PathVariable("userMail") String userMail
+            @PathVariable("username") String username
     ) {
-        Chatroom chatroom = chatService.findChatroom(user, userMail);
+        Chatroom chatroom = chatService.findChatroom(user, username);
         if(chatroom == null) {
-            chatroom = chatService.createChatroom(user, userMail + ", " + user.getName());
-            joinChatroom(chatroom.getId(), userMail);
+            chatroom = chatService.createChatroom(user, username + ", " + user.getName());
+            Member targetMember = memberService.getMemberByName(username);
+            joinChatroom(chatroom.getId(), targetMember.getEmail());
         }
         return ChatroomDTO.from(chatroom, 2);
     }

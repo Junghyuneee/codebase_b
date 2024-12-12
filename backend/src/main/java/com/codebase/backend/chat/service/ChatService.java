@@ -131,10 +131,10 @@ public class ChatService {
         return messageRepository.findAllByChatroomId(chatroomId);
     }
 
-    public Chatroom findChatroom(Member currentUser, String targetUserMail) {
-        Member dmUser = memberService.getMemberByEmail(targetUserMail);
+    public Chatroom findChatroom(Member currentUser, String username) {
+        Member dmUser = memberService.getMemberByName(username);
         if (dmUser == null) {
-            throw new UsernameNotFoundException(targetUserMail);
+            throw new UsernameNotFoundException(username);
         }
         Integer chatroomId = memberChatroomMappingRepository.findByTwoMemberId(currentUser.getId(), dmUser.getId());
         if (chatroomId == null) {

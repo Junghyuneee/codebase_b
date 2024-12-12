@@ -25,12 +25,12 @@ public class MemberController {
         return ResponseEntity.ok(memberService.searchMember(memberName).stream().map(MemberDTO::from).collect(Collectors.toList()));
     }
 
-    @GetMapping("/profile")
-    public ResponseEntity<MemberDTO> profile(@AuthenticationPrincipal Member member, @RequestParam(value = "memberMail", required = false) String memberMail) {
+    @GetMapping("/profile/{memberMail}")
+    public ResponseEntity<MemberDTO> profile(@AuthenticationPrincipal Member member, @PathVariable(value = "memberMail", required = false) String memberMail) {
         if (memberMail == null) {
-            return ResponseEntity.ok(MemberDTO.from((Member) memberService.loadUserByUsername(member.getEmail()))); // 예: 기본값 반환
+            return ResponseEntity.ok(MemberDTO.from(memberService.getMemberByEmail(member.getEmail()))); // 예: 기본값 반환
         } else {
-            return ResponseEntity.ok(MemberDTO.from((Member) memberService.loadUserByUsername(memberMail)));
+            return ResponseEntity.ok(MemberDTO.from(memberService.getMemberByName(memberMail)));
         }
     }
 }
