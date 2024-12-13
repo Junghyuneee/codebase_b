@@ -28,6 +28,17 @@
         order by createdAt
     </select>
 
+    <!-- 관리자 페이지 회원 리스트에 사용 -->
+    <select id="selectAllMembers" parameterType="map" resultType="member">
+        select * from member
+        order by id desc
+            limit #{limit} offset #{offset};
+    </select>
+
+    <!-- 전체 회원 수 -> 관리자 회원 관리 페이지 페이징 처리에 필요 -->
+    <select id="countAllMembers" resultType="int">
+        select count(*) from member;
+    </select>
 
     <select id="findByName" parameterType="String" resultType="member">
         SELECt *
