@@ -1,30 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.codebase.backend.project.mapper.ProjectMapper">
+<mapper
+	namespace="com.codebase.backend.project.mapper.ProjectMapper">
 
 	<!-- 앞쪽 묶음이 테이블 컬럼, 뒤쪽 묶음 DTO필드 -->
-	<insert id="insertProject" parameterType="com.codebase.backend.project.dto.Project">
-		INSERT INTO project (title, content, price, hit, link, img, types, username, maker_id) 
-		VALUES (#{title},#{content},#{price},#{hit},#{link},#{img},#{types},#{username},#{maker_id});
+	<insert id="insertProject"
+		parameterType="com.codebase.backend.project.dto.Project">
+		INSERT INTO project (title, content, price, hit, link,
+		img, types, username, maker_id)
+		VALUES
+		(#{title},#{content},#{price},#{hit},#{link},#{img},#{types},#{username},#{maker_id});
 	</insert>
 
-	<select id="selectAllProject" resultType="com.codebase.backend.project.dto.Project">
+	<select id="selectAllProject"
+		resultType="com.codebase.backend.project.dto.Project">
 		SELECT * FROM project;
 	</select>
-	
-	<select id="findById" resultType="com.codebase.backend.project.dto.Project">
-		SELECT * FROM project 
+
+	<select id="findById"
+		resultType="com.codebase.backend.project.dto.Project">
+		SELECT * FROM project
 		WHERE id = #{id};
 	</select>
-	
+
+
+	<update id="incrementHit" parameterType="int">
+		UPDATE project
+		SET hit = hit + 1
+		WHERE id = #{id}
+	</update>
+
+
 	<delete id="deleteProjectById" parameterType="int">
-		DELETE FROM project WHERE id = #{id};
+		DELETE FROM project
+		WHERE id = #{id};
 	</delete>
 
 	<!-- 인기게시글 차트를 위한 id, 제목, 조회수 select -->
-	<select id="findPopularProjects" resultType="com.codebase.backend.admin.dto.PopularResponse">
+	<select id="findPopularProjects"
+		resultType="com.codebase.backend.admin.dto.PopularResponse">
 		SELECT id, title, hit AS hits FROM project
-		ORDER BY hit DESC, id DESC
+		ORDER BY hit
+		DESC, id DESC
 		LIMIT 5;
 	</select>
 

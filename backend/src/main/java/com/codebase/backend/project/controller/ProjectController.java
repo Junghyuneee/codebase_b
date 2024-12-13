@@ -1,9 +1,6 @@
 package com.codebase.backend.project.controller;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.UUID;
 
@@ -11,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -57,10 +55,17 @@ public class ProjectController {
 //            String headerValue = request.getHeader(headerName);
 //            System.out.println(headerName + ": " + headerValue); // 헤더 이름과 값 출력
 //        }
-
+		
+		projectService.incrementHit(id); // 죄다 두번 돌ㅇㅏ가네 아... 어쨰서ㅠ 
 		return projectService.findById(id);
 	}
 
+	@PatchMapping("/api/store/{id}/hit")
+	public void projectPlusHit() {
+		
+	}
+	
+	
 	// 프로젝트 생성
 	@PostMapping("/api/store/add")
 	public ResponseEntity<String> postTest(Project p,
@@ -77,6 +82,7 @@ public class ProjectController {
 			//String encodedString = URLEncoder.encode( , "UTF-8");
             String fileName = UUID.randomUUID() + file.getOriginalFilename();
             s3Service.uploadFile(file, fileName);
+            fileName = "b62ea3b9-6b5f-4498-8b22-281a13d0c873mm.png";
             p.setImg(fileName);
         }
 		

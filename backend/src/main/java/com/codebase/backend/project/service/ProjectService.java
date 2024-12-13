@@ -29,6 +29,11 @@ public class ProjectService {
 		return projectMapper.findById(id);
 	}
 	
+	public void incrementHit(Integer id) {
+		
+		projectMapper.incrementHit(id);
+	}
+	
 	public void delete(Integer id) {
 		projectMapper.deleteProjectById(id);
 	}
