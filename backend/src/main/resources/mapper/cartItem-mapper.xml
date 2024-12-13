@@ -21,13 +21,13 @@
 		SELECT * FROM cartitem
 		WHERE id = #{id};
 	</select>
-
+	<!-- 카트 페이지에서 호출 -->
 	<select id="findByCartId"
 		resultType="com.codebase.backend.project.dto.CartItem">
 		SELECT * FROM cartitem
 		WHERE cart_id = #{id};
 	</select>
-
+	<!-- 장바구니에 담겨있는지 확인 -->
 	<select id="findByProjectCartId"
 		resultType="com.codebase.backend.project.dto.CartItem" parameterType="int">
 		SELECT * FROM cartitem
@@ -39,9 +39,16 @@
 		cartitem WHERE id = #{id};
 	</delete>
 	
+	<!-- 장바구니에서 제거 -->
 	<delete id="deleteByProjectCartId" parameterType="int">
 		DELETE FROM cartitem 
 		WHERE cart_id = #{cart_id} AND project_id = #{project_id};
+	</delete>
+	
+	<!-- 프로젝트 삭제 시 카트도 삭제 -->
+	<delete id="deleteByProjectId" parameterType="int">
+		DELETE * FROM cartitem
+		WHERE project_id = #{project_id};
 	</delete>
 
 

@@ -38,6 +38,9 @@ public class CartItemService {
 	public void deleteByProjectCartId(int cart_id, int project_id) {
 		cartItemMapper.deleteByProjectCartId(cart_id, project_id);
 	}
+	public void deleteByProjectId(int project_id) {
+		cartItemMapper.deleteByProjectId(project_id);
+	}
 
 	
 }
