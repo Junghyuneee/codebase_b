@@ -23,4 +23,8 @@ public class MemberAndChatRepository {
         return this.sql.selectOne("Member.countAllMembers");
     }
 
+    public void changeRole(Map<String, Object> params) {
+        this.sql.update("Member.changeRole", params);
+    }
+
 }

@@ -40,6 +40,13 @@
         select count(*) from member;
     </select>
 
+    <!-- 멤버 권한 변경 -->
+    <update id="changeRole" parameterType="map">
+        update member
+        set role = #{role}
+        where id = #{id}
+    </update>
+
     <select id="findByName" parameterType="String" resultType="member">
         SELECt *
         FROM member
