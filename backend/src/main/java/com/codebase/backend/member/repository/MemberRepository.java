@@ -18,18 +18,31 @@ public class MemberRepository {
         return member;
     }
 
-    public Member update(Member member) {
-        sql.update("Member.update", member);
-        return member;
+    public void socialCreate(Member member) {
+        sql.update("Member.socialCreate", member);
     }
 
-    public Member findByEmail(String email) { return sql.selectOne("Member.findByEmail", email); }
+    public Member findByEmail(String email) {
+        return sql.selectOne("Member.findByEmail", email);
+    }
 
-    public List<Member> searchByName(String name) { return sql.selectList("Member.searchByName", name); }
+    public List<Member> searchByName(String name) {
+        return sql.selectList("Member.searchByName", name);
+    }
 
     public Member findById(Integer id) {
         return sql.selectOne("Member.findById", id);
     }
 
-    public Member findByName(String name) { return sql.selectOne("Member.findByName", name); }
+    public Member findByName(String name) {
+        return sql.selectOne("Member.findByName", name);
+    }
+
+    public void update(Member member) {
+        sql.update("Member.update", member);
+    }
+
+    public void updatePassword(Member member) {
+        sql.update("Member.updatePassword", member);
+    }
 }

@@ -10,7 +10,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.codebase.backend.member.dto.Member;
-import com.codebase.backend.member.dto.MemberDTO;
 import com.codebase.backend.member.repository.MemberRepository;
 import com.codebase.backend.member.response.exception.UserAlreadyExistsException;
 import com.codebase.backend.member.response.post.MemberSignUpRequestBody;
@@ -20,7 +19,8 @@ import com.codebase.backend.project.service.CartService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import java.util.stream.Collectors;
+
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -62,8 +62,8 @@ public class MemberService implements UserDetailsService {
         return member;
     }
 
-    // 회원정보 수정, 소셜 회원가입
-    public Member update(MemberSignUpRequestBody memberSignUpRequestBody) {
+    // 소셜 회원가입
+    public Member socialCreate(MemberSignUpRequestBody memberSignUpRequestBody) {
         if (memberRepository.findByEmail(memberSignUpRequestBody.email()) == null) {
             throw new UsernameNotFoundException(memberSignUpRequestBody.email());
         }
@@ -73,8 +73,8 @@ public class MemberService implements UserDetailsService {
         member.setAddr(memberSignUpRequestBody.addr());
         member.setPostcode(memberSignUpRequestBody.postcode());
         member.setTel(memberSignUpRequestBody.tel());
-        
-        memberRepository.update(member);
+
+        memberRepository.socialCreate(member);
 
         return member;
     }
@@ -144,6 +144,25 @@ public class MemberService implements UserDetailsService {
         response.addCookie(invalidTokenCookie);
     }
 
+    public void update(Member member, Map<String, Object> profile) {
+        member.setAddr(profile.get("address").toString());
+        member.setTel(profile.get("tel").toString());
+        member.setPostcode(profile.get("postcode").toString());
+        member.setName(profile.get("username").toString());
+
+        memberRepository.update(member);
+    }
+
+    public boolean updatePassword(Member member, Map<String, Object> password) {
+        if (member.getPassword() == null || passwordEncoder.matches(password.get("currentPassword").toString(), member.getPassword())) {
+            member.setPassword(passwordEncoder.encode(password.get("password").toString()));
+            memberRepository.updatePassword(member);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     // 검색
     public List<Member> searchMember(String name) {
         return memberRepository.searchByName(name);
@@ -155,7 +174,7 @@ public class MemberService implements UserDetailsService {
     }
 
     // 이름으로 찾기
-    public Member getMemberByName(String name){
+    public Member getMemberByName(String name) {
         return memberRepository.findByName(name);
     }
 
