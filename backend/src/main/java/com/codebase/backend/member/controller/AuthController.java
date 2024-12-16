@@ -27,28 +27,40 @@ public class AuthController {
     private final JwtService jwtService;
     private final MemberService memberService;
 
+    /* 메인 페이지 접속 시 유효한 인증인지 확인 */
     @GetMapping()
     public ResponseEntity<Void> isSignined(@AuthenticationPrincipal Member member) {
         return ResponseEntity.ok().build();
     }
 
+    /* 이메일 회원가입 시 닉네임 중복검사 */
+    @GetMapping("/namecheck")
+    public ResponseEntity<Boolean> nameCheck(@RequestParam("name") String name) {
+        Member member = memberService.getMemberByName(name);
+        return ResponseEntity.ok(member == null);
+    }
+
+    /* 이메일 회원 가입 */
     @PostMapping("/signup")
     public ResponseEntity<Member> signup(@RequestBody MemberSignUpRequestBody memberSignUpRequestBody) {
         Member member = memberService.create(memberSignUpRequestBody);
         return ResponseEntity.ok(member);
     }
 
+    /* 소셜 회원가입 */
     @PostMapping("/oauth/signup")
     public ResponseEntity<Member> oauthSignup(@RequestBody MemberSignUpRequestBody memberSignUpRequestBody) {
         Member member = memberService.update(memberSignUpRequestBody);
         return ResponseEntity.ok(member);
     }
 
+    /* 로그인 */
     @PostMapping("/signin")
     public ResponseEntity<UserAuthenticationResponse> signin(@RequestBody MemberSigninRequestBody memberSigninRequestBody, HttpServletResponse response) {
         return ResponseEntity.ok(memberService.login(memberSigninRequestBody.email(), memberSigninRequestBody.password(), response));
     }
 
+    /* 로그아웃 */
     @PostMapping("/signout")
     public ResponseEntity<Void> signout(HttpServletRequest request, HttpServletResponse response) {
         // 세션 무효화
@@ -61,6 +73,7 @@ public class AuthController {
         return ResponseEntity.ok().build();
     }
 
+    /* 액세스 토큰 재발급 */
     @PostMapping("/refresh")
     public ResponseEntity<?> refreshToken(@CookieValue(value = "refreshToken") String refreshToken, HttpServletResponse response) {
         try {
