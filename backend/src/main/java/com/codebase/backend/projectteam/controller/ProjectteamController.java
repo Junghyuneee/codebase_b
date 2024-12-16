@@ -20,7 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.codebase.backend.configs.S3Service;
 import com.codebase.backend.member.dto.Member;
 import com.codebase.backend.member.service.MemberService;
-import com.codebase.backend.projectteam.DTO.ProjectteamDTO;
+import com.codebase.backend.projectteam.dto.ProjectteamDTO;
 import com.codebase.backend.projectteam.service.ProjectteamService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -115,8 +115,8 @@ public class ProjectteamController {
         return ResponseEntity.ok(projectTeams);
     }
 
-    @GetMapping("/category/{category}")
-    public ResponseEntity<List<ProjectteamDTO>> getProjectTeamsByCategory(@PathVariable("category") String category) {
+    @GetMapping("/category/{pjcategory}")
+    public ResponseEntity<List<ProjectteamDTO>> getProjectTeamsByCategory(@PathVariable("pjcategory") String category) {
         List<ProjectteamDTO> projectTeams = projectTeamService.getProjectTeamsByCategory(category);
         return ResponseEntity.ok(projectTeams);
     }

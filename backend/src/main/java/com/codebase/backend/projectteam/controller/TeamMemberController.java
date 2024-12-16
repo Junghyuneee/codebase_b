@@ -1,6 +1,6 @@
 package com.codebase.backend.projectteam.controller;
 
-import com.codebase.backend.projectteam.DTO.TeamMemberDTO;
+import com.codebase.backend.projectteam.dto.TeamMemberDTO;
 import com.codebase.backend.projectteam.service.TeamMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

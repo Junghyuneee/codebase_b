@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.codebase.backend.projectteam.DTO.ProjectteamDTO;
+import com.codebase.backend.projectteam.dto.ProjectteamDTO;
 
 @Mapper
 public interface ProjectteamMapper {

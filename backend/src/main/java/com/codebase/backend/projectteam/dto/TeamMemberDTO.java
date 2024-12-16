@@ -1,4 +1,4 @@
-package com.codebase.backend.projectteam.DTO;
+package com.codebase.backend.projectteam.dto;
 
 import lombok.Data;
 
