@@ -82,7 +82,7 @@ public class ProjectController {
 		if (file != null && !file.isEmpty()) {
 			//String encodedString = URLEncoder.encode( , "UTF-8");
             String fileName = UUID.randomUUID() + file.getOriginalFilename();
-            s3Service.uploadFile(file, fileName);
+            //s3Service.uploadFile(file, fileName);
             fileName = "b62ea3b9-6b5f-4498-8b22-281a13d0c873mm.png";
             p.setImg(fileName);
         }
