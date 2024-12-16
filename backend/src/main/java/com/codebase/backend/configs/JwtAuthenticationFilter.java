@@ -6,7 +6,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
+import lombok.NonNull;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
@@ -35,11 +35,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         this.jwtService = jwtService;
         this.memberRepository = memberRepository;
         excludedPaths.add("/dashboard");
-        excludedPaths.add("/member");  // 예시로 /auth/search 경로를 등록
+        excludedPaths.add("/member/search");
+        excludedPaths.add("/member/profile/");
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
         String BEARER_PREFIX = "Bearer ";
         String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
         SecurityContext securityContext = SecurityContextHolder.getContext();
