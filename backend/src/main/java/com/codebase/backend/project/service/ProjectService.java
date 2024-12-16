@@ -16,8 +16,9 @@ public class ProjectService {
 	private final ProjectMapper projectMapper;
 	
 	
-	public void create(Project project) {
-        projectMapper.insertProject(project);;
+	public int create(Project project) {
+        projectMapper.insertProject(project);
+        return project.getId();
     }
 	
 	public List<Project> readlist(){

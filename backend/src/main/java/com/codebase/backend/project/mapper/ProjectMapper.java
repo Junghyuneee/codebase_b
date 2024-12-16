@@ -10,7 +10,7 @@ import com.codebase.backend.project.dto.Project;
 @Mapper
 public interface ProjectMapper {
 	
-	void insertProject(Project project);
+	int insertProject(Project project);
 	
     List<Project> selectAllProject();
     

@@ -91,6 +91,7 @@ public class ProjectController {
 		p.setMaker_id(user.getId());
 		projectService.create(p);
 		
-		return ResponseEntity.ok("string---");
+		
+		return ResponseEntity.ok(p.getId()+"");
 	}
 }

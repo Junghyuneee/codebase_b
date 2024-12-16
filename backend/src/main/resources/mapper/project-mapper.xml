@@ -5,7 +5,7 @@
 
 	<!-- 앞쪽 묶음이 테이블 컬럼, 뒤쪽 묶음 DTO필드 -->
 	<insert id="insertProject"
-		parameterType="com.codebase.backend.project.dto.Project">
+		parameterType="com.codebase.backend.project.dto.Project" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO project (title, content, price, hit, link,
 		img, types, username, maker_id)
 		VALUES
