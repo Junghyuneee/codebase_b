@@ -29,6 +29,9 @@ public class CartItemService {
 	public List<CartItem> findByCartId(int id){
     	return cartItemMapper.findByCartId(id);
     }
+	public List<CartItem> findByCartIdPage(int cart_id, int offset){
+    	return cartItemMapper.findByCartIdPage(cart_id, offset);
+    }
 	public CartItem findByProjectCartId(int cart_id, int project_id){
 		return cartItemMapper.findByProjectCartId(cart_id, project_id);
 	}

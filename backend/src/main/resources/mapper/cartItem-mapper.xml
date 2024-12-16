@@ -27,6 +27,15 @@
 		SELECT * FROM cartitem
 		WHERE cart_id = #{id};
 	</select>
+	<!-- 카트 페이지 페이징 -->
+	<select id="findByCartIdPage"
+		resultType="com.codebase.backend.project.dto.CartItem" parameterType="int">
+		SELECT * FROM cartitem
+		WHERE cart_id = #{cart_id}
+		ORDER BY id DESC
+		LIMIT 5 OFFSET #{offset};
+	</select>
+	
 	<!-- 장바구니에 담겨있는지 확인 -->
 	<select id="findByProjectCartId"
 		resultType="com.codebase.backend.project.dto.CartItem" parameterType="int">

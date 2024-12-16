@@ -30,6 +30,14 @@ public class CartController {
 	}
 	
 	
+//	@GetMapping("/my/{page}")
+//	public List<CartItem> listCIPage (@PathVariable("page") Integer page, @AuthenticationPrincipal Member user){
+//		System.out.println(cartItemService.findByCartIdPage(user.getCart_id(),page));
+//		return cartItemService.findByCartIdPage(user.getCart_id(),page);
+//	}
+	
+	
+	
 	@PostMapping("/add")
 	public void addCartItem(CartItem cartitem, @AuthenticationPrincipal Member user) {
 		System.out.println(user.toString());

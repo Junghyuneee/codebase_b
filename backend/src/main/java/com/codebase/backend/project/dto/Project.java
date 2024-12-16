@@ -9,7 +9,7 @@ public class Project{
 	private int id;
 	private String title;
 	private String content;
-	private int price;
+	private long price;
 	
 	private int hit;
 	private String link;

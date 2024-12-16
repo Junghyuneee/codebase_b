@@ -8,7 +8,7 @@ public class CartItem {
 	
 	//private String thumbnail; //아 ㅠ ㅅ ㅠ
 	private String title;
-	private int price;
+	private long price;
 	
 	//외래키
 	private int project_id;
