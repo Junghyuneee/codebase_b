@@ -1,5 +1,7 @@
 package com.codebase.backend.project.controller;
 
+import java.util.List;
+
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,15 +13,28 @@ import com.codebase.backend.member.dto.Member;
 import com.codebase.backend.project.dto.CartItem;
 import com.codebase.backend.project.service.CartItemService;
 
-import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/cart")
+@RequestMapping("/api/cart")
 public class CartController {
 	
 	private final CartItemService cartItemService;
+	
+	
+	@GetMapping("/my")
+	public List<CartItem> listCI (@AuthenticationPrincipal Member user){
+		System.out.println("확인용 " + cartItemService.findByCartId(user.getCart_id()));
+		return cartItemService.findByCartId(user.getCart_id());
+	}
+	
+	
+//	@GetMapping("/my/{page}")
+//	public List<CartItem> listCIPage (@PathVariable("page") Integer page, @AuthenticationPrincipal Member user){
+//		System.out.println(cartItemService.findByCartIdPage(user.getCart_id(),page));
+//		return cartItemService.findByCartIdPage(user.getCart_id(),page);
+//	}
 	
 	
 	

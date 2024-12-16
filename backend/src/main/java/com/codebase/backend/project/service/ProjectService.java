@@ -16,8 +16,9 @@ public class ProjectService {
 	private final ProjectMapper projectMapper;
 	
 	
-	public void create(Project project) {
-        projectMapper.insertProject(project);;
+	public int create(Project project) {
+        projectMapper.insertProject(project);
+        return project.getId();
     }
 	
 	public List<Project> readlist(){
@@ -27,6 +28,11 @@ public class ProjectService {
 	public Project findById(Integer id){ 
 		//System.out.print(projectMapper.findById(id)); 
 		return projectMapper.findById(id);
+	}
+	
+	public void incrementHit(Integer id) {
+		
+		projectMapper.incrementHit(id);
 	}
 	
 	public void delete(Integer id) {
