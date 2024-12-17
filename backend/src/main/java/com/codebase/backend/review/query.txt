@@ -11,3 +11,13 @@ views INT DEFAULT 0
 --- 작성자(author) 필드 추가 ---
 ALTER TABLE review
 ADD author VHARCHAR(255) NOT NULL;
+
+
+--- 리뷰 댓글 쿼리 생성하기 ---
+CREATE TABLE review_comments(
+id INT PRIMARY KEY AUTO_INCREMENT,
+review_id INT NOT NULL,
+content VARCHAR(255) NOT NULL,
+created_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY (review_id) REFERENCES review(id)
+);
