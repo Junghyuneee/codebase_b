@@ -22,4 +22,9 @@
         </foreach>
     </select>
 
+    <delete id="deleteById" parameterType="int">
+        delete from chatroom
+        where id=#{chatroomId}
+    </delete>
+
 </mapper>

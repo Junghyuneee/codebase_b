@@ -84,6 +84,11 @@ public class ChatService {
         }
 
         memberChatroomMappingRepository.deleteByMemberIdAndChatroomId(member.getId(), chatroomId);
+        List<MemberChatroomMapping> memberChatroomMappings = memberChatroomMappingRepository.findByChatroomId(chatroomId);
+
+        if(memberChatroomMappings.isEmpty()){
+            chatroomRepository.deleteById(chatroomId);
+        }
 
         return true;
     }

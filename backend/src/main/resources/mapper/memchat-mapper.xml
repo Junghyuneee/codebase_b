@@ -34,6 +34,12 @@
           AND chatroom = #{chatroomId}
     </select>
 
+    <select id="findByChatroomId" parameterType="int" resultType="memberchatroom">
+        SELECT *
+        FROM memberchatroom
+        where chatroom = #{chatroomId}
+    </select>
+
     <select id="findByTwoMemberId" parameterType="map" resultType="int">
         SELECT cm1.chatroom
         FROM memberchatroom cm1
