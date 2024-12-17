@@ -30,9 +30,13 @@ public class MemberController {
         return ResponseEntity.ok(MemberDTO.from(memberService.getMemberByEmail(member.getEmail())));
     }
 
-    @GetMapping("/profile/{memberMail}")
-    public ResponseEntity<MemberDTO> profile(@PathVariable String memberMail) {
-        return ResponseEntity.ok(MemberDTO.from(memberService.getMemberByName(memberMail)));
+    @GetMapping("/name/{memberName}")
+    public ResponseEntity<MemberDTO> findByMemberName(@PathVariable String memberName) {
+        return ResponseEntity.ok(MemberDTO.from(memberService.getMemberByName(memberName)));
     }
 
+    @GetMapping("/mail/{memberMail}")
+    public ResponseEntity<MemberDTO> findByMemberMail(@PathVariable String memberMail) {
+        return ResponseEntity.ok(MemberDTO.from(memberService.getMemberByEmail(memberMail)));
+    }
 }
