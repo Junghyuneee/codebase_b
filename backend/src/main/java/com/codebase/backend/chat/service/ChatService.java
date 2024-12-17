@@ -148,4 +148,11 @@ public class ChatService {
             return chatroomRepository.findById(chatroomId);
         }
     }
+
+    public void leaveAllChatroom(Member member){
+        List<Chatroom> chatroomList = getChatroomList(member);
+        for (Chatroom chatroom : chatroomList) {
+            leaveChatroom(member, chatroom.getId());
+        }
+    }
 }
