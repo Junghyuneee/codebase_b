@@ -17,13 +17,14 @@ public class ChatroomRepository {
         return chatroom;
     }
 
+    public void setDM(Chatroom chatroom){
+        sql.update("chatroom.setDM", chatroom);
+    }
+
     public Chatroom findById(int chatroomId) {
         return sql.selectOne("chatroom.findById", chatroomId);
     }
 
-//    public List<Chatroom> findAllByIds(List<Integer> chatroomIds) {
-//        return sql.selectList("chatroom.findAllByIds", chatroomIds);
-//    }
 
     public void deleteById(int chatroomId) {
         sql.delete("chatroom.deleteById", chatroomId);

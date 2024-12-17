@@ -12,6 +12,7 @@ public class Chatroom {
     Integer id;
     LocalDate createdDate;
     String title;
+    Boolean DM;
 
     Boolean hasNewMessage;
 }

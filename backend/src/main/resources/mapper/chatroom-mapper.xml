@@ -22,6 +22,12 @@
         </foreach>
     </select>
 
+    <update id="setDM" parameterType="chatroom">
+        UPDATE chatroom
+        set DM=#{DM}
+        WHERE id = #{id}
+    </update>
+
     <delete id="deleteById" parameterType="int">
         delete from chatroom
         where id=#{chatroomId}
