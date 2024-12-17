@@ -59,8 +59,9 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test' // Spring Boot 기본 테스트 라이브러리
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher' // JUnit 플랫폼 실행기 (테스트 런타임에서 필요)
     
-    
-
+    // json 데이터 타입
+	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.2'
+	
     // == 채팅 ==
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
 

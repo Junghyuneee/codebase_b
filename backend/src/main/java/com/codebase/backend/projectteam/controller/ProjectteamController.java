@@ -20,9 +20,11 @@ import org.springframework.web.multipart.MultipartFile;
 import com.codebase.backend.configs.S3Service;
 import com.codebase.backend.member.dto.Member;
 import com.codebase.backend.member.service.MemberService;
-import com.codebase.backend.projectteam.DTO.ProjectteamDTO;
+import com.codebase.backend.projectteam.dto.ProjectteamDTO;
 import com.codebase.backend.projectteam.service.ProjectteamService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 @RestController
 @RequestMapping("/api/projectteams")
@@ -36,6 +38,14 @@ public class ProjectteamController {
 
     @Autowired
     private MemberService memberService;
+    
+    private final ObjectMapper objectMapper;
+
+    public ProjectteamController() {
+        this.objectMapper = new ObjectMapper();
+        this.objectMapper.registerModule(new JavaTimeModule());
+        this.objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+    }
 
     // 특정 프로젝트 조회
     @GetMapping("/{pjt_id}")
@@ -61,9 +71,8 @@ public class ProjectteamController {
             @RequestPart("projectTeam") String projectTeamJson,
             @RequestPart("file") MultipartFile file) {
         try {
-            ObjectMapper objectMapper = new ObjectMapper();
             ProjectteamDTO projectTeam = objectMapper.readValue(projectTeamJson, ProjectteamDTO.class);
-
+            
             // member_id로 회원 정보 조회하여 이름을 pjtowner에 설정
             Member member = memberService.getMemberById(projectTeam.getMemberId());
             if (member != null) {
@@ -106,8 +115,8 @@ public class ProjectteamController {
         return ResponseEntity.ok(projectTeams);
     }
 
-    @GetMapping("/category/{category}")
-    public ResponseEntity<List<ProjectteamDTO>> getProjectTeamsByCategory(@PathVariable("category") String category) {
+    @GetMapping("/category/{pjcategory}")
+    public ResponseEntity<List<ProjectteamDTO>> getProjectTeamsByCategory(@PathVariable("pjcategory") String category) {
         List<ProjectteamDTO> projectTeams = projectTeamService.getProjectTeamsByCategory(category);
         return ResponseEntity.ok(projectTeams);
     }
