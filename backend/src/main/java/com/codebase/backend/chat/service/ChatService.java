@@ -17,7 +17,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -56,25 +58,52 @@ public class ChatService {
         }
     }
 
-    public Boolean joinChatroom(String email, Integer newChatroomId) {
-        Member member = memberRepository.findByEmail(email);
-
-        if (memberChatroomMappingRepository.existsByMemberIdAndChatroomId(member.getId(), newChatroomId)) {
-            log.info("이미 참여한 채팅방입니다.");
-            return false;
-        }
-
+    public Chatroom joinChatroom(String email, Integer newChatroomId) {
+        Member newMember = memberRepository.findByEmail(email);
         Chatroom chatroom = chatroomRepository.findById(newChatroomId);
 
-        MemberChatroomMapping memberChatroomMapping = MemberChatroomMapping.builder()
-                .member(member.getId())
-                .chatroom(chatroom.getId())
-                .lastCheckedAt(LocalDateTime.now())
-                .build();
+        if (memberChatroomMappingRepository.existsByMemberIdAndChatroomId(newMember.getId(), newChatroomId)) {
+            log.info("이미 참여한 채팅방입니다.");
+            return chatroom;
+        }
 
-        memberChatroomMappingRepository.save(memberChatroomMapping);
+        if (chatroom.getDM()) {
+            List<Integer> memberIdList = memberChatroomMappingRepository.findByChatroomId(newChatroomId).stream().map(MemberChatroomMapping::getMember).toList();
+            List<Member> memberList = new ArrayList<>(memberIdList.stream().map(memberService::getMemberById).toList());
+            memberList.add(newMember);
 
-        return true;
+            Chatroom newChatroom = Chatroom.builder()
+                    .title(memberList.stream().map(Member::getName).collect(Collectors.joining(", ")))
+                    .createdDate(LocalDate.now())
+                    .build();
+
+            newChatroom = chatroomRepository.save(newChatroom);
+            for (Member member : memberList) {
+                memberChatroomMappingRepository.save(MemberChatroomMapping.builder()
+                        .member(member.getId())
+                        .chatroom(newChatroom.getId())
+                        .lastCheckedAt(LocalDateTime.now())
+                        .build());
+            }
+
+            return newChatroom;
+        } else {
+            MemberChatroomMapping memberChatroomMapping = MemberChatroomMapping.builder()
+                    .member(newMember.getId())
+                    .chatroom(chatroom.getId())
+                    .lastCheckedAt(LocalDateTime.now())
+                    .build();
+
+            memberChatroomMappingRepository.save(memberChatroomMapping);
+
+            if(memberChatroomMappingRepository.countMemberByChatroomId(chatroom.getId()) == 2){
+                chatroom.setDM(true);
+                chatroom.setTitle(chatroom.getTitle() + ", " + newMember.getName());
+                chatroomRepository.setDM(chatroom);
+            }
+
+            return chatroom;
+        }
     }
 
     public Boolean leaveChatroom(Member member, int chatroomId) {
@@ -86,7 +115,7 @@ public class ChatService {
         memberChatroomMappingRepository.deleteByMemberIdAndChatroomId(member.getId(), chatroomId);
         List<MemberChatroomMapping> memberChatroomMappings = memberChatroomMappingRepository.findByChatroomId(chatroomId);
 
-        if(memberChatroomMappings.isEmpty()){
+        if (memberChatroomMappings.isEmpty()) {
             chatroomRepository.deleteById(chatroomId);
         }
 
@@ -143,13 +172,15 @@ public class ChatService {
         }
         Integer chatroomId = memberChatroomMappingRepository.findByTwoMemberId(currentUser.getId(), dmUser.getId());
         if (chatroomId == null) {
+            Chatroom chatroom = createChatroom(currentUser, currentUser.getName());
+            joinChatroom(dmUser.getEmail(), chatroom.getId());
             return null;
         } else {
             return chatroomRepository.findById(chatroomId);
         }
     }
 
-    public void leaveAllChatroom(Member member){
+    public void leaveAllChatroom(Member member) {
         List<Chatroom> chatroomList = getChatroomList(member);
         for (Chatroom chatroom : chatroomList) {
             leaveChatroom(member, chatroom.getId());

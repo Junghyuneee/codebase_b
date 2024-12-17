@@ -8,7 +8,6 @@ import com.codebase.backend.chat.repository.ChatroomRepository;
 import com.codebase.backend.chat.repository.MemberChatroomMappingRepository;
 import com.codebase.backend.chat.service.ChatService;
 import com.codebase.backend.member.dto.Member;
-import com.codebase.backend.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -26,7 +25,6 @@ public class ChatController {
     private final ChatService chatService;
     private final ChatroomRepository chatroomRepository;
     private final MemberChatroomMappingRepository memberChatroomMappingRepository;
-    private final MemberService memberService;
 
     @PostMapping
     public ChatroomDTO createChatroom(@AuthenticationPrincipal Member user, @RequestParam(value = "title") String title) {
@@ -41,8 +39,9 @@ public class ChatController {
     }
 
     @PostMapping("/{chatroomId}")
-    public Boolean joinChatroom(@PathVariable int chatroomId, @RequestParam(value = "memberMail") String memberMail) {
-        return chatService.joinChatroom(memberMail, chatroomId);
+    public ChatroomDTO joinChatroom(@PathVariable int chatroomId, @RequestParam(value = "memberMail") String memberMail) {
+        Chatroom joinedChatroom =chatService.joinChatroom(memberMail, chatroomId);
+        return ChatroomDTO.from(joinedChatroom, memberChatroomMappingRepository.countMemberByChatroomId(joinedChatroom.getId()));
     }
 
     @DeleteMapping("/{chatroomId}")
@@ -74,11 +73,6 @@ public class ChatController {
             @PathVariable("username") String username
     ) {
         Chatroom chatroom = chatService.findChatroom(user, username);
-        if(chatroom == null) {
-            chatroom = chatService.createChatroom(user, username + ", " + user.getName());
-            Member targetMember = memberService.getMemberByName(username);
-            joinChatroom(chatroom.getId(), targetMember.getEmail());
-        }
         return ChatroomDTO.from(chatroom, 2);
     }
 }

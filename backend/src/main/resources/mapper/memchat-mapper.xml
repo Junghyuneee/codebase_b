@@ -43,8 +43,10 @@
     <select id="findByTwoMemberId" parameterType="map" resultType="int">
         SELECT cm1.chatroom
         FROM memberchatroom cm1
-        JOIN memberchatroom cm2 ON cm1.chatroom = cm2.chatroom
-        WHERE cm1.member = #{memberId1} AND cm2.member = #{memberId2}
+                 JOIN memberchatroom cm2 ON cm1.chatroom = cm2.chatroom
+        WHERE cm1.member = #{memberId1}
+          AND cm2.member = #{memberId2}
+          AND cm1.chatroom IN (SELECT id FROM chatroom WHERE DM = true)
     </select>
 
     <!-- update  -->
