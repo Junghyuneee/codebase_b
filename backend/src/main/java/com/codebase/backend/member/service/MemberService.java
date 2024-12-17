@@ -163,6 +163,11 @@ public class MemberService implements UserDetailsService {
         }
     }
 
+    // 회원탈퇴
+    public boolean removeMember(Member member) {
+        return memberRepository.removeMemberByMail(member.getEmail());
+    }
+
     // 검색
     public List<Member> searchMember(String name) {
         return memberRepository.searchByName(name);

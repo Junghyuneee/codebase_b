@@ -1,5 +1,6 @@
 package com.codebase.backend.member.controller;
 
+import com.codebase.backend.chat.service.ChatService;
 import com.codebase.backend.member.dto.Member;
 import com.codebase.backend.member.response.post.MemberSignUpRequestBody;
 import com.codebase.backend.member.response.post.MemberSigninRequestBody;
@@ -28,6 +29,7 @@ public class AuthController {
     private final JwtService jwtService;
     private final MemberService memberService;
     private final AuthMailService authMailService;
+    private final ChatService chatService;
 
     /* 메인 페이지 접속 시 유효한 인증인지 확인 */
     @GetMapping()
@@ -123,5 +125,21 @@ public class AuthController {
     @PostMapping("/update/password")
     public ResponseEntity<Boolean> password(@AuthenticationPrincipal Member member, @RequestBody Map<String, Object> password) {
         return ResponseEntity.ok(memberService.updatePassword(member, password));
+    }
+
+    //    회원 탈퇴
+    @DeleteMapping("/profile")
+    public ResponseEntity<Boolean> deleteMember(@AuthenticationPrincipal Member member, HttpServletRequest request, HttpServletResponse response) {
+
+        // 세션 무효화
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate(); // 세션을 무효화하여 로그아웃 처리
+        }
+
+        chatService.leaveAllChatroom(member);
+
+        memberService.signout(response);
+        return ResponseEntity.ok(memberService.removeMember(member));
     }
 }

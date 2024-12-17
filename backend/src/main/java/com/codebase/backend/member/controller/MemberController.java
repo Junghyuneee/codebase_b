@@ -32,11 +32,19 @@ public class MemberController {
 
     @GetMapping("/name/{memberName}")
     public ResponseEntity<MemberDTO> findByMemberName(@PathVariable String memberName) {
-        return ResponseEntity.ok(MemberDTO.from(memberService.getMemberByName(memberName)));
+        Member member = memberService.getMemberByName(memberName);
+        if (member == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(MemberDTO.from(member));
     }
 
     @GetMapping("/mail/{memberMail}")
     public ResponseEntity<MemberDTO> findByMemberMail(@PathVariable String memberMail) {
-        return ResponseEntity.ok(MemberDTO.from(memberService.getMemberByEmail(memberMail)));
+        Member member = memberService.getMemberByEmail(memberMail);
+        if (member == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(MemberDTO.from(member));
     }
 }

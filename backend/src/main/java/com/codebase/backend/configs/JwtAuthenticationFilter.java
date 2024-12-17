@@ -36,7 +36,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         this.memberRepository = memberRepository;
         excludedPaths.add("/dashboard");
         excludedPaths.add("/member/search");
-        excludedPaths.add("/member/name/");
+        excludedPaths.add("/member/name");
         excludedPaths.add("/member/mail");
     }
 

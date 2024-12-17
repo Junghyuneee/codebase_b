@@ -45,4 +45,9 @@ public class MemberRepository {
     public void updatePassword(Member member) {
         sql.update("Member.updatePassword", member);
     }
+
+    public boolean removeMemberByMail(String mail) {
+        int result = sql.delete("Member.removeMemberByMail", mail);
+        return result > 0; // 삭제된 행이 1개 이상이면 true, 아니면 false
+    }
 }

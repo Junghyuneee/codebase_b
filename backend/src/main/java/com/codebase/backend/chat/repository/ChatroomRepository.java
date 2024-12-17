@@ -6,8 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
 @RequiredArgsConstructor
 public class ChatroomRepository {
@@ -23,7 +21,11 @@ public class ChatroomRepository {
         return sql.selectOne("chatroom.findById", chatroomId);
     }
 
-    public List<Chatroom> findAllByIds(List<Integer> chatroomIds) {
-        return sql.selectList("chatroom.findAllByIds", chatroomIds);
+//    public List<Chatroom> findAllByIds(List<Integer> chatroomIds) {
+//        return sql.selectList("chatroom.findAllByIds", chatroomIds);
+//    }
+
+    public void deleteById(int chatroomId) {
+        sql.delete("chatroom.deleteById", chatroomId);
     }
 }

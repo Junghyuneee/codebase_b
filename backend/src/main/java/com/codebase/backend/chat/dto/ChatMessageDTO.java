@@ -1,11 +1,9 @@
 package com.codebase.backend.chat.dto;
 
-import java.time.LocalDateTime;
-
 public record ChatMessageDTO(
         Long id,
         String message,
-        LocalDateTime timestamp,
+        String timestamp,
         String sender,
         String senderMail,
         String room
@@ -15,7 +13,7 @@ public record ChatMessageDTO(
         return new ChatMessageDTO(
                 message.getId(),
                 message.getText(),
-                message.getTimestamp(),
+                message.getTimestamp().toString(),
                 message.getSender(),
                 message.getSenderMail(),
                 room

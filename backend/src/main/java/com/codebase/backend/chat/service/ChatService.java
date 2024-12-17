@@ -84,6 +84,11 @@ public class ChatService {
         }
 
         memberChatroomMappingRepository.deleteByMemberIdAndChatroomId(member.getId(), chatroomId);
+        List<MemberChatroomMapping> memberChatroomMappings = memberChatroomMappingRepository.findByChatroomId(chatroomId);
+
+        if(memberChatroomMappings.isEmpty()){
+            chatroomRepository.deleteById(chatroomId);
+        }
 
         return true;
     }
@@ -141,6 +146,13 @@ public class ChatService {
             return null;
         } else {
             return chatroomRepository.findById(chatroomId);
+        }
+    }
+
+    public void leaveAllChatroom(Member member){
+        List<Chatroom> chatroomList = getChatroomList(member);
+        for (Chatroom chatroom : chatroomList) {
+            leaveChatroom(member, chatroom.getId());
         }
     }
 }
