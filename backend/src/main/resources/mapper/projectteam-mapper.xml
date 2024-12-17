@@ -4,11 +4,11 @@
 
     <!-- 공통 SQL 정의 -->
     <sql id="projectTeamColumns">
-        pjt_id AS pjtId, pjtname, pjtowner, pjtimg, pjtdescription, pjcategory, member_id
+        pjt_id AS pjtId, pjtname, pjtowner, pjtimg, pjtdescription, pjcategory, member_id, create_day AS createDay, deadline
     </sql>
 
     <!-- 특정 ID의 ProjectTeam 조회 -->
-    <select id="getProjectTeamById" parameterType="integer" resultType="com.codebase.backend.projectteam.DTO.ProjectteamDTO">
+    <select id="getProjectTeamById" parameterType="integer" resultType="com.codebase.backend.projectteam.dto.ProjectteamDTO">
         SELECT 
             <include refid="projectTeamColumns" />
         FROM projectteam
@@ -16,24 +16,24 @@
     </select>
 
     <!-- 모든 프로젝트 조회 -->
-    <select id="getAllProjectTeams" resultType="com.codebase.backend.projectteam.DTO.ProjectteamDTO">
+    <select id="getAllProjectTeams" resultType="com.codebase.backend.projectteam.dto.ProjectteamDTO">
         SELECT 
             <include refid="projectTeamColumns" />
         FROM projectteam
     </select>
 
     <!-- 프로젝트 삽입 -->
-    <insert id="insertProjectTeam" parameterType="com.codebase.backend.projectteam.DTO.ProjectteamDTO">
-        INSERT INTO projectteam (pjtname, pjtowner, pjtimg, pjtdescription, pjcategory, member_id)
-        VALUES (#{pjtname}, #{pjtowner}, #{pjtimg}, #{pjtdescription}, #{pjcategory}, #{member_id})
+    <insert id="insertProjectTeam" parameterType="com.codebase.backend.projectteam.dto.ProjectteamDTO">
+        INSERT INTO projectteam (pjtname, pjtowner, pjtimg, pjtdescription, pjcategory, member_id, create_day, deadline)
+        VALUES (#{pjtname}, #{pjtowner}, #{pjtimg}, #{pjtdescription}, #{pjcategory}, #{member_id}, #{create_day}, #{deadline})
     </insert>
 
     <!-- 프로젝트 업데이트 -->
-    <update id="updateProjectTeam" parameterType="com.codebase.backend.projectteam.DTO.ProjectteamDTO">
+    <update id="updateProjectTeam" parameterType="com.codebase.backend.projectteam.dto.ProjectteamDTO">
         UPDATE projectteam
         SET 
             pjtname = #{pjtname}, pjtowner = #{pjtowner}, pjtimg = #{pjtimg}, 
-            pjtdescription = #{pjtdescription}, pjcategory = #{pjcategory}
+            pjtdescription = #{pjtdescription}, pjcategory = #{pjcategory}, deadline = #{deadline}
         WHERE pjt_id = #{pjtId}
     </update>
 
@@ -43,7 +43,7 @@
     </delete>
 
     <!-- 특정 멤버의 프로젝트 목록 조회 -->
-    <select id="getProjectTeamsByMemberId" parameterType="integer" resultType="com.codebase.backend.projectteam.DTO.ProjectteamDTO">
+    <select id="getProjectTeamsByMemberId" parameterType="integer" resultType="com.codebase.backend.projectteam.dto.ProjectteamDTO">
         SELECT 
             <include refid="projectTeamColumns" />
         FROM projectteam
@@ -51,7 +51,7 @@
     </select>
 
     <!-- 카테고리별 프로젝트 검색 -->
-    <select id="getProjectTeamsByCategory" parameterType="string" resultType="com.codebase.backend.projectteam.DTO.ProjectteamDTO">
+    <select id="getProjectTeamsByCategory" parameterType="string" resultType="com.codebase.backend.projectteam.dto.ProjectteamDTO">
         SELECT 
             <include refid="projectTeamColumns" />
         FROM projectteam

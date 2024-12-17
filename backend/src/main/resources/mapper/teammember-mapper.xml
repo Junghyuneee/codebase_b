@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+                       "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.codebase.backend.projectteam.mapper.TeamMemberMapper">
+
+    <resultMap id="TeamMemberResultMap" type="com.codebase.backend.projectteam.dto.TeamMemberDTO">
+        <id property="tm_id" column="tm_id" />
+        <result property="member_id" column="member_id"/>
+        <result property="pjt_id" column="pjt_id"/>
+        <result property="role" column="role"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+    <insert id="insertTeamMember" parameterType="com.codebase.backend.projectteam.dto.TeamMemberDTO" useGeneratedKeys="true" keyProperty="tm_id">
+        INSERT INTO team_member (member_id, pjt_id, role, status)
+        VALUES (#{member_id}, #{pjt_id}, #{role}, #{status})
+    </insert>
+
+    <select id="selectTeamMember" parameterType="Integer" resultMap="TeamMemberResultMap">
+        SELECT tm_id, member_id, pjt_id, role, status
+        FROM team_member
+        WHERE tm_id = #{tm_id}
+    </select>
+
+    <select id="selectTeamMembersByProject" parameterType="Integer" resultMap="TeamMemberResultMap">
+        SELECT tm_id, member_id, pjt_id, role, status
+        FROM team_member
+        WHERE pjt_id = #{pjt_id}
+    </select>
+
+    <update id="updateTeamMember" parameterType="com.codebase.backend.projectteam.dto.TeamMemberDTO">
+        UPDATE team_member
+        SET 
+          role = #{role},
+          status = #{status}
+        WHERE tm_id = #{tm_id}
+    </update>
+
+    <delete id="deleteTeamMember" parameterType="Integer">
+        DELETE FROM team_member
+        WHERE tm_id = #{tm_id}
+    </delete>
+
+</mapper>

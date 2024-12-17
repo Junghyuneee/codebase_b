@@ -4,13 +4,18 @@
 <mapper namespace="Member">
     <insert id="save" parameterType="member" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO member (name, email, password, role, addr, postcode, tel, createdAt, projectCount, cart_id)
-        VALUES (#{name}, #{email}, #{password}, #{role}, #{addr}, #{postcode}, #{tel}, #{createdAt}, #{projectCount}, #{cart_id})
+        VALUES (#{name}, #{email}, #{password}, #{role}, #{addr}, #{postcode}, #{tel}, #{createdAt}, #{projectCount},
+                #{cart_id})
     </insert>
 
-    <update id="update" parameterType="member">
+    <update id="socialCreate" parameterType="member">
         UPDATE member
-        SET name=#{name}, addr=#{addr}, postcode=#{postcode}, tel=#{tel}
-        WHERE email=#{email} and id=#{id}
+        SET name=#{name},
+            addr=#{addr},
+            postcode=#{postcode},
+            tel=#{tel}
+        WHERE email = #{email}
+          and id = #{id}
     </update>
 
     <select id="findByEmail" parameterType="String" resultType="member">
@@ -28,6 +33,26 @@
         order by createdAt
     </select>
 
+    <!-- 관리자 페이지 회원 리스트에 사용 -->
+    <select id="selectAllMembers" parameterType="map" resultType="member">
+        select *
+        from member
+        order by id desc
+        limit #{limit} offset #{offset};
+    </select>
+
+    <!-- 전체 회원 수 -> 관리자 회원 관리 페이지 페이징 처리에 필요 -->
+    <select id="countAllMembers" resultType="int">
+        select count(*)
+        from member;
+    </select>
+
+    <!-- 멤버 권한 변경 -->
+    <update id="changeRole" parameterType="map">
+        update member
+        set role = #{role}
+        where id = #{id}
+    </update>
 
     <select id="findByName" parameterType="String" resultType="member">
         SELECt *
@@ -38,11 +63,37 @@
     <select id="searchByName" parameterType="String" resultType="member">
         SELECt *
         FROM member
-        WHERE name LIKE CONCAT ('%', #{name}, '%')
-        OR email LIKE CONCAT ('%', #{name}, '%')
+        WHERE name LIKE CONCAT('%', #{name}, '%')
+           OR email LIKE CONCAT('%', #{name}, '%')
     </select>
 
     <select id="findById" parameterType="Integer" resultType="com.codebase.backend.member.dto.Member">
-        SELECT * FROM member WHERE id = #{id}
+        SELECT *
+        FROM member
+        WHERE id = #{id}
     </select>
+
+    <!--    회원정보 수정 -->
+    <update id="update" parameterType="member">
+        update member
+        set name    = #{name},
+            tel=#{tel},
+            addr=#{addr},
+            postcode=#{postcode}
+        where id = #{id}
+    </update>
+
+    <!--  비밀번호 변경  -->
+    <update id="updatePassword" parameterType="member">
+        update member
+        set password=#{password}
+        where id = #{id}
+    </update>
+
+    <!--  회원 삭제  -->
+    <delete id="removeMemberByMail" parameterType="string">
+        delete from member
+        where email=#{mail}
+    </delete>
+
 </mapper>

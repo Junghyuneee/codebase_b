@@ -1,4 +1,8 @@
-package com.codebase.backend.projectteam.DTO;
+package com.codebase.backend.projectteam.dto;
+
+import java.time.LocalDate;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Data;
 
@@ -10,6 +14,9 @@ public class ProjectteamDTO {
     private String pjtimg;        // 프로젝트 이미지
     private String pjtdescription; // 프로젝트 설명
     private String pjcategory;    // 프로젝트 카테고리
+    private LocalDate create_day;	//프로젝트 생성일
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate deadline;		//프로젝트 마감일
     private Integer member_id;   //외래 키
  // Getters and Setters
     public Integer getPjtId() {
@@ -67,5 +74,22 @@ public class ProjectteamDTO {
     public void setMemberId(Integer member_id) {
         this.member_id = member_id;
     }
+
+    public LocalDate getCreateDay() {
+        return create_day;
+    }
+
+    public void setCreateDay(LocalDate create_day) {
+        this.create_day = create_day;
+    }
+
+    public LocalDate getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(LocalDate deadline) {
+        this.deadline = deadline;
+    }
     
+
 }

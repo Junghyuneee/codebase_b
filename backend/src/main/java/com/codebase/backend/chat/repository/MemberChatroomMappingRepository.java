@@ -35,12 +35,16 @@ public class MemberChatroomMappingRepository {
     public int countMemberByChatroomId(int chatroomId) {
         return sql.selectOne("memberchatroom.countMemberByChatroomId", chatroomId);
     }
-//
-//    public MemberChatroomMapping findByMemberIdAndChatroomId(int memberId, int chatroomId) {
-//        return sql.selectOne("memberchatroom.findByMemberIdAndChatroomId", Map.of("memberId", memberId, "chatroomId", chatroomId));
-//    }
+
+    public List<MemberChatroomMapping> findByChatroomId(int chatroomId) {
+        return sql.selectList("memberchatroom.findByChatroomId", chatroomId);
+    }
 
     public void updateLastCheckedByMemberIdAndChatroomId(int memberId, int chatroomId) {
         sql.update("memberchatroom.updateLastCheckedByMemberIdAndChatroomId", Map.of("memberId", memberId, "chatroomId", chatroomId, "checked", LocalDateTime.now()));
+    }
+
+    public Integer findByTwoMemberId(int memberId1, int memberId2) {
+        return sql.selectOne("memberchatroom.findByTwoMemberId", Map.of("memberId1", memberId1, "memberId2", memberId2));
     }
 }

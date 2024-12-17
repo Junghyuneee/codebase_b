@@ -1,15 +1,16 @@
 package com.codebase.backend.projectteam.service;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
-
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.codebase.backend.configs.S3Service;
-import com.codebase.backend.projectteam.DTO.ProjectteamDTO;
+import com.codebase.backend.projectteam.dto.ProjectteamDTO;
 import com.codebase.backend.projectteam.mapper.ProjectteamMapper;
 
 @Service
@@ -28,7 +29,10 @@ public class ProjectteamService {
 
     // 모든 프로젝트 조회
     public List<ProjectteamDTO> getAllProjectTeams() {
-        return projectteamMapper.getAllProjectTeams();
+        return projectteamMapper.getAllProjectTeams()
+                                .stream()
+                                .filter(projectteam -> projectteam.getPjt_id() !=0)
+                                .collect(Collectors.toList());
     }
 
     // 새 프로젝트 생성
@@ -41,6 +45,7 @@ public class ProjectteamService {
     		s3Service.uploadFile(file, fileName);
     		
     		projectTeam.setPjtimg(fileName);
+    		projectTeam.setCreate_day(LocalDate.now());
     	}   		
     	
         projectteamMapper.insertProjectTeam(projectTeam);

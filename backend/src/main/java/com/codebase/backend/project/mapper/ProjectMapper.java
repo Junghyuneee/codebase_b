@@ -10,11 +10,13 @@ import com.codebase.backend.project.dto.Project;
 @Mapper
 public interface ProjectMapper {
 	
-	void insertProject(Project project);
+	int insertProject(Project project);
 	
     List<Project> selectAllProject();
     
     Project findById(Integer id); //반환타입 리스트아니어도 되는지..? ㅠ
+
+    void incrementHit(Integer id);
     
     void deleteProjectById(Integer id);
     
