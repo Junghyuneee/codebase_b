@@ -1,5 +1,8 @@
 package com.codebase.backend.review.service;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -24,6 +27,8 @@ public class ReviewService {
 	
 	// 리뷰 등록
 	public void createReview(Review review) {
+		LocalDateTime currentTime = LocalDateTime.now(ZoneOffset.UTC);
+		review.setCreatedDate(currentTime);
 		reviewMapper.insertReview(review);
 	}
 	
@@ -69,5 +74,4 @@ public class ReviewService {
 	public void updateDislikes(int id) {
 		reviewMapper.updateDislikes(id);
 	}
-
 }
