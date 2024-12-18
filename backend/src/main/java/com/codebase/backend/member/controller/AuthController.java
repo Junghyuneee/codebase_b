@@ -96,17 +96,20 @@ public class AuthController {
 
     /* 액세스 토큰 재발급 */
     @PostMapping("/refresh")
-    public ResponseEntity<?> refreshToken(@CookieValue(value = "refreshToken") String refreshToken, HttpServletResponse response) {
+    public ResponseEntity<?> refreshToken(@CookieValue(value = "refreshToken", required = false) String refreshToken, HttpServletResponse response) {
         try {
             if (refreshToken == null) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No refresh token found.");
             }
 
             String username = jwtService.getUsername(refreshToken);
 
             if (username != null) {
                 String accessToken = memberService.refreshToken(username, response);
-                return ResponseEntity.ok(Map.of("accessToken", accessToken));
+                Member member = memberService.getMemberByEmail(username);
+                return ResponseEntity.ok(new UserAuthenticationResponse(
+                        accessToken,
+                        member.getEmail(), member.getName(), member.getId(), member.isRole()));
             } else {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or expired refresh token.");
             }

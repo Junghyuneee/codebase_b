@@ -53,13 +53,13 @@ public class CustomOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHa
             String refreshToken = jwtService.generateRefreshToken(member);
             String accessToken = jwtService.generateAccessToken(member);
             String redirectUrl = String.format(
-                    "%s/oauth?token=%s&email=%s&name=%s&memberId=%s&project_count=%d",
+                    "%s/oauth?token=%s&email=%s&name=%s&memberId=%s&role=%s",
                     frontendUrl,
                     URLEncoder.encode(accessToken, StandardCharsets.UTF_8),
                     URLEncoder.encode(member.getEmail(), StandardCharsets.UTF_8),
                     URLEncoder.encode(member.getName(), StandardCharsets.UTF_8),
                     member.getId(),
-                    member.getProjectCount()
+                    member.isRole()
             );
 
             Cookie refreshCookie = new Cookie("refreshToken", refreshToken);

@@ -101,7 +101,7 @@ public class MemberService implements UserDetailsService {
 
             return new UserAuthenticationResponse(
                     accessToken,
-                    member.getEmail(), member.getName(), member.getId(), member.getProjectCount());
+                    member.getEmail(), member.getName(), member.getId(), member.isRole());
         } else {
             return new UserAuthenticationResponse("Invalid password", null, null, null, null);
         }
