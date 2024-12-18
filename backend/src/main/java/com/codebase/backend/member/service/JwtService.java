@@ -1,7 +1,5 @@
 package com.codebase.backend.member.service;
 
-import com.codebase.backend.member.response.exception.TokenExpiredException;
-import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import lombok.extern.slf4j.Slf4j;
@@ -42,18 +40,24 @@ public class JwtService {
 
     private String getSubject(String token) {
         try {
-            return Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload().getSubject();
-        }catch (ExpiredJwtException e){
-            log.error("Token expired: {}", e.getMessage());
-            throw new TokenExpiredException("Token has expired.");
-        }
-        catch (JwtException e) {
-            log.error(e.getMessage());
-            throw e;
-        }catch (Exception e) {
-            System.out.println("e.getMessage() = " + e.getMessage());
-            log.error(e.getMessage());
-            throw e;
+            String subject = Jwts.parser()
+                    .verifyWith(key)
+                    .build()
+                    .parseSignedClaims(token)
+                    .getPayload()
+                    .getSubject();
+
+            if (subject == null) {
+                throw new JwtException("JWT subject cannot be null");
+            }
+
+            return subject;
+        } catch (JwtException e) {
+            log.error("Invalid JWT token: {}", e.getMessage());
+            throw new JwtException("JWT is invalid or corrupted.");
+        } catch (Exception e) {
+            log.error("Unexpected error: {}", e.getMessage());
+            throw new RuntimeException("An unexpected error occurred while processing the token.", e);
         }
     }
 }

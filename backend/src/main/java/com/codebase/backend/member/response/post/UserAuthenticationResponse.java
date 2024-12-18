@@ -5,6 +5,6 @@ public record UserAuthenticationResponse(
         String email,
         String username,
         Integer member_id,
-        Integer project_count
+        Boolean role
 ) {
 }
