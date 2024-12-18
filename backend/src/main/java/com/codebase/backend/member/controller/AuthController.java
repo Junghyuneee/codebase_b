@@ -8,6 +8,8 @@ import com.codebase.backend.member.response.post.UserAuthenticationResponse;
 import com.codebase.backend.member.service.AuthMailService;
 import com.codebase.backend.member.service.JwtService;
 import com.codebase.backend.member.service.MemberService;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -99,20 +101,19 @@ public class AuthController {
     public ResponseEntity<?> refreshToken(@CookieValue(value = "refreshToken", required = false) String refreshToken, HttpServletResponse response) {
         try {
             if (refreshToken == null) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No refresh token found.");
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).body("No refresh token found.");
             }
 
             String username = jwtService.getUsername(refreshToken);
+            String accessToken = memberService.refreshToken(username, response);
+            Member member = memberService.getMemberByEmail(username);
+            return ResponseEntity.ok(new UserAuthenticationResponse(
+                    accessToken,
+                    member.getEmail(), member.getName(), member.getId(), member.isRole()));
 
-            if (username != null) {
-                String accessToken = memberService.refreshToken(username, response);
-                Member member = memberService.getMemberByEmail(username);
-                return ResponseEntity.ok(new UserAuthenticationResponse(
-                        accessToken,
-                        member.getEmail(), member.getName(), member.getId(), member.isRole()));
-            } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or expired refresh token.");
-            }
+        } catch (JwtException e) {
+            memberService.signout(response);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or expired refresh token.");
         } catch (Exception e) {
             // Log the error
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to refresh token.");
