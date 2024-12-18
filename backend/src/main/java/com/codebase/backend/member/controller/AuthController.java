@@ -8,7 +8,6 @@ import com.codebase.backend.member.response.post.UserAuthenticationResponse;
 import com.codebase.backend.member.service.AuthMailService;
 import com.codebase.backend.member.service.JwtService;
 import com.codebase.backend.member.service.MemberService;
-import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -32,12 +31,6 @@ public class AuthController {
     private final MemberService memberService;
     private final AuthMailService authMailService;
     private final ChatService chatService;
-
-    /* 메인 페이지 접속 시 유효한 인증인지 확인 */
-    @GetMapping()
-    public ResponseEntity<Void> isSignined(@AuthenticationPrincipal Member member) {
-        return ResponseEntity.ok().build();
-    }
 
     /* 이메일 회원가입 시 닉네임 중복검사 */
     @GetMapping("/namecheck")
