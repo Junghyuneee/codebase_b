@@ -8,7 +8,9 @@ import com.codebase.backend.admin.dto.Report;
 import com.codebase.backend.admin.dto.ReportDetail;
 import com.codebase.backend.admin.dto.ReportRequest;
 import com.codebase.backend.admin.repository.ReportRepository;
+import com.codebase.backend.member.dto.Member;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -25,7 +27,8 @@ public class ReportService {
         this.reportRepository.saveReport(reportRequest);
     }
 
-    public void saveReportDetail(ReportRequest reportRequest) {
+    public void saveReportDetail(ReportRequest reportRequest, @AuthenticationPrincipal Member member) {
+        reportRequest.setMemberId(member.getId());
         this.reportRepository.saveReportDetail(reportRequest);
     }
 
