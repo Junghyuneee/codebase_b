@@ -6,6 +6,7 @@ import com.codebase.backend.admin.dto.Visitor;
 import com.codebase.backend.admin.service.DashboardService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +24,7 @@ public class DashboardController {
     @Autowired
     private DashboardService dashboardService;
 
-    // 방문자 수
+    // 방문자 등록
     @GetMapping("/visitor/get-ip")
     public String getClientIp(HttpServletRequest request) {
         String ip = request.getHeader("X-Forwarded-for");
@@ -35,6 +36,7 @@ public class DashboardController {
         return "클라이언트 IP 주소" + ip;
     }
 
+    // 방문자 수
     @GetMapping("/visitor/weekly")
     public List<Map<String, Object>> getWeeklyVisitorCount() {
         return dashboardService.getWeeklyVisitorCount();
