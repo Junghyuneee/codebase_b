@@ -2,7 +2,9 @@ package com.codebase.backend.review.dto;
 
 import java.time.LocalDateTime;
 
+import com.codebase.backend.projectteam.dto.ProjectteamDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 //@Getter
 //@Setter
@@ -16,6 +18,10 @@ public class Review {
     private int views;
     private int likes;
     private int dislikes;
+    @JsonProperty("pjt_id") // JSON의 pjt_id와 매핑
+    private int pjtId;
+    
+    //private ProjectteamDTO projectteamDTO;
     
     // Getters and Setters
 	public int getId() {
@@ -67,6 +73,13 @@ public class Review {
 	public void setDislikes(int dislikes) {
 		this.dislikes = dislikes;
 	}
+	public int getPjtId() {
+		return pjtId;
+	}
+	public void setPjtId(int pjtId) {
+		this.pjtId = pjtId;
+	}
+	
 
 
 }
