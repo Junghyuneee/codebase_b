@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.codebase.backend.configs.S3Service;
 import com.codebase.backend.member.dto.Member;
 import com.codebase.backend.member.service.JwtService;
+import com.codebase.backend.project.dto.Payment;
 import com.codebase.backend.project.dto.Project;
 import com.codebase.backend.project.service.ProjectService;
 
@@ -97,11 +99,17 @@ public class ProjectController {
 	}
 
 	@PostMapping("/api/store/payment/complete")
-	public ResponseEntity<String> payment(@RequestBody String paymentId) {
+	public ResponseEntity<String> payment(@RequestBody Payment p, @AuthenticationPrincipal Member user) {
 
-		System.out.println("페이먼트 아이디 : "+paymentId);
+		System.out.println("페이먼트 아이디 : "+ p.toString());
 		
 		return ResponseEntity.ok("");
 	}
 
+	@DeleteMapping("/api/store/delete")
+	public ResponseEntity<String> delete(@RequestBody int project_id){
+		System.out.println(project_id);
+		return ResponseEntity.ok("");
+	}
+	
 }

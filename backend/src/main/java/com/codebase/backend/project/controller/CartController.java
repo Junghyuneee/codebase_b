@@ -48,6 +48,11 @@ public class CartController {
 	} 
 	@PostMapping("/delete/{id}")
 	public void addCartItem(@PathVariable("id") int project_id, @AuthenticationPrincipal Member user) {
+		CartItem ci = cartItemService.findById(project_id);
+		if(user.getCart_id() != ci.getCart_id()) {
+			return;
+		}
+		
 		System.out.println(project_id);
 		cartItemService.deleteByProjectCartId(user.getCart_id(), project_id);
 		return;
@@ -61,5 +66,8 @@ public class CartController {
 		return cartItemService.findByProjectCartId(user.getCart_id(), project_id);
 		//return project_id + " " + user.getCart_id();
 	}
+	
+
+	
 
 }
