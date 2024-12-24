@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.codebase.backend.configs.S3Service;
 import com.codebase.backend.member.dto.Member;
 import com.codebase.backend.member.service.JwtService;
+import com.codebase.backend.project.dto.BuyPJ;
 import com.codebase.backend.project.dto.Payment;
 import com.codebase.backend.project.dto.Project;
 import com.codebase.backend.project.service.ProjectService;
@@ -100,9 +101,11 @@ public class ProjectController {
 
 	@PostMapping("/api/store/payment/complete")
 	public ResponseEntity<String> payment(@RequestBody Payment p, @AuthenticationPrincipal Member user) {
-
+		//System.out.println(user);
+		BuyPJ bp = new BuyPJ();
+		bp.setBuyer_id(user.getId());
+		p.setBuyer_id(user.getId());
 		System.out.println("페이먼트 아이디 : "+ p.toString());
-		
 		return ResponseEntity.ok("");
 	}
 

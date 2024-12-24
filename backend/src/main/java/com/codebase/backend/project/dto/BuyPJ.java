@@ -12,7 +12,7 @@ public class BuyPJ {
 	//private int hit;
 	private String link;
 	private String types;
-	private String maker_name;
+	//private String maker_name;
 	
 	// 외래키ㅐ
 	private int project_id;

@@ -49,6 +49,19 @@
 		WHERE id = #{id};
 	</select>
 
+	<select id="copyProject"
+		resultType="com.codebase.backend.project.dto.BuyPJ"
+		parameterType="int">
+		SELECT 
+			title, 
+			content, 
+			link, 
+			types,
+			maker_id
+		FROM project
+		WHERE project_id = #{id};
+	</select>
+
 
 	<delete id="deleteById" parameterType="int">
 		DELETE FROM buypj

@@ -8,9 +8,9 @@ import com.codebase.backend.project.dto.BuyPJ;
 
 @Mapper
 public interface BuypjMapper {
-
 	void save(BuyPJ buyPJ);
 	List<BuyPJ>findByBuyer(int buyer_id);
 	void deleteById(int id);
 	BuyPJ get();
+	BuyPJ copyProject(int project_id);
 }
