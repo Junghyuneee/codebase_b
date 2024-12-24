@@ -1,6 +1,9 @@
 package com.codebase.backend.notification.dto;
 
-public enum NotificationType {
+import lombok.Getter;
+
+@Getter
+public enum   NotificationType {
     MESSAGE(0),
     COMMENT(1),
     LIKES(2);
@@ -11,17 +14,13 @@ public enum NotificationType {
         this.code = code;
     }
 
-    public int getCode(){
-        return code;
-    }
-
-    public static NotificationType fromCode(int code){
-        for (NotificationType type : NotificationType.values()) {
-            if(type.getCode() == code){
-                return type;
-            }
-        }
-
-        throw new IllegalArgumentException("Invalid Notification Type: " + code);
-    }
+//    public static NotificationType fromCode(int code){
+//        for (NotificationType type : NotificationType.values()) {
+//            if(type.getCode() == code){
+//                return type;
+//            }
+//        }
+//
+//        throw new IllegalArgumentException("Invalid Notification Type: " + code);
+//    }
 }
