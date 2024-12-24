@@ -20,6 +20,7 @@ public class Review {
     private int dislikes;
     @JsonProperty("pjt_id") // JSON의 pjt_id와 매핑
     private int pjtId;
+    private String category;
     
     //private ProjectteamDTO projectteamDTO;
     
@@ -78,6 +79,12 @@ public class Review {
 	}
 	public void setPjtId(int pjtId) {
 		this.pjtId = pjtId;
+	}
+	public String getCategory() {
+		return category;
+	}
+	public void setCategory(String category) {
+		this.category = category;
 	}
 	
 
