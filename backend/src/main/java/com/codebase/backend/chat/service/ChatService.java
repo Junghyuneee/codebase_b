@@ -174,7 +174,7 @@ public class ChatService {
         if (chatroomId == null) {
             Chatroom chatroom = createChatroom(currentUser, currentUser.getName());
             joinChatroom(dmUser.getEmail(), chatroom.getId());
-            return null;
+            return chatroom;
         } else {
             return chatroomRepository.findById(chatroomId);
         }
