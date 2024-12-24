@@ -38,5 +38,18 @@
         WHERE application_id = #{application_id}
     </delete>
 
+    <!-- member_id로 팀 지원 정보 조회 -->
+    <select id="getTeamApplicationsByMemberId" resultType="com.codebase.backend.projectteam.dto.TeamApplicationDTO">
+        SELECT * FROM team_application 
+        WHERE member_id = #{member_id}
+    </select>
+
+    <!-- member_id 존재 여부 확인 -->
+    <select id="existsByMemberId" resultType="boolean">
+        SELECT COUNT(*) > 0 
+        FROM team_application 
+        WHERE member_id = #{member_id}
+    </select>
+
 </mapper>
 
