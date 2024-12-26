@@ -24,7 +24,13 @@
 	<!-- 카트 페이지에서 호출 -->
 	<select id="findByCartId"
 		resultType="com.codebase.backend.project.dto.CartItem">
-		SELECT * FROM cartitem
+		SELECT
+		ci.id,
+		ci.title,
+		ci.price,
+		p.img
+		FROM cartitem ci
+		JOIN project p ON ci.project_id = p.id
 		WHERE cart_id = #{id};
 	</select>
 	<!-- 카트 페이지 페이징 -->

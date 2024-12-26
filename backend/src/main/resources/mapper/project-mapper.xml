@@ -14,7 +14,9 @@
 
 	<select id="selectAllProject"
 		resultType="com.codebase.backend.project.dto.Project">
-		SELECT * FROM project;
+		SELECT * FROM project
+		WHERE maker_id IS NOT NULL;
+		
 	</select>
 
 	<select id="findById"
