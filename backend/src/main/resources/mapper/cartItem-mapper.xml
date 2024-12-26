@@ -61,10 +61,10 @@
 	</delete>
 	
 	<!-- 프로젝트 삭제 시 카트도 삭제 -->
-	<delete id="deleteByProjectId" parameterType="int">
+<!-- 	<delete id="deleteByProjectId" parameterType="int">
 		DELETE * FROM cartitem
 		WHERE project_id = #{project_id};
-	</delete>
+	</delete> -->
 
 
 </mapper>
