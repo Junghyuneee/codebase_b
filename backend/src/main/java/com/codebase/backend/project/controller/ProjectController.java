@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -114,5 +115,19 @@ public class ProjectController {
 		System.out.println(project_id);
 		return ResponseEntity.ok("");
 	}
+	
+	
+	@DeleteMapping("/api/project/delete/{id}")
+    public ResponseEntity<String> deleteProject(@PathVariable("id") int id, @AuthenticationPrincipal Member user) {
+        Project p = projectService.findById(id);
+        System.out.println(user.toString()+ " " + p.toString());
+		
+		if (p.getMaker_id() == user.getId()) {
+			projectService.delete(id);
+            return ResponseEntity.ok(p.getTitle() + "가 삭제되었습니다");
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("권한없음");
+        }
+    }
 	
 }
