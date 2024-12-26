@@ -22,16 +22,16 @@
 		WHERE id = #{id};
 	</select>
 	<!-- 카트 페이지에서 호출 -->
-	<select id="findByCartId"
+	<select id="findByCartId" parameterType="int"
 		resultType="com.codebase.backend.project.dto.CartItem">
 		SELECT
 		ci.id,
-		ci.title,
-		ci.price,
+		p.title,
+		p.price,
 		p.img
 		FROM cartitem ci
 		JOIN project p ON ci.project_id = p.id
-		WHERE cart_id = #{id};
+		WHERE cart_id = #{id} AND p.isdelete = 'n' AND p.maker_id IS NOT NULL;
 	</select>
 	<!-- 카트 페이지 페이징 -->
 	<select id="findByCartIdPage"
