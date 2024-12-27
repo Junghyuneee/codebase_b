@@ -15,14 +15,19 @@
 	<select id="findByBuyer"
 		resultType="com.codebase.backend.project.dto.BuyPJ"
 		parameterType="int">
-		SELECT 
-			title, 
-			content, 
-			link, 
-			types,
-			buyer_id
-		FROM buypj
+		
+		SELECT
+		bp.id,
+		p.title,
+		p.content,
+		p.link,
+		p.types,
+		p.username,
+		p.img
+		FROM buypj bp
+		JOIN project p ON bp.project_id = p.id
 		WHERE buyer_id = #{buyer_id};
+		
 	</select>
 
 	<select id="selectAll"
@@ -49,7 +54,8 @@
 		WHERE id = #{id};
 	</select>
 
-	<select id="copyProject"
+
+<!-- 	<select id="copyProject"
 		resultType="com.codebase.backend.project.dto.BuyPJ"
 		parameterType="int">
 		SELECT 
@@ -60,7 +66,7 @@
 			maker_id
 		FROM project
 		WHERE project_id = #{id};
-	</select>
+	</select> -->
 
 
 	<delete id="deleteById" parameterType="int">
