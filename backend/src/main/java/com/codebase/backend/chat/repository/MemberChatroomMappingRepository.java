@@ -47,4 +47,8 @@ public class MemberChatroomMappingRepository {
     public Integer findByTwoMemberId(int memberId1, int memberId2) {
         return sql.selectOne("memberchatroom.findByTwoMemberId", Map.of("memberId1", memberId1, "memberId2", memberId2));
     }
+
+    public void saveAll(List<MemberChatroomMapping> memberChatroomMappings) {
+        sql.insert("memberchatroom.saveAll", memberChatroomMappings);
+    }
 }
