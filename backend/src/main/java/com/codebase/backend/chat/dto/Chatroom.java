@@ -1,7 +1,7 @@
 package com.codebase.backend.chat.dto;
 
 import lombok.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class Chatroom {
     Integer id;
-    LocalDate createdDate;
+    LocalDateTime createdDate;
     String title;
     Boolean DM;
 

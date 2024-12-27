@@ -10,5 +10,6 @@
         <typeAlias type="com.codebase.backend.chat.dto.Chatroom" alias="chatroom"/>
         <typeAlias type="com.codebase.backend.chat.dto.ChatMessage" alias="message"/>
         <typeAlias type="com.codebase.backend.chat.dto.MemberChatroomMapping" alias="memberchatroom"/>
+        <typeAlias type="com.codebase.backend.notification.dto.Notification" alias="notification"/>
     </typeAliases>
 </configuration>
