@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper
-	namespace="com.codebase.backend.project.mapper.BuypjMapper">
+	namespace="com.codebase.backend.project.mapper.ProjectOrderMapper">
 
 	<!-- 앞쪽 묶음이 테이블 컬럼, 뒤쪽 묶음 DTO필드 -->
 	<insert id="save"
-		parameterType="com.codebase.backend.project.dto.BuyPJ" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO buypj 
+		parameterType="com.codebase.backend.project.dto.ProjectOrder" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO project_order 
 		(title, content, link, types, project_id, maker_id, buyer_id)
 		VALUES
 		(#{title},#{content},#{link},#{types},#{project_id},#{maker_id},#{buyer_id});
 	</insert>
 	
 	<select id="findByBuyer"
-		resultType="com.codebase.backend.project.dto.BuyPJ"
+		resultType="com.codebase.backend.project.dto.ProjectOrder"
 		parameterType="int">
 		
 		SELECT
@@ -24,25 +24,25 @@
 		p.types,
 		p.username,
 		p.img
-		FROM buypj bp
+		FROM project_order bp
 		JOIN project p ON bp.project_id = p.id
 		WHERE buyer_id = #{buyer_id};
 		
 	</select>
 
 	<select id="selectAll"
-		resultType="com.codebase.backend.project.dto.BuyPJ">
+		resultType="com.codebase.backend.project.dto.ProjectOrder">
 		SELECT 
 			title, 
 			content, 
 			link, 
 			types,
 			buyer_id
-		 FROM buypj;
+		 FROM project_order;
 	</select>
 
 	<select id="findById"
-		resultType="com.codebase.backend.project.dto.BuyPJ"
+		resultType="com.codebase.backend.project.dto.ProjectOrder"
 		parameterType="int">
 		SELECT 
 			title, 
@@ -50,13 +50,13 @@
 			link, 
 			types,
 			buyer_id 
-		FROM buypj
+		FROM project_order
 		WHERE id = #{id};
 	</select>
 
 
 <!-- 	<select id="copyProject"
-		resultType="com.codebase.backend.project.dto.BuyPJ"
+		resultType="com.codebase.backend.project.dto.ProjectOrder"
 		parameterType="int">
 		SELECT 
 			title, 
@@ -70,7 +70,7 @@
 
 
 	<delete id="deleteById" parameterType="int">
-		DELETE FROM buypj
+		DELETE FROM project_order
 		WHERE id = #{id};
 	</delete>
 

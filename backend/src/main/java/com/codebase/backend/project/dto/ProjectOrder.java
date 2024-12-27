@@ -3,7 +3,7 @@ package com.codebase.backend.project.dto;
 import lombok.Data;
 
 @Data
-public class BuyPJ {
+public class ProjectOrder {
 
 	private int id;
 	private String title;
