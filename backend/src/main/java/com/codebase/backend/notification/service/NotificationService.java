@@ -35,11 +35,17 @@ public class NotificationService {
 
     public boolean readNotification(List<Long> notificationId) {
         try {
+            if (notificationId.isEmpty()) return false;
             notificationRepository.readNoti(notificationId);
             return true;
         } catch (Exception e) {
             return false;
         }
+    }
+
+    //    안 읽은 노티 세기
+    public Integer countUnreadNotifications(int memberId) {
+        return notificationRepository.countUnreadNotifications(memberId);
     }
 
     public boolean deleteNotification(Long notificationId) {

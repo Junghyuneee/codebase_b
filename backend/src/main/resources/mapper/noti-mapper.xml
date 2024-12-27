@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="notification">
-    <insert id="save" parameterType="notification">
+
+    <insert id="save" parameterType="notification" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO notification(content, type, member, createdAt)
         values (#{content}, #{type}, #{member}, #{createdAt})
     </insert>
 
-    <select id="findByMemberId" parameterType="int">
+    <!-- Enum을 String으로 변환해서 조회 -->
+    <select id="findByMemberId" parameterType="int" resultType="notification">
         SELECT *
         FROM notification
         WHERE member=#{member}
+    </select>
+
+<!--  안 읽은 noti  개수 세기  -->
+    <select id="countUnreadNotifications" parameterType="int" resultType="int">
+        SELECT count(*)
+        FROM notification
+        where member=#{member}
+        AND isRead=FALSE
     </select>
 
     <update id="readNoti" parameterType="java.util.List">

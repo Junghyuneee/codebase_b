@@ -29,6 +29,11 @@ public class NotificationRepository {
         sql.update("notification.readNoti", ids);
     }
 
+    //    count unreadNotis
+    public Integer countUnreadNotifications(int member) {
+        return sql.selectOne("notification.countUnreadNotifications", member);
+    }
+
     // delete
     public void delete(Long id) {
         sql.delete("notification.deleteById", id);
