@@ -50,7 +50,7 @@ public class ChatController {
     }
 
     @GetMapping
-    public List<ChatroomDTO> getChatrooms(@AuthenticationPrincipal Member user) {
+    public List<ChatroomDTO> getChatRooms(@AuthenticationPrincipal Member user) {
         List<Chatroom> chatroomList = chatService.getChatroomList(user);
         return chatroomList.stream().map(
                 chatroom -> ChatroomDTO.from(chatroom, memberChatroomMappingRepository.countMemberByChatroomId(chatroom.getId()))

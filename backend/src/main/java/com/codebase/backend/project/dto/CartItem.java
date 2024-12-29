@@ -6,7 +6,7 @@ import lombok.Data;
 public class CartItem {
 	private int id;
 	
-	//private String thumbnail; //아 ㅠ ㅅ ㅠ
+	
 	private String title;
 	private long price;
 	
@@ -15,5 +15,8 @@ public class CartItem {
 	
 	//외래키
 	private int cart_id;
+	
+	//join
+	private String img;
 
 }

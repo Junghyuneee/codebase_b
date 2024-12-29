@@ -1,16 +1,16 @@
 package com.codebase.backend.comment.mapper;
 
-import java.util.List;
-
+import com.codebase.backend.comment.dto.CommentDto;
 import org.apache.ibatis.annotations.Mapper;
 
-import com.codebase.backend.comment.dto.CommentDTO;
+import java.util.List;
 
-// src/main/java/com/codebase/backend/comment/mapper/CommentMapper.java
 @Mapper
 public interface CommentMapper {
-    List<CommentDTO> getCommentsByPostId(Long postId);
-    void insertComment(CommentDTO comment);
-    void updateComment(CommentDTO comment);
+    void insertComment(CommentDto commentDto);
+    List<CommentDto> findCommentsByPostId(Long postId);
     void deleteComment(Long id);
+    
+    // 댓글 수정 메서드 추가
+    void updateComment(CommentDto commentDto);
 }

@@ -14,7 +14,9 @@
 
 	<select id="selectAllProject"
 		resultType="com.codebase.backend.project.dto.Project">
-		SELECT * FROM project;
+		SELECT * FROM project
+		WHERE maker_id IS NOT NULL AND isdelete='n';
+		
 	</select>
 
 	<select id="findById"
@@ -31,10 +33,16 @@
 	</update>
 
 
-	<delete id="deleteProjectById" parameterType="int">
+<!-- 	<delete id="deleteProjectById" parameterType="int">
 		DELETE FROM project
 		WHERE id = #{id};
-	</delete>
+	</delete> -->
+	
+	<update id="deleteProjectById" parameterType="int">
+		UPDATE project
+		SET isdelete = 'y'
+		WHERE id = #{id};
+	</update>
 
 	<!-- 인기게시글 차트를 위한 id, 제목, 조회수 select -->
 	<select id="findPopularProjects"
