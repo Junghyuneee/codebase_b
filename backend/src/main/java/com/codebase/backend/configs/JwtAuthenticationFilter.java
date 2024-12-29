@@ -12,6 +12,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.oauth2.jwt.JwtException;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
@@ -38,6 +40,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         excludedPaths.add("/member/search");
         excludedPaths.add("/member/name");
         excludedPaths.add("/member/mail");
+        excludedPaths.add("/auth/refresh");
     }
 
     @Override
@@ -47,28 +50,50 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         String requestPath = request.getServletPath();
 
-        // 예외 경로에 포함되지 않으면 JWT 인증 처리
-        if (!shouldSkipAuthentication(requestPath) && !ObjectUtils.isEmpty(authorization) && authorization.startsWith(BEARER_PREFIX) && securityContext.getAuthentication() == null) {
+        // 예외 경로에 포함되면 인증 스킵
+        if (shouldSkipAuthentication(requestPath)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        // JWT 인증 처리
+        if (!ObjectUtils.isEmpty(authorization) && authorization.startsWith(BEARER_PREFIX) && securityContext.getAuthentication() == null) {
             String accessToken = authorization.substring(BEARER_PREFIX.length());
+            try {
+                String username = jwtService.getUsername(accessToken);
+                UserDetails userDetails = memberRepository.findByEmail(username);
+                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                        userDetails, null, userDetails.getAuthorities()
+                );
+                authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                securityContext.setAuthentication(authenticationToken);
+                SecurityContextHolder.setContext(securityContext);
+            } catch (JwtException e) {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.getWriter().write("Invalid JWT token");
+                response.flushBuffer(); // 스트림 종료
+                return;
+            } catch (Exception e) {
+                // 예상치 못한 오류 로그 추가
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                response.getWriter().write("An unexpected error occurred");
+                response.flushBuffer(); // 스트림 종료
+                return;
+            }
 
-            String username = jwtService.getUsername(accessToken);
-            UserDetails userDetails = memberRepository.findByEmail(username);
-
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                    userDetails, null, userDetails.getAuthorities()
-            );
-            authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-            securityContext.setAuthentication(authenticationToken);
-            SecurityContextHolder.setContext(securityContext);
+        } else {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.getWriter().write("Invalid JWT token");
+            response.flushBuffer(); // 스트림 종료
+            return;
         }
 
         filterChain.doFilter(request, response);
     }
 
-    // 경로가 예외 목록에 포함되는지 체크 (Stream을 사용하여 성능 개선)
+    // 경로가 예외 목록에 포함되는지 체크
     private boolean shouldSkipAuthentication(String requestPath) {
         // 예외 경로 목록에 해당 경로가 포함되면 true 반환
-        return excludedPaths.stream()
-                .anyMatch(requestPath::startsWith);  // startsWith로 접두어 매칭
+        return excludedPaths.stream().anyMatch(requestPath::startsWith);
     }
 }
