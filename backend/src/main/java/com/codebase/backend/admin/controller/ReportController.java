@@ -5,6 +5,7 @@
 package com.codebase.backend.admin.controller;
 
 import com.codebase.backend.admin.dto.ReportDetail;
+import com.codebase.backend.admin.dto.ReportDetailResponse;
 import com.codebase.backend.admin.dto.ReportRequest;
 import com.codebase.backend.admin.service.ReportService;
 import com.codebase.backend.member.dto.Member;
@@ -83,7 +84,7 @@ public class ReportController {
     @CrossOrigin(origins = "http://localhost:5713")
     @GetMapping("/details/{reportId}")
     @PreAuthorize("hasRole('ADMIN')")
-    public List<ReportDetail> getReportDetails(@PathVariable int reportId) {
+    public List<ReportDetailResponse> getReportDetails(@PathVariable int reportId) {
         return reportService.getReportDetails(reportId);
     }
 
