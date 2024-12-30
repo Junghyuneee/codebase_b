@@ -9,8 +9,8 @@ import java.util.List;
 public interface CommentMapper {
     void insertComment(CommentDto commentDto);
     List<CommentDto> findCommentsByPostId(Long postId);
+    List<CommentDto> findAllComments(); // 모든 댓글 조회 메서드 추가
     void deleteComment(Long id);
-    
-    // 댓글 수정 메서드 추가
     void updateComment(CommentDto commentDto);
+    CommentDto findCommentById(Long id);
 }
