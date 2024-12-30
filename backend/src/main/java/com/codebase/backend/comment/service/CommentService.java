@@ -24,6 +24,10 @@ public class CommentService {
         return commentMapper.findCommentsByPostId(postId);
     }
 
+    public List<CommentDto> getAllComments() {
+        return commentMapper.findAllComments(); // 모든 댓글 조회 메서드 호출
+    }
+
     public void deleteComment(Long id) {
         commentMapper.deleteComment(id);
     }
@@ -31,5 +35,10 @@ public class CommentService {
     // 댓글 수정 메서드 추가
     public void updateComment(CommentDto commentDto) {
         commentMapper.updateComment(commentDto);
+    }
+
+    // 특정 댓글 조회 메서드 추가
+    public CommentDto getCommentById(Long id) {
+        return commentMapper.findCommentById(id);
     }
 }

@@ -12,16 +12,14 @@
 		CURRENT_TIMESTAMP)
 	</insert>
 
-	<!-- 특정 게시물에 대한 댓글 조회 -->
-	<select id="findCommentsByPostId" parameterType="long"
-		resultType="com.codebase.backend.comment.dto.CommentDto">
-		SELECT id, post_id AS postId, content, author, created_at
-		AS createdAt
-		FROM comments
-		WHERE post_id = #{postId}
-		ORDER BY created_at
-		DESC
-	</select>
+	<!-- 모든 댓글 조회 -->
+<select id="findAllComments" resultType="com.codebase.backend.comment.dto.CommentDto">
+    SELECT id, post_id AS postId, content, author, created_at AS createdAt
+    FROM comments
+    ORDER BY created_date DESC
+</select>
+
+
 
 
 	<!-- 댓글 수정 -->
