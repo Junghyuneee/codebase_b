@@ -2,6 +2,7 @@ package com.codebase.backend.configs;
 
 import com.codebase.backend.member.repository.MemberRepository;
 import com.codebase.backend.member.service.JwtService;
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,8 +13,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.oauth2.jwt.JwtException;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
@@ -36,11 +35,25 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     public JwtAuthenticationFilter(JwtService jwtService, MemberRepository memberRepository) {
         this.jwtService = jwtService;
         this.memberRepository = memberRepository;
+
+        /*admin dashboard*/
         excludedPaths.add("/dashboard");
-        excludedPaths.add("/member/search");
-        excludedPaths.add("/member/name");
-        excludedPaths.add("/member/mail");
+
+        /*member 검색, 프로필*/
+        excludedPaths.add("/member");
+
+        /*리프레시 토큰*/
         excludedPaths.add("/auth/refresh");
+
+        /*회원가입, 로그인, 로그아웃*/
+        excludedPaths.add("/auth");
+
+        /*리뷰*/
+        excludedPaths.add("/api/review");
+
+        /*게시글*/
+        excludedPaths.add("/api/post");
+        excludedPaths.add("/api/comments/posts");
     }
 
     @Override
