@@ -1,6 +1,5 @@
 package com.codebase.backend.member.controller;
 
-import com.codebase.backend.chat.service.ChatService;
 import com.codebase.backend.member.dto.Member;
 import com.codebase.backend.member.response.post.MemberSignUpRequestBody;
 import com.codebase.backend.member.response.post.MemberSigninRequestBody;
@@ -27,7 +26,6 @@ public class AuthController {
     private final JwtService jwtService;
     private final MemberService memberService;
     private final AuthMailService authMailService;
-    private final ChatService chatService;
 
     /* 이메일 회원가입 시 닉네임 중복검사 */
     @GetMapping("/namecheck")

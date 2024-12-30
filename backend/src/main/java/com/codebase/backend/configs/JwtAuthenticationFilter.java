@@ -8,6 +8,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
+import org.springframework.data.util.Pair;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
@@ -28,8 +29,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
     private final MemberRepository memberRepository;
 
-    // 예외 경로 목록을 Set으로 관리 (prefix만 관리)
-    private final Set<String> excludedPaths = new HashSet<>();
+    // 예외 경로 목록을 (HTTP 메서드, URL)로 관리
+    private final Set<Pair<String, String>> excludedPaths = new HashSet<>();
+    private static final String ANY_METHOD = "ANY";
 
     // 생성자에서 예외 경로를 미리 등록
     public JwtAuthenticationFilter(JwtService jwtService, MemberRepository memberRepository) {
@@ -37,23 +39,30 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         this.memberRepository = memberRepository;
 
         /*admin dashboard*/
-        excludedPaths.add("/dashboard");
+        excludedPaths.add(Pair.of(ANY_METHOD, "/dashboard"));
 
         /*member 검색, 프로필*/
-        excludedPaths.add("/member");
-
-        /*리프레시 토큰*/
-        excludedPaths.add("/auth/refresh");
-
+        excludedPaths.add(Pair.of(ANY_METHOD, "/member"));
         /*회원가입, 로그인, 로그아웃*/
-        excludedPaths.add("/auth");
+        excludedPaths.add(Pair.of(ANY_METHOD, "/auth"));
+
+        /*소켓 연결 나중에 interceptor 처리해야*/
+        excludedPaths.add(Pair.of(ANY_METHOD, "/stomp"));
 
         /*리뷰*/
-        excludedPaths.add("/api/review");
+        excludedPaths.add(Pair.of(ANY_METHOD, "/api/review"));
 
         /*게시글*/
-        excludedPaths.add("/api/post");
-        excludedPaths.add("/api/comments/posts");
+        excludedPaths.add(Pair.of("GET", "/api/post"));
+        excludedPaths.add(Pair.of("GET", "/api/comments/posts"));
+
+        /*스토어*/
+        excludedPaths.add(Pair.of("GET", "/api/store"));
+
+        /*팀*/
+        excludedPaths.add(Pair.of("GET", "/api/projectteams"));
+        excludedPaths.add(Pair.of("GET", "/api/team-applications"));
+        excludedPaths.add(Pair.of("GET", "/api/teammembers"));
     }
 
     @Override
@@ -62,9 +71,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
         SecurityContext securityContext = SecurityContextHolder.getContext();
         String requestPath = request.getServletPath();
+        String requestMethod = request.getMethod();
+        System.out.println("requestPath = " + requestPath);
+        System.out.println("requestMethod = " + requestMethod);
+        System.out.println("shouldSkipAuthentication(requestMethod, requestPath) = " + shouldSkipAuthentication(requestMethod, requestPath));
 
         // 예외 경로에 포함되면 인증 스킵
-        if (shouldSkipAuthentication(requestPath)) {
+        if (shouldSkipAuthentication(requestMethod, requestPath)) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -104,9 +117,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    // 경로가 예외 목록에 포함되는지 체크
-    private boolean shouldSkipAuthentication(String requestPath) {
-        // 예외 경로 목록에 해당 경로가 포함되면 true 반환
-        return excludedPaths.stream().anyMatch(requestPath::startsWith);
+    // 메서드와 경로를 함께 체크하여 예외 처리
+    private boolean shouldSkipAuthentication(String method, String requestPath) {
+        return excludedPaths.stream()
+                .anyMatch(pair ->
+                        requestPath.startsWith(pair.getSecond()) &&
+                                (pair.getFirst().equalsIgnoreCase(method) || pair.getFirst().equalsIgnoreCase(ANY_METHOD))
+                );
     }
 }
