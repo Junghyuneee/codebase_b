@@ -1,35 +1,44 @@
 package com.codebase.backend.comment.service;
 
-import java.util.List;
-
+import com.codebase.backend.comment.dto.CommentDto;
+import com.codebase.backend.comment.mapper.CommentMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.codebase.backend.comment.dto.CommentDTO;
-import com.codebase.backend.comment.mapper.CommentMapper;
-
-import lombok.RequiredArgsConstructor;
-
+import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class CommentService {
- private final CommentMapper commentMapper;
+    private final CommentMapper commentMapper;
 
- public List<CommentDTO> getCommentsByPostId(Long postId) {
-     return commentMapper.getCommentsByPostId(postId);
- }
+    @Autowired
+    public CommentService(CommentMapper commentMapper) {
+        this.commentMapper = commentMapper;
+    }
 
- public CommentDTO addComment(CommentDTO comment) {
-     commentMapper.insertComment(comment);
-     return comment;
- }
+    public void addComment(CommentDto commentDto) {
+        commentMapper.insertComment(commentDto);
+    }
 
- public CommentDTO updateComment(CommentDTO comment) {
-     commentMapper.updateComment(comment);
-     return comment;
- }
+    public List<CommentDto> getCommentsByPostId(Long postId) {
+        return commentMapper.findCommentsByPostId(postId);
+    }
 
- public void deleteComment(Long id) {
-     commentMapper.deleteComment(id);
- }
+    public List<CommentDto> getAllComments() {
+        return commentMapper.findAllComments(); // 모든 댓글 조회 메서드 호출
+    }
+
+    public void deleteComment(Long id) {
+        commentMapper.deleteComment(id);
+    }
+
+    // 댓글 수정 메서드 추가
+    public void updateComment(CommentDto commentDto) {
+        commentMapper.updateComment(commentDto);
+    }
+
+    // 특정 댓글 조회 메서드 추가
+    public CommentDto getCommentById(Long id) {
+        return commentMapper.findCommentById(id);
+    }
 }

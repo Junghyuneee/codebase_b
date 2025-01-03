@@ -33,9 +33,11 @@ public class CustomOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHa
 
         boolean needsSignup = member.getEmail() == null || member.getEmail().isEmpty() ||
                 member.getName() == null || member.getName().isEmpty() ||
-                member.getTel() == null || member.getTel().isEmpty() ||
-                member.getAddr() == null || member.getAddr().isEmpty() ||
-                member.getPostcode() == null || member.getPostcode().isEmpty();
+                member.getTel() == null || member.getTel().isEmpty()
+//                ||
+//                member.getAddr() == null || member.getAddr().isEmpty() ||
+//                member.getPostcode() == null || member.getPostcode().isEmpty()
+                ;
 
         // 필요한 정보가 누락되었는지 확인
 

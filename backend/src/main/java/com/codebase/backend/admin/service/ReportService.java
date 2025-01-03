@@ -6,22 +6,29 @@ package com.codebase.backend.admin.service;
 
 import com.codebase.backend.admin.dto.Report;
 import com.codebase.backend.admin.dto.ReportDetail;
+import com.codebase.backend.admin.dto.ReportDetailResponse;
 import com.codebase.backend.admin.dto.ReportRequest;
 import com.codebase.backend.admin.repository.ReportRepository;
 import com.codebase.backend.member.dto.Member;
+import com.codebase.backend.member.service.MemberService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Service
+@RequiredArgsConstructor
 public class ReportService {
 
-    @Autowired
-    private ReportRepository reportRepository;
+    private final ReportRepository reportRepository;
+    private final MemberService memberService;
 
     public void saveReport(ReportRequest reportRequest) {
         this.reportRepository.saveReport(reportRequest);
@@ -62,8 +69,27 @@ public class ReportService {
         return response;
     }
 
-    public List<ReportDetail> getReportDetails(int reportId) {
-        return this.reportRepository.getReportDetails(reportId);
+    public List<ReportDetailResponse> getReportDetails(int reportId) {
+        List<ReportDetail> reportDetails = this.reportRepository.getReportDetails(reportId);
+        List<ReportDetailResponse> reportDetailResponses = new ArrayList<>();
+        for(ReportDetail reportDetail : reportDetails) {
+            ReportDetailResponse reportDetailResponse = new ReportDetailResponse();
+
+            reportDetailResponse.setDetailId(reportDetail.getDetailId());
+            reportDetailResponse.setReportId(reportDetail.getReportId());
+
+            Member member = memberService.getMemberById(reportDetail.getMemberId());
+            reportDetailResponse.setMemberEmail(member.getEmail());
+
+            reportDetailResponse.setContent(reportDetail.getContent());
+
+            LocalDateTime reportDate = reportDetail.getReportDate();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH:mm:ss");
+            reportDetailResponse.setReportDate(reportDate.format(formatter));
+
+            reportDetailResponses.add(reportDetailResponse);
+        }
+        return reportDetailResponses;
     }
 
     public void processReport(int reportId) {
