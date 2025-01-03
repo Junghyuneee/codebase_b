@@ -22,8 +22,27 @@ CREATE TABLE cart(
 	name VARCHAR(255) NOT NULL,
 	member_email VARCHAR(50),
 	FOREIGN KEY (member_email) REFERENCES member(email) ON DELETE CASCADE
-);//member 테이블 email이 unique로 적용되면 생성...
+);
 
+
+===payment 테이블 생성쿼리============
+	private String paymentId;
+	private int buyer_id;
+	private int project_id;
+	private int price;
+	private LocalDateTime purchaseTime;
+	
+CREATE TABLE payment(
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	paymentId VARCHAR(255) NOT NULL,
+	buyer_id INT,
+	project_id INT,
+	price INT,
+	purchaseTime DATETIME;
+
+);
+
+	
 
 =====특정 유저가 생성한 project 검색=====
 maker_id로 검색하기 #1

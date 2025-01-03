@@ -7,9 +7,9 @@
 	<insert id="save"
 		parameterType="com.codebase.backend.project.dto.ProjectOrder" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO project_order 
-		(title, content, link, types, project_id, maker_id, buyer_id)
+		(title, content, link, types, project_id, maker_id, buyer_id, payment_id)
 		VALUES
-		(#{title},#{content},#{link},#{types},#{project_id},#{maker_id},#{buyer_id});
+		(#{title},#{content},#{link},#{types},#{project_id},#{maker_id},#{buyer_id},#{payment_id});
 	</insert>
 	
 	<select id="findByBuyer"

@@ -123,15 +123,15 @@ public class ProjectController {
     }
 	
 	
-	@PostMapping("/api/store/payment/complete")
-	public ResponseEntity<String> payment(@RequestBody Payment p, @AuthenticationPrincipal Member user) {
-		//System.out.println(user);
-		ProjectOrder po = new ProjectOrder();
-		po.setBuyer_id(user.getId());
-		po.setProject_id(p.getProject_id());
-		
-		p.setBuyer_id(user.getId());
-		System.out.println("페이먼트 아이디 : "+ p.toString());
-		return ResponseEntity.ok("");
-	}
+//	@PostMapping("/api/store/payment/complete")
+//	public ResponseEntity<String> payment(@RequestBody Payment p, @AuthenticationPrincipal Member user) {
+//		//System.out.println(user);
+//		ProjectOrder po = new ProjectOrder();
+//		po.setBuyer_id(user.getId());
+//		po.setProject_id(p.getProject_id());
+//		
+//		p.setBuyer_id(user.getId());
+//		System.out.println("페이먼트 아이디 : "+ p.toString());
+//		return ResponseEntity.ok("");
+//	}
 }
