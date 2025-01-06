@@ -110,6 +110,28 @@ public class ChatService {
         }
     }
 
+    public Chatroom inviteMembers(int chatroomId, List<String> memberNames) {
+        List<Member> members = memberRepository.findByMemberNames(memberNames);
+        Chatroom chatroom = chatroomRepository.findById(chatroomId);
+
+        List<MemberChatroomMapping> mappings = new ArrayList<>();
+
+        for(Member member: members){
+            if(!memberChatroomMappingRepository.existsByMemberIdAndChatroomId(member.getId(), chatroomId)){
+                MemberChatroomMapping mapping = MemberChatroomMapping.builder()
+                        .member(member.getId())
+                        .chatroom(chatroomId)
+                        .lastCheckedAt(LocalDateTime.now())
+                        .build();
+                mappings.add(mapping);
+            }
+        }
+
+        memberChatroomMappingRepository.saveAll(mappings);
+
+        return chatroom;
+    }
+
     public Boolean leaveChatroom(Member member, int chatroomId) {
         if (!memberChatroomMappingRepository.existsByMemberIdAndChatroomId(member.getId(), chatroomId)) {
             log.info("참여하지 않은 방입니다.");

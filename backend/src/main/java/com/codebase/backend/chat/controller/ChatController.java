@@ -6,6 +6,7 @@ import com.codebase.backend.chat.dto.Chatroom;
 import com.codebase.backend.chat.dto.ChatroomDTO;
 import com.codebase.backend.chat.repository.ChatroomRepository;
 import com.codebase.backend.chat.repository.MemberChatroomMappingRepository;
+import com.codebase.backend.chat.response.InviteMembersBody;
 import com.codebase.backend.chat.service.ChatService;
 import com.codebase.backend.member.dto.Member;
 import lombok.RequiredArgsConstructor;
@@ -40,8 +41,14 @@ public class ChatController {
 
     @PostMapping("/{chatroomId}")
     public ChatroomDTO joinChatroom(@PathVariable("chatroomId") int chatroomId, @RequestParam(value = "memberMail") String memberMail) {
-        Chatroom joinedChatroom =chatService.joinChatroom(memberMail, chatroomId);
+        Chatroom joinedChatroom = chatService.joinChatroom(memberMail, chatroomId);
         return ChatroomDTO.from(joinedChatroom, memberChatroomMappingRepository.countMemberByChatroomId(joinedChatroom.getId()));
+    }
+
+    @PostMapping("/invite/{chatroomId}")
+    public ChatroomDTO inviteChatroom(@PathVariable("chatroomId") int chatroomId, @RequestBody InviteMembersBody members) {
+        Chatroom invitedChatroom = chatService.inviteMembers(chatroomId, members.getMembers());
+        return ChatroomDTO.from(invitedChatroom, members.getMembers().size());
     }
 
     @DeleteMapping("/{chatroomId}")
