@@ -32,6 +32,11 @@
 		WHERE id = #{id}
 	</update>
 
+	<update id="soldout" parameterType="int">
+		UPDATE project
+		SET issoldout = 'y'
+		WHERE id = #{id}
+	</update>
 
 <!-- 	<delete id="deleteProjectById" parameterType="int">
 		DELETE FROM project
