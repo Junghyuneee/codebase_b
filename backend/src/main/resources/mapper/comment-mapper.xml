@@ -1,40 +1,34 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper
-	namespace="com.codebase.backend.comment.mapper.CommentMapper">
+<mapper namespace="com.codebase.backend.comment.mapper.CommentMapper">
 
-	<!-- 댓글 작성 -->
-	<insert id="insertComment"
-		parameterType="com.codebase.backend.comment.dto.CommentDto">
-		INSERT INTO comments (post_id, content, author,
-		created_at)
-		VALUES (#{postId}, #{content}, #{author},
-		CURRENT_TIMESTAMP)
-	</insert>
+    <insert id="insertComment" parameterType="com.codebase.backend.comment.dto.CommentDto">
+        INSERT INTO comments (post_id, content, author, created_at)
+        VALUES (#{postId}, #{content}, #{author}, CURRENT_TIMESTAMP)
+    </insert>
 
-	<!-- 모든 댓글 조회 -->
-<select id="findAllComments" resultType="com.codebase.backend.comment.dto.CommentDto">
-    SELECT id, post_id AS postId, content, author, created_at AS createdAt
-    FROM comments
-    ORDER BY created_date DESC
-</select>
+    <select id="findAllComments" resultType="com.codebase.backend.comment.dto.CommentDto">
+        SELECT id, post_id AS postId, content, author, created_at AS createdAt
+        FROM comments
+        ORDER BY created_at DESC
+    </select>
 
+    <select id="findCommentsByPostId" parameterType="long" resultType="com.codebase.backend.comment.dto.CommentDto">
+        SELECT id, post_id AS postId, content, author, created_at AS createdAt
+        FROM comments
+        WHERE post_id = #{postId}
+        ORDER BY created_at DESC
+    </select>
 
+    <update id="updateComment" parameterType="com.codebase.backend.comment.dto.CommentDto">
+        UPDATE comments
+        SET content = #{content}
+        WHERE id = #{id}
+    </update>
 
-
-	<!-- 댓글 수정 -->
-	<update id="updateComment"
-		parameterType="com.codebase.backend.comment.dto.CommentDto">
-		UPDATE comments
-		SET content = #{content}
-		WHERE id = #{id}
-	</update>
-	
-	<!-- 댓글 삭제 -->
-	<delete id="deleteComment" parameterType="long">
-		DELETE FROM comments
-		WHERE id = #{id}
-	</delete>
-
+    <delete id="deleteComment" parameterType="long">
+        DELETE FROM comments
+        WHERE id = #{id}
+    </delete>
 
 </mapper>

@@ -15,7 +15,7 @@ public class TeamApplicationService {
     
     @Autowired
     private TeamApplicationMapper teamApplicationMapper;
-
+    
     public List<TeamApplicationDTO> getTeamApplications() {
         return teamApplicationMapper.getTeamApplications();
     }
