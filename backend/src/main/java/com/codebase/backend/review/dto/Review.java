@@ -20,7 +20,10 @@ public class Review {
     private int dislikes;
     @JsonProperty("pjt_id") // JSON의 pjt_id와 매핑
     private int pjtId;
+    //@JsonProperty("category") // JSON의 category와 매핑
     private String category;
+    private String pjtName;
+    private String pjtImg;
     
     //private ProjectteamDTO projectteamDTO;
     
@@ -85,6 +88,18 @@ public class Review {
 	}
 	public void setCategory(String category) {
 		this.category = category;
+	}
+	public String getPjtName() {
+		return pjtName;
+	}
+	public void setPjtName(String pjtName) {
+		this.pjtName = pjtName;
+	}
+	public String getPjtImg() {
+		return pjtImg;
+	}
+	public void setPjtImg(String pjtImg) {
+		this.pjtImg = pjtImg;
 	}
 	
 
