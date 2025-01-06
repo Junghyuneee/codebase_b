@@ -1,46 +1,34 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.codebase.backend.comment.mapper.CommentMapper">
-    
-    <select id="getCommentsByPostId" resultType="com.codebase.backend.comment.dto.CommentDTO">
-        SELECT 
-            id,
-            post_id as postId,
-            content,
-            author,
-            create_date as createDate
-        FROM comments
-        WHERE post_id = #{postId}
-        ORDER BY create_date DESC
-    </select>
 
-    <insert id="insertComment" 
-            parameterType="com.codebase.backend.comment.dto.CommentDTO"
-            useGeneratedKeys="true" 
-            keyProperty="id">
-        INSERT INTO comments (
-            post_id,
-            content,
-            author,
-            create_date
-        ) VALUES (
-            #{postId},
-            #{content},
-            #{author},
-            NOW()
-        )
+    <insert id="insertComment" parameterType="com.codebase.backend.comment.dto.CommentDto">
+        INSERT INTO comments (post_id, content, author, created_at)
+        VALUES (#{postId}, #{content}, #{author}, CURRENT_TIMESTAMP)
     </insert>
 
-    <update id="updateComment">
-        UPDATE comments 
+    <select id="findAllComments" resultType="com.codebase.backend.comment.dto.CommentDto">
+        SELECT id, post_id AS postId, content, author, created_at AS createdAt
+        FROM comments
+        ORDER BY created_at DESC
+    </select>
+
+    <select id="findCommentsByPostId" parameterType="long" resultType="com.codebase.backend.comment.dto.CommentDto">
+        SELECT id, post_id AS postId, content, author, created_at AS createdAt
+        FROM comments
+        WHERE post_id = #{postId}
+        ORDER BY created_at DESC
+    </select>
+
+    <update id="updateComment" parameterType="com.codebase.backend.comment.dto.CommentDto">
+        UPDATE comments
         SET content = #{content}
         WHERE id = #{id}
     </update>
 
-    <delete id="deleteComment">
-        DELETE FROM comments 
+    <delete id="deleteComment" parameterType="long">
+        DELETE FROM comments
         WHERE id = #{id}
     </delete>
+
 </mapper>

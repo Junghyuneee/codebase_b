@@ -5,6 +5,7 @@ import com.codebase.backend.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -20,6 +21,7 @@ public class MemberAndChatController {
 
     @CrossOrigin(origins = "http://localhost:5713")
     @GetMapping("/member")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Map<String, Object>> getAllReport(@RequestParam(defaultValue = "1") int page,
                                      @RequestParam(defaultValue = "10") int size) {
         Map<String, Object> response = memberAndChatService.getAllMembers(page, size);
@@ -28,6 +30,7 @@ public class MemberAndChatController {
 
     @CrossOrigin(origins = "http://localhost:5713")
     @PostMapping("/changeMemberRole/{memberId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Map<String, Object>> changeRole(@PathVariable int memberId) {
         Map<String, Object> response = new HashMap<>();
         try {

@@ -8,6 +8,7 @@ import com.codebase.backend.member.response.post.UserAuthenticationResponse;
 import com.codebase.backend.member.service.AuthMailService;
 import com.codebase.backend.member.service.JwtService;
 import com.codebase.backend.member.service.MemberService;
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -30,12 +31,6 @@ public class AuthController {
     private final MemberService memberService;
     private final AuthMailService authMailService;
     private final ChatService chatService;
-
-    /* 메인 페이지 접속 시 유효한 인증인지 확인 */
-    @GetMapping()
-    public ResponseEntity<Void> isSignined(@AuthenticationPrincipal Member member) {
-        return ResponseEntity.ok().build();
-    }
 
     /* 이메일 회원가입 시 닉네임 중복검사 */
     @GetMapping("/namecheck")
@@ -96,20 +91,22 @@ public class AuthController {
 
     /* 액세스 토큰 재발급 */
     @PostMapping("/refresh")
-    public ResponseEntity<?> refreshToken(@CookieValue(value = "refreshToken") String refreshToken, HttpServletResponse response) {
+    public ResponseEntity<?> refreshToken(@CookieValue(value = "refreshToken", required = false) String refreshToken, HttpServletResponse response) {
         try {
             if (refreshToken == null) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).body("No refresh token found.");
             }
 
             String username = jwtService.getUsername(refreshToken);
+            String accessToken = memberService.refreshToken(username, response);
+            Member member = memberService.getMemberByEmail(username);
+            return ResponseEntity.ok(new UserAuthenticationResponse(
+                    accessToken,
+                    member.getEmail(), member.getName(), member.getId(), member.isRole()));
 
-            if (username != null) {
-                String accessToken = memberService.refreshToken(username, response);
-                return ResponseEntity.ok(Map.of("accessToken", accessToken));
-            } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or expired refresh token.");
-            }
+        } catch (JwtException e) {
+            memberService.signout(response);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or expired refresh token.");
         } catch (Exception e) {
             // Log the error
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to refresh token.");

@@ -8,6 +8,8 @@ import com.codebase.backend.chat.repository.MemberChatroomMappingRepository;
 import com.codebase.backend.member.repository.MemberRepository;
 import com.codebase.backend.member.service.JwtService;
 import com.codebase.backend.member.service.MemberService;
+import com.codebase.backend.notification.dto.NotificationType;
+import com.codebase.backend.notification.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONObject;
@@ -15,7 +17,6 @@ import net.minidev.json.JSONValue;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,11 +33,12 @@ public class ChatService {
     private final MemberRepository memberRepository;
     private final MessageRepository messageRepository;
     private final MemberService memberService;
+    private final NotificationService notificationService;
 
     public Chatroom createChatroom(Member member, String title) {
         Chatroom chatroom = Chatroom.builder()
                 .title(title)
-                .createdDate(LocalDate.now())
+                .createdDate(LocalDateTime.now())
                 .build();
 
         chatroom = chatroomRepository.save(chatroom);
@@ -74,7 +76,7 @@ public class ChatService {
 
             Chatroom newChatroom = Chatroom.builder()
                     .title(memberList.stream().map(Member::getName).collect(Collectors.joining(", ")))
-                    .createdDate(LocalDate.now())
+                    .createdDate(LocalDateTime.now())
                     .build();
 
             newChatroom = chatroomRepository.save(newChatroom);
@@ -101,6 +103,8 @@ public class ChatService {
                 chatroom.setTitle(chatroom.getTitle() + ", " + newMember.getName());
                 chatroomRepository.setDM(chatroom);
             }
+
+            notificationService.save(String.valueOf(NotificationType.MESSAGE), "채팅방에 초대되었습니다. : " + chatroom.getTitle(), newMember.getId());
 
             return chatroom;
         }
@@ -174,7 +178,7 @@ public class ChatService {
         if (chatroomId == null) {
             Chatroom chatroom = createChatroom(currentUser, currentUser.getName());
             joinChatroom(dmUser.getEmail(), chatroom.getId());
-            return null;
+            return chatroom;
         } else {
             return chatroomRepository.findById(chatroomId);
         }
