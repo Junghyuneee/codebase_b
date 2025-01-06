@@ -1,0 +1,10 @@
+CREATE TABLE comments (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    post_id BIGINT NOT NULL,
+    content TEXT NOT NULL,
+    author VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- 댓글 생성 시간
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,  -- 댓글 수정 시간
+    status ENUM('active', 'inactive') DEFAULT 'active',  -- 댓글 상태 (활성화/비활성화)
+    ip_address VARCHAR(45)  -- 작성자 IP 주소 (IPv4 및 IPv6 지원)
+);
