@@ -25,19 +25,17 @@ public class CommentService {
     }
 
     public List<CommentDto> getAllComments() {
-        return commentMapper.findAllComments(); // 모든 댓글 조회 메서드 호출
+        return commentMapper.findAllComments();
     }
 
     public void deleteComment(Long id) {
         commentMapper.deleteComment(id);
     }
 
-    // 댓글 수정 메서드 추가
     public void updateComment(CommentDto commentDto) {
         commentMapper.updateComment(commentDto);
     }
 
-    // 특정 댓글 조회 메서드 추가
     public CommentDto getCommentById(Long id) {
         return commentMapper.findCommentById(id);
     }
