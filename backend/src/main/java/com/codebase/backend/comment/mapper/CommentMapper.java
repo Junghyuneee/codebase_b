@@ -10,6 +10,15 @@ import com.codebase.backend.comment.dto.CommentDto;
 @Mapper
 public interface CommentMapper {
 
+    void insertComment(CommentDto commentDto);
+    List<CommentDto> findCommentsByPostId(Long postId);
+    List<CommentDto> findAllComments();
+    void deleteComment(Long id);
+    void updateComment(CommentDto commentDto);
+    CommentDto findCommentById(Long id);
+}
+
+
     // 댓글 작성
     void insertComment(CommentDto comment);
 

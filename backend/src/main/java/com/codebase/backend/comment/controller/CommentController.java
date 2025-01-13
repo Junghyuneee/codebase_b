@@ -43,8 +43,21 @@ public class CommentController {
 
     // 댓글 삭제
     @DeleteMapping("/{id}")
+
+    public ResponseEntity<Void> deleteComment(@PathVariable("id") Long id) {
+        commentService.deleteComment(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<CommentDto> updateComment(@PathVariable("id") Long id, @RequestBody CommentDto commentDto) {
+        commentDto.setId(id); // ID를 설정하여 수정할 댓글을 명시
+        commentService.updateComment(commentDto);
+        return ResponseEntity.ok(commentDto);
+
     public ResponseEntity<Void> deleteComment(@PathVariable("id") long id) {
         commentService.deleteComment(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
     }
 }

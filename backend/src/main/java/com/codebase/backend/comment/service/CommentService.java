@@ -26,15 +26,30 @@ public class CommentService {
         return commentMapper.findCommentsByPostId(postId);
     }
 
+
+    public List<CommentDto> getAllComments() {
+        return commentMapper.findAllComments();
+
     // 댓글 수정
     public CommentDto updateComment(long id, CommentDto comment) {
         comment.setId(id);
         commentMapper.updateComment(comment);
-        return comment;
+
     }
 
     // 댓글 삭제
     public void deleteComment(long id) {
         commentMapper.deleteComment(id);
     }
+
+    public void updateComment(CommentDto commentDto) {
+        commentMapper.updateComment(commentDto);
+    }
+
+    public CommentDto getCommentById(Long id) {
+        return commentMapper.findCommentById(id);
+    }
 }
+
+}
+
