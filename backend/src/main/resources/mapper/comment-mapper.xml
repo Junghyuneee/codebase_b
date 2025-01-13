@@ -7,12 +7,6 @@
         VALUES (#{postId}, #{content}, #{author}, CURRENT_TIMESTAMP)
     </insert>
 
-    <select id="findAllComments" resultType="com.codebase.backend.comment.dto.CommentDto">
-        SELECT id, post_id AS postId, content, author, created_at AS createdAt
-        FROM comments
-        ORDER BY created_at DESC
-    </select>
-
     <select id="findCommentsByPostId" parameterType="long" resultType="com.codebase.backend.comment.dto.CommentDto">
         SELECT id, post_id AS postId, content, author, created_at AS createdAt
         FROM comments
