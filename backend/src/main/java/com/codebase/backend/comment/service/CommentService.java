@@ -30,6 +30,8 @@ public class CommentService {
     public List<CommentDto> getAllComments() {
         return commentMapper.findAllComments();
 
+
+
     // 댓글 수정
     public CommentDto updateComment(long id, CommentDto comment) {
         comment.setId(id);
