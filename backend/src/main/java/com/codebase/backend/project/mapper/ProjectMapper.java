@@ -21,4 +21,6 @@ public interface ProjectMapper {
     void deleteProjectById(Integer id);
     
     List<PopularResponse> findPopularProjects(); // 관리자 페이지 인기 프로젝트 차트에 사용
+    
+    void soldout(int id);
 }

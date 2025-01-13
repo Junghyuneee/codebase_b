@@ -18,6 +18,8 @@ public class Project{
 	private String username;
 	// 외래키ㅐ
 	private int maker_id;
+
+	private char issoldout;//구매내역이 있을 경우 수정불가
 	
 	
 	

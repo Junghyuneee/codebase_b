@@ -38,6 +38,10 @@ public class MemberRepository {
         return sql.selectOne("Member.findByName", name);
     }
 
+    public List<Member> findByMemberNames(List<String> memberNames) {
+        return sql.selectList("Member.findByMemberNames", memberNames);
+    }
+
     public void update(Member member) {
         sql.update("Member.update", member);
     }

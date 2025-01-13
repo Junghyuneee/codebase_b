@@ -6,7 +6,6 @@ import com.codebase.backend.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,11 +24,7 @@ public class MemberController {
         return ResponseEntity.ok(memberService.searchMember(memberName).stream().map(MemberDTO::from).collect(Collectors.toList()));
     }
 
-    @GetMapping("/profile")
-    public ResponseEntity<MemberDTO> myProfile(@AuthenticationPrincipal Member member) {
-        return ResponseEntity.ok(MemberDTO.from(memberService.getMemberByEmail(member.getEmail())));
-    }
-
+    /* 다른 사용자 프로필 */
     @GetMapping("/name/{memberName}")
     public ResponseEntity<MemberDTO> findByMemberName(@PathVariable String memberName) {
         Member member = memberService.getMemberByName(memberName);

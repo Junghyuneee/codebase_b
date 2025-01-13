@@ -60,6 +60,14 @@
         WHERE name = #{name}
     </select>
 
+    <select id="findByMemberNames" parameterType="java.util.List" resultType="Member">
+        SELECT * FROM member
+        WHERE name IN
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
     <select id="searchByName" parameterType="String" resultType="member">
         SELECt *
         FROM member
