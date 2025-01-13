@@ -29,11 +29,13 @@ public class CommentService {
 
     public List<CommentDto> getAllComments() {
         return commentMapper.findAllComments();
+    }
 
     // 댓글 수정
     public CommentDto updateComment(long id, CommentDto comment) {
         comment.setId(id);
         commentMapper.updateComment(comment);
+        return comment;
 
     }
 
@@ -49,7 +51,7 @@ public class CommentService {
     public CommentDto getCommentById(Long id) {
         return commentMapper.findCommentById(id);
     }
-}
+
 
 }
 
