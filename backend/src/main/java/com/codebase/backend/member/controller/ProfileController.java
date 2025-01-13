@@ -4,6 +4,8 @@ import com.codebase.backend.chat.service.ChatService;
 import com.codebase.backend.member.dto.Member;
 import com.codebase.backend.member.dto.MemberDTO;
 import com.codebase.backend.member.service.MemberService;
+import com.codebase.backend.post.dto.PostDTO;
+import com.codebase.backend.post.service.PostService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -13,6 +15,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -22,6 +25,7 @@ public class ProfileController {
 
     private final MemberService memberService;
     private final ChatService chatService;
+    private final PostService postService;
 
     @GetMapping
     public ResponseEntity<MemberDTO> myProfile(@AuthenticationPrincipal Member member) {
@@ -37,6 +41,11 @@ public class ProfileController {
     @PostMapping("/update/password")
     public ResponseEntity<Boolean> password(@AuthenticationPrincipal Member member, @RequestBody Map<String, Object> password) {
         return ResponseEntity.ok(memberService.updatePassword(member, password));
+    }
+
+    @GetMapping("/post/{name}")
+    public ResponseEntity<List<PostDTO>> getMyPostList(@PathVariable(value = "name") String name) {
+        return ResponseEntity.ok(postService.getPostByMemberName(name));
     }
 
     //    회원 탈퇴

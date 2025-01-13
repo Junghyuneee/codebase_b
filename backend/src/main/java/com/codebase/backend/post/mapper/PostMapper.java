@@ -40,4 +40,8 @@ public interface PostMapper {
 
     // 인기 게시글 조회
     List<PopularResponse> findPopularPosts();
+
+
+//    id로 게시글찾기
+    List<PostDTO> selectPostByAuthor(@Param("author") String author);
 }

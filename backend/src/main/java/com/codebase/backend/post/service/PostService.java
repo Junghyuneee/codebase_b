@@ -66,4 +66,10 @@ public class PostService {
 
 	}
 
+
+//	프로필용 게시글
+	public List<PostDTO> getPostByMemberName(String memberName) {
+		return postMapper.selectPostByAuthor(memberName);
+	}
+
 }
