@@ -43,15 +43,45 @@
         WHERE id = #{id}
     </update>
 
-   <!-- 게시글 좋아요 -->
-    <update id="updateLikes" parameterType="int">
-    	UPDATE post SET likes = likes + 1 WHERE id = #{id}
+    <!-- 게시글 좋아요 -->
+    <update id="updateLikes" parameterType="map">
+        UPDATE post SET likes = likes + #{increment} WHERE id = #{id}
     </update>
     
     <!-- 게시글 싫어요 -->
-    <update id="updateDislikes" parameterType="int">
-    	UPDATE post SET dislikes = dislikes + 1 WHERE id = #{id}
+    <update id="updateDislikes" parameterType="map">
+        UPDATE post SET dislikes = dislikes + #{increment} WHERE id = #{id}
     </update>
+
+    <!-- 사용자 좋아요 상태 확인 -->
+    <select id="hasUserLiked" parameterType="map" resultType="boolean">
+        SELECT COUNT(*) > 0 FROM user_likes WHERE post_id = #{postId} AND user_id = #{userId}
+    </select>
+
+    <!-- 사용자 싫어요 상태 확인 -->
+    <select id="hasUserDisliked" parameterType="map" resultType="boolean">
+        SELECT COUNT(*) > 0 FROM user_dislikes WHERE post_id = #{postId} AND user_id = #{userId}
+    </select>
+
+    <!-- 사용자 좋아요 추가 -->
+    <insert id="addUserLike" parameterType="map">
+        INSERT INTO user_likes (post_id, user_id) VALUES (#{postId}, #{userId})
+    </insert>
+
+    <!-- 사용자 싫어요 추가 -->
+    <insert id="addUserDislike" parameterType="map">
+        INSERT INTO user_dislikes (post_id, user_id) VALUES (#{postId}, #{userId})
+    </insert>
+
+    <!-- 사용자 좋아요 제거 -->
+    <delete id="removeUserLike" parameterType="map">
+        DELETE FROM user_likes WHERE post_id = #{postId} AND user_id = #{userId}
+    </delete>
+
+    <!-- 사용자 싫어요 제거 -->
+    <delete id="removeUserDislike" parameterType="map">
+        DELETE FROM user_dislikes WHERE post_id = #{postId} AND user_id = #{userId}
+    </delete>
 
     <!-- 인기 게시글 차트를 위한 id, 제목, 조회수 select -->
     <select id="findPopularPosts" resultType="com.codebase.backend.admin.dto.PopularResponse">
