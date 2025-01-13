@@ -1,6 +1,5 @@
 package com.codebase.backend.member.controller;
 
-import com.codebase.backend.chat.service.ChatService;
 import com.codebase.backend.member.dto.Member;
 import com.codebase.backend.member.response.post.MemberSignUpRequestBody;
 import com.codebase.backend.member.response.post.MemberSigninRequestBody;
@@ -16,10 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 @Slf4j
 @RestController
@@ -30,7 +26,6 @@ public class AuthController {
     private final JwtService jwtService;
     private final MemberService memberService;
     private final AuthMailService authMailService;
-    private final ChatService chatService;
 
     /* 이메일 회원가입 시 닉네임 중복검사 */
     @GetMapping("/namecheck")
@@ -111,32 +106,5 @@ public class AuthController {
             // Log the error
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to refresh token.");
         }
-    }
-
-    @PostMapping("/update/profile")
-    public ResponseEntity<Void> profile(@AuthenticationPrincipal Member member, @RequestBody Map<String, Object> profile) {
-        memberService.update(member, profile);
-        return ResponseEntity.ok().build();
-    }
-
-    @PostMapping("/update/password")
-    public ResponseEntity<Boolean> password(@AuthenticationPrincipal Member member, @RequestBody Map<String, Object> password) {
-        return ResponseEntity.ok(memberService.updatePassword(member, password));
-    }
-
-    //    회원 탈퇴
-    @DeleteMapping("/profile")
-    public ResponseEntity<Boolean> deleteMember(@AuthenticationPrincipal Member member, HttpServletRequest request, HttpServletResponse response) {
-
-        // 세션 무효화
-        HttpSession session = request.getSession(false);
-        if (session != null) {
-            session.invalidate(); // 세션을 무효화하여 로그아웃 처리
-        }
-
-        chatService.leaveAllChatroom(member);
-
-        memberService.signout(response);
-        return ResponseEntity.ok(memberService.removeMember(member));
     }
 }

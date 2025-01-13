@@ -7,6 +7,14 @@
         values (#{member}, #{chatroom}, #{lastCheckedAt})
     </insert>
 
+    <insert id="saveAll" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO memberchatroom (member, chatroom, lastCheckedAt)
+        values
+            <foreach collection="list" item="mapping" index="index" separator=",">
+                (#{mapping.member}, #{mapping.chatroom}, #{mapping.lastCheckedAt})
+            </foreach>
+    </insert>
+
     <!--    select -->
     <select id="existsByMemberIdAndChatroomId" parameterType="map"  resultType="boolean">
         Select count(1)
