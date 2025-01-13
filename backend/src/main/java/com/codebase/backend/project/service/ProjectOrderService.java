@@ -19,9 +19,11 @@ public class ProjectOrderService {
 		projectOrderMapper.save(projectOrder);
 	}
 	
-	List<ProjectOrder> findByBuyer(int buyer_id){
+	public List<ProjectOrder> findByBuyer(int buyer_id){
 		return projectOrderMapper.findByBuyer(buyer_id);
 	}
 	
-
+	public boolean existCheck(int buyer_id, int project_id) {
+		return projectOrderMapper.existCheck(buyer_id, project_id);
+	}
 }

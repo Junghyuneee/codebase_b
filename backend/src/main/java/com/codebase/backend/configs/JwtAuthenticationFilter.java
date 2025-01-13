@@ -57,7 +57,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         excludedPaths.add(Pair.of("GET", "/api/comments/posts"));
 
         /*스토어*/
-        excludedPaths.add(Pair.of("GET", "/api/store"));
+        //excludedPaths.add(Pair.of("GET", "/api/store"));
 
         /*팀*/
         excludedPaths.add(Pair.of("GET", "/api/projectteams"));

@@ -3,6 +3,7 @@ package com.codebase.backend.project.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.codebase.backend.project.dto.ProjectOrder;
 
@@ -13,4 +14,7 @@ public interface ProjectOrderMapper {
 	void deleteById(int id);
 	ProjectOrder get();
 	ProjectOrder copyProject(int project_id);
+	
+	boolean existCheck(@Param("buyer_id") int buyer_Id, @Param("project_id") int project_Id);
+	
 }
