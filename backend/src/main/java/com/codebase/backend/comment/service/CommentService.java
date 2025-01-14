@@ -1,46 +1,34 @@
 package com.codebase.backend.comment.service;
 
-import java.util.List;
-
-import org.springframework.stereotype.Service;
-
 import com.codebase.backend.comment.dto.CommentDto;
 import com.codebase.backend.comment.mapper.CommentMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import lombok.RequiredArgsConstructor;
+import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class CommentService {
-
     private final CommentMapper commentMapper;
 
-    // 댓글 작성
-    public CommentDto createComment(CommentDto comment) {
-        commentMapper.insertComment(comment);
-        return comment;
+    @Autowired
+    public CommentService(CommentMapper commentMapper) {
+        this.commentMapper = commentMapper;
     }
 
-    // 특정 게시글의 댓글 목록 조회
-    public List<CommentDto> getCommentsByPostId(long postId) {
+    public void addComment(CommentDto commentDto) {
+        commentMapper.insertComment(commentDto);
+    }
+
+    public List<CommentDto> getCommentsByPostId(Long postId) {
         return commentMapper.findCommentsByPostId(postId);
     }
-
 
     public List<CommentDto> getAllComments() {
         return commentMapper.findAllComments();
     }
 
-    // 댓글 수정
-    public CommentDto updateComment(long id, CommentDto comment) {
-        comment.setId(id);
-        commentMapper.updateComment(comment);
-        return comment;
-
-    }
-
-    // 댓글 삭제
-    public void deleteComment(long id) {
+    public void deleteComment(Long id) {
         commentMapper.deleteComment(id);
     }
 
@@ -51,7 +39,4 @@ public class CommentService {
     public CommentDto getCommentById(Long id) {
         return commentMapper.findCommentById(id);
     }
-
-
 }
-
