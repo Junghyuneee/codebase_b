@@ -12,9 +12,9 @@ import java.util.Date;
 public class NewMemberResponse {
 
     private int memberCount;
-    private LocalDate joinDate;
+    private String joinDate;
 
-    public NewMemberResponse(int memberCount, LocalDate joinDate) {
+    public NewMemberResponse(int memberCount, String joinDate) {
         this.memberCount = memberCount;
         this.joinDate = joinDate;
     }

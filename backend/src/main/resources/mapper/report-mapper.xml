@@ -22,7 +22,7 @@
         INSERT INTO report_summary (category, category_id, report_count, completed)
         VALUES (#{category}, #{categoryId}, 1, false)
         ON DUPLICATE KEY UPDATE
-        category = #{category};
+        report_count = report_count + 1;
     </insert>
 
     <!-- 신고할 때마다 신고 디테일 정보 저장 -->
@@ -55,7 +55,6 @@
                           on r.category = 3 and r.category_id = review.id
         order by report_count desc
         limit #{limit} offset #{offset};
-
     </select>
 
     <!-- 전체 신고 개수 -->
@@ -104,6 +103,13 @@
         update report_summary
         set completed = true
         where report_id = #{reportId};
+    </update>
+
+    <!-- 회원 탈퇴 시 신고 member null 처리-->
+    <update id="deleteMemberId" parameterType="int">
+        update report_details
+        set member_id = null
+        where member_id = #{memberId}
     </update>
 
 </mapper>

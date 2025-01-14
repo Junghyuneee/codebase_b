@@ -53,4 +53,8 @@ public class ReportRepository {
         this.sql.selectList("Report.processReport", reportId);
     }
 
+    public void deleteMemberId(int memberId) {
+        this.sql.selectList("Report.deleteMemberId", memberId);
+    }
+
 }
