@@ -88,15 +88,27 @@ public class ReviewController {
         }
     }
     
-    // 리뷰 좋아요
+    // 리뷰 좋아요 증가 
     @PostMapping("/like/{id}")
     public void likeReview(@PathVariable("id") int id) {
-    	reviewService.updateLikes(id);
+    	reviewService.increaseLikes(id);
     }
     
-    // 리뷰 싫어요
+    // 리뷰 싫어요 증가
     @PostMapping("/dislike/{id}")
     public void dislikeReview(@PathVariable("id") int id) {
-    	reviewService.updateDislikes(id);
+    	reviewService.increaseDislikes(id);
+    }
+    
+    // 리뷰 좋아요 증가 
+    @PostMapping("/unlike/{id}")
+    public void unlikeReview(@PathVariable("id") int id) {
+    	reviewService.decreaseLikes(id);
+    }
+    
+    // 리뷰 싫어요 증가
+    @PostMapping("/undislike/{id}")
+    public void undislikeReview(@PathVariable("id") int id) {
+    	reviewService.decreaseDislikes(id);
     }
 }
