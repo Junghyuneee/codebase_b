@@ -39,13 +39,23 @@
     	UPDATE review SET title = #{title}, content = #{content}, createdDate = NOW() WHERE id = #{id}
     </update>
     
-    <!-- 리뷰 좋아요 -->
-    <update id="updateLikes" parameterType="int">
+    <!-- 리뷰 좋아요 증가 -->
+    <update id="increaseLikes" parameterType="int">
     	UPDATE review SET likes = likes + 1 WHERE id = #{id}
     </update>
     
-    <!-- 리뷰 싫어요 -->
-    <update id="updateDislikes" parameterType="int">
+    <!-- 리뷰 싫어요 증가 -->
+    <update id="increaseDislikes" parameterType="int">
     	UPDATE review SET dislikes = dislikes + 1 WHERE id = #{id}
     </update>
+    
+    <!-- 리뷰 좋아요 감소 -->
+	<update id="decreasetLikes" parameterType="int">
+	    UPDATE review SET likes = likes - 1 WHERE id = #{id}
+	</update>
+	
+	<!-- 리뷰 싫어요 감소 -->
+	<update id="decreaseDislikes" parameterType="int">
+	    UPDATE review SET dislikes = dislikes - 1 WHERE id = #{id}
+	</update>
 </mapper>

@@ -35,7 +35,11 @@ public interface ReviewMapper {
 	//@Delete("DELETE FROM reviews WHERE id = #{id}")
 	void deleteReview(int id);
 	
-	// 리뷰 좋아요 싫어요
-	void updateLikes(int id);
-	void updateDislikes(int id);
+	// 리뷰 좋아요 싫어요 증가
+	void increaseLikes(int id);
+	void increaseDislikes(int id);
+	
+	// 리뷰 좋아 싫어요 감소
+	void decreaseLikes(int id);
+	void decreaseDislikes(int id);
 }
