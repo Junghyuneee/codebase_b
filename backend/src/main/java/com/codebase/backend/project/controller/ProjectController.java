@@ -44,7 +44,7 @@ public class ProjectController {
 	@GetMapping("/api/store")
 	@ResponseBody
 	public List<Project> getProjects() {
-		 System.out.println(projectService.readlist());
+		//System.out.println(projectService.readlist());
 		return projectService.readlist();
 
 	}
@@ -52,7 +52,7 @@ public class ProjectController {
 	@GetMapping("/api/store/{id}")
 	@ResponseBody
 	public Project projectFindById(@PathVariable("id") Integer id, HttpServletRequest request) {
-		System.out.println("DETAIL PAGE REQUEST");
+		//System.out.println("DETAIL PAGE REQUEST");
 //		//요청확인용
 //		Enumeration<String> headerNames = request.getHeaderNames();
 //        while (headerNames.hasMoreElements()) {
@@ -104,7 +104,7 @@ public class ProjectController {
 
 	@DeleteMapping("/api/store/delete")
 	public ResponseEntity<String> delete(@RequestBody int project_id){
-		System.out.println(project_id);
+		//System.out.println(project_id);
 		return ResponseEntity.ok("");
 	}
 	
@@ -112,7 +112,7 @@ public class ProjectController {
 	@DeleteMapping("/api/project/delete/{id}")
     public ResponseEntity<String> deleteProject(@PathVariable("id") int id, @AuthenticationPrincipal Member user) {
         Project p = projectService.findById(id);
-        System.out.println(user.toString()+ " " + p.toString());
+        //System.out.println(user.toString()+ " " + p.toString());
 		
 		if (p.getMaker_id() == user.getId()) {
 			projectService.delete(id);

@@ -5,17 +5,18 @@
 
 	<!-- 앞쪽 묶음이 테이블 컬럼, 뒤쪽 묶음 DTO필드 -->
 	<insert id="save"
-		parameterType="com.codebase.backend.project.dto.ProjectOrder" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO project_order 
+		parameterType="com.codebase.backend.project.dto.ProjectOrder"
+		useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO project_order
 		(title, content, link, types, project_id, maker_id, buyer_id, payment_id)
 		VALUES
 		(#{title},#{content},#{link},#{types},#{project_id},#{maker_id},#{buyer_id},#{payment_id});
 	</insert>
-	
+
 	<select id="findByBuyer"
 		resultType="com.codebase.backend.project.dto.ProjectOrder"
 		parameterType="int">
-		
+
 		SELECT
 		bp.id,
 		p.title,
@@ -24,49 +25,51 @@
 		p.types,
 		p.username,
 		p.img
-		FROM project_order bp
+		FROM
+		project_order bp
 		JOIN project p ON bp.project_id = p.id
-		WHERE buyer_id = #{buyer_id};
-		
+		WHERE buyer_id =
+		#{buyer_id};
+
 	</select>
 
 	<select id="selectAll"
 		resultType="com.codebase.backend.project.dto.ProjectOrder">
-		SELECT 
-			title, 
-			content, 
-			link, 
-			types,
-			buyer_id
-		 FROM project_order;
+		SELECT
+		title,
+		content,
+		link,
+		types,
+		buyer_id
+		FROM project_order;
 	</select>
 
 	<select id="findById"
 		resultType="com.codebase.backend.project.dto.ProjectOrder"
 		parameterType="int">
-		SELECT 
-			title, 
-			content, 
-			link, 
-			types,
-			buyer_id 
+		SELECT
+		title,
+		content,
+		link,
+		types,
+		buyer_id
 		FROM project_order
 		WHERE id = #{id};
 	</select>
 
+	<select id="existCheck" resultType="boolean" parameterType="int">
+		SELECT
+		EXISTS (
+		SELECT 1
+		FROM project_order
+		WHERE buyer_id = #{buyer_id} AND project_id = #{project_id}
+		)
+	</select>
 
-<!-- 	<select id="copyProject"
-		resultType="com.codebase.backend.project.dto.ProjectOrder"
-		parameterType="int">
-		SELECT 
-			title, 
-			content, 
-			link, 
-			types,
-			maker_id
-		FROM project
-		WHERE project_id = #{id};
-	</select> -->
+
+	<!-- <select id="copyProject" resultType="com.codebase.backend.project.dto.ProjectOrder" 
+		parameterType="int"> SELECT title, content, link, types, maker_id FROM project 
+		WHERE project_id = #{id}; </select> -->
 
 
 	<delete id="deleteById" parameterType="int">

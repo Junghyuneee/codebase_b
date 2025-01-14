@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.codebase.backend.comment.mapper.CommentMapper">
 
+
     <insert id="insertComment" parameterType="com.codebase.backend.comment.dto.CommentDto">
         INSERT INTO comments (post_id, content, author, created_at)
         VALUES (#{postId}, #{content}, #{author}, CURRENT_TIMESTAMP)
