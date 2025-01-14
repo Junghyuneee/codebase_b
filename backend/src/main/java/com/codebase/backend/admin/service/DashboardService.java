@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,9 +33,6 @@ public class DashboardService {
     public void  save(Visitor visitor) {
         if(!this.dashboardRepository.isIpRecordedRecently(visitor)) {
             this.dashboardRepository.saveVisitor(visitor);
-            System.out.println("저장된 IP 주소 : " + visitor.getVisitIp());
-        } else {
-            System.out.println("중복된 IP 주소 : " + visitor.getVisitIp());
         }
     }
 
@@ -54,7 +53,9 @@ public class DashboardService {
         List<Map<String, Object>> completeVisitorCount = new ArrayList<>();
         for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
             Map<String, Object> dailyVisitor = new HashMap<>();
-            dailyVisitor.put("visit_date", date.toString()); // 날짜를 String으로 추가
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd");
+            dailyVisitor.put("visit_date", date.format(formatter)); // 날짜를 String으로 추가
             dailyVisitor.put("visitor_count", visitorCountMap.getOrDefault(date, 0)); // 방문자 수 추가
             completeVisitorCount.add(dailyVisitor);
         }
@@ -80,7 +81,8 @@ public class DashboardService {
         List<NewMemberResponse> completeNewMemberCount = new ArrayList<>();
         for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
             int count = memberCountMap.getOrDefault(date, 0); // 해당 날짜의 회원 수, 없으면 0
-            completeNewMemberCount.add(new NewMemberResponse(count, date));
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd");
+            completeNewMemberCount.add(new NewMemberResponse(count, date.format(formatter)));
         }
 
         return completeNewMemberCount;

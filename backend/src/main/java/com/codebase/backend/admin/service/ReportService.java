@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -30,17 +31,17 @@ public class ReportService {
     private final ReportRepository reportRepository;
     private final MemberService memberService;
 
-    public void saveReport(ReportRequest reportRequest) {
-        this.reportRepository.saveReport(reportRequest);
-    }
+    @Transactional
+    public void saveReport(ReportRequest reportRequest, @AuthenticationPrincipal Member member) {
+        this.reportRepository.saveReport(reportRequest); // 신고 테이블 저장
 
-    public void saveReportDetail(ReportRequest reportRequest, @AuthenticationPrincipal Member member) {
         reportRequest.setMemberId(member.getId());
-        this.reportRepository.saveReportDetail(reportRequest);
+        this.reportRepository.saveReportDetail(reportRequest); // 신고 디테일 테이블 저장
     }
 
     public Map<String, Object> getReports(int category, int page, int size) {
         int offset = (page - 1) * size;
+        System.out.println(page + " " + size);
         Map<String, Object> params = new HashMap<>();
         Map<String, Object> response = new HashMap<>();
         if(category == 4) {
@@ -78,9 +79,14 @@ public class ReportService {
             reportDetailResponse.setDetailId(reportDetail.getDetailId());
             reportDetailResponse.setReportId(reportDetail.getReportId());
 
-            Member member = memberService.getMemberById(reportDetail.getMemberId());
-            reportDetailResponse.setMemberEmail(member.getEmail());
-
+            Integer memberId = reportDetail.getMemberId();
+            if(memberId == null) {
+                reportDetailResponse.setMemberEmail("탈퇴한 회원");
+            } else {
+                Member member = memberService.getMemberById(reportDetail.getMemberId());
+                reportDetailResponse.setMemberEmail(member.getEmail());
+            }
+            
             reportDetailResponse.setContent(reportDetail.getContent());
 
             LocalDateTime reportDate = reportDetail.getReportDate();
