@@ -65,13 +65,23 @@ public class ReviewService {
 		reviewMapper.updateReview(updatedReview);
 	}
 	
-	// 리뷰 좋아요
-	public void updateLikes(int id) {
-		reviewMapper.updateLikes(id);
+	// 리뷰 좋아요 증가
+	public void increaseLikes(int id) {
+		reviewMapper.increaseLikes(id);
 	}
 	
-	// 리뷰 싫어요
-	public void updateDislikes(int id) {
-		reviewMapper.updateDislikes(id);
+	// 리뷰 싫어요 증가
+	public void increaseDislikes(int id) {
+		reviewMapper.increaseDislikes(id);
 	}
+	
+	// 리뷰 좋아요 감소
+    public void decreaseLikes(int id) {
+        reviewMapper.decreaseLikes(id);
+    }
+    
+    // 싫어요 감소
+    public void decreaseDislikes(int id) {
+        reviewMapper.decreaseDislikes(id);
+    }
 }
