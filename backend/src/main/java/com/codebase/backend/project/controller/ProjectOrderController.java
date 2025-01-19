@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/store/projectorder")
+@RequestMapping("/api/u/store/projectorder")
 public class ProjectOrderController {
 	private final ProjectOrderMapper projectOrderMapper;
  	
@@ -39,4 +39,14 @@ public class ProjectOrderController {
 //		System.out.println("userid : " + id);
 //		return projectOrderMapper.findByBuyer(id);
 //	}
+	
+	
+	@GetMapping("/myproject/{id}")
+	public ProjectOrder projectOrder(@AuthenticationPrincipal Member user, @PathVariable("id") int id) {
+		System.out.println(projectOrderMapper.findById(id));
+		return projectOrderMapper.findById(id);
+	}
+	
+	
+	
 }

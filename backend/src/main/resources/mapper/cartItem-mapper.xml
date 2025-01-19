@@ -31,7 +31,11 @@
 		p.img
 		FROM cartitem ci
 		JOIN project p ON ci.project_id = p.id
-		WHERE cart_id = #{id} AND p.isdelete = 'n' AND p.maker_id IS NOT NULL;
+		WHERE cart_id = #{id} 
+			AND p.isdelete = 'n' 
+			AND p.maker_id IS NOT NULL 
+			AND p.issoldout = 'n' 
+			AND p.isdelete = 'n' ;
 	</select>
 	<!-- 카트 페이지 페이징 -->
 	<select id="findByCartIdPage"

@@ -15,7 +15,7 @@
 	<select id="selectAllProject"
 		resultType="com.codebase.backend.project.dto.Project">
 		SELECT * FROM project
-		WHERE maker_id IS NOT NULL AND isdelete='n';
+		WHERE maker_id IS NOT NULL AND isdelete='n' AND issoldout='n' ;
 		
 	</select>
 
