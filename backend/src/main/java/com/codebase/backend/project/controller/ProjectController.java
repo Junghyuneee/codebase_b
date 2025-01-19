@@ -10,11 +10,11 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,8 +22,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.codebase.backend.configs.S3Service;
 import com.codebase.backend.member.dto.Member;
 import com.codebase.backend.member.service.JwtService;
-import com.codebase.backend.project.dto.ProjectOrder;
-import com.codebase.backend.project.dto.Payment;
 import com.codebase.backend.project.dto.Project;
 import com.codebase.backend.project.service.ProjectService;
 
@@ -72,24 +70,36 @@ public class ProjectController {
 	
 	
 	// 프로젝트 생성
-	@PostMapping("/api/store/add")
-	public ResponseEntity<String> postTest(Project p,
-			@RequestParam("file") MultipartFile file, @AuthenticationPrincipal Member user) throws IOException {
+	@PostMapping("/api/u/store/add")
+	public ResponseEntity<String> postTest(@RequestPart("project") Project p,
+			@RequestPart("file") MultipartFile file,
+	        @RequestPart("file2") MultipartFile file2,
+			@AuthenticationPrincipal Member user) throws IOException {
 
 		System.out.println(p.toString());
 		System.out.println("File Name: " + file.getOriginalFilename());
 		System.out.println("File Size: " + file.getSize() + " bytes");
 		System.out.println("File Type: " + file.getContentType());
+		
+		System.out.println("File2 Name: " + file2.getOriginalFilename());
 		System.out.println("user = " + user);
 		
 		
 		if (file != null && !file.isEmpty()) {
 			//String encodedString = URLEncoder.encode( , "UTF-8");
             String fileName = UUID.randomUUID() + file.getOriginalFilename();
-            //s3Service.uploadFile(file, fileName);
-            fileName = "b62ea3b9-6b5f-4498-8b22-281a13d0c873mm.png";
+            s3Service.uploadFile(file, fileName);
+            //fileName = "b62ea3b9-6b5f-4498-8b22-281a13d0c873mm.png";
             p.setImg(fileName);
         }
+		
+		if (file2 != null && !file2.isEmpty()) {
+            String fileName = UUID.randomUUID() + file2.getOriginalFilename();
+            s3Service.uploadFile(file2, fileName);
+            //fileName = "b62ea3b9-6b5f-4498-8b22-281a13d0c873mm.png";
+            p.setLink(fileName);//link에 상세이미지.. .
+        }
+		
 		
 		
 		p.setUsername(user.getName());
@@ -102,14 +112,14 @@ public class ProjectController {
 
 
 
-	@DeleteMapping("/api/store/delete")
-	public ResponseEntity<String> delete(@RequestBody int project_id){
-		//System.out.println(project_id);
-		return ResponseEntity.ok("");
-	}
+//	@DeleteMapping("/api/store/delete")
+//	public ResponseEntity<String> delete(@RequestBody int project_id){
+//		//System.out.println(project_id);
+//		return ResponseEntity.ok("");
+//	}
 	
 	
-	@DeleteMapping("/api/project/delete/{id}")
+	@DeleteMapping("/api/u/project/delete/{id}")
     public ResponseEntity<String> deleteProject(@PathVariable("id") int id, @AuthenticationPrincipal Member user) {
         Project p = projectService.findById(id);
         //System.out.println(user.toString()+ " " + p.toString());
@@ -123,15 +133,4 @@ public class ProjectController {
     }
 	
 	
-//	@PostMapping("/api/store/payment/complete")
-//	public ResponseEntity<String> payment(@RequestBody Payment p, @AuthenticationPrincipal Member user) {
-//		//System.out.println(user);
-//		ProjectOrder po = new ProjectOrder();
-//		po.setBuyer_id(user.getId());
-//		po.setProject_id(p.getProject_id());
-//		
-//		p.setBuyer_id(user.getId());
-//		System.out.println("페이먼트 아이디 : "+ p.toString());
-//		return ResponseEntity.ok("");
-//	}
 }
