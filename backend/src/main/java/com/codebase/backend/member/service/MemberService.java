@@ -3,6 +3,7 @@ package com.codebase.backend.member.service;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.codebase.backend.admin.repository.ReportRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -27,6 +28,7 @@ import java.util.Map;
 public class MemberService implements UserDetailsService {
 
     private final MemberRepository memberRepository;
+    private final ReportRepository reportRepository;
     private final CartService cartService;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
@@ -165,6 +167,7 @@ public class MemberService implements UserDetailsService {
 
     // 회원탈퇴
     public boolean removeMember(Member member) {
+        reportRepository.deleteMemberId(member.getId());
         return memberRepository.removeMemberByMail(member.getEmail());
     }
 

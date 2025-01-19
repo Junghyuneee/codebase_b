@@ -16,7 +16,7 @@ public class ReportDetail {
     private int detailId;
 
     private int reportId;
-    private int memberId;
+    private Integer memberId;
 
     private String content;
     private LocalDateTime reportDate;
