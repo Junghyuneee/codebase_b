@@ -32,8 +32,9 @@ public class CommentService {
         commentMapper.deleteComment(id);
     }
 
-    public void updateComment(CommentDto commentDto) {
+    public CommentDto updateComment(CommentDto commentDto) {
         commentMapper.updateComment(commentDto);
+        return commentMapper.findCommentById(commentDto.getId());
     }
 
     public CommentDto getCommentById(Long id) {
