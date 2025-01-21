@@ -50,7 +50,7 @@
     </update>
     
     <!-- 리뷰 좋아요 감소 -->
-	<update id="decreasetLikes" parameterType="int">
+	<update id="decreaseLikes" parameterType="int">
 	    UPDATE review SET likes = likes - 1 WHERE id = #{id}
 	</update>
 	
