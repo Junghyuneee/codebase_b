@@ -38,8 +38,10 @@ public interface ReviewMapper {
 	// 리뷰 좋아요 싫어요 증가
 	void increaseLikes(int id);
 	void increaseDislikes(int id);
-	
+
 	// 리뷰 좋아 싫어요 감소
 	void decreaseLikes(int id);
 	void decreaseDislikes(int id);
+
+    List<Review> findByAuthor(String name);
 }

@@ -48,14 +48,22 @@
     <update id="increaseDislikes" parameterType="int">
     	UPDATE review SET dislikes = dislikes + 1 WHERE id = #{id}
     </update>
-    
+
     <!-- 리뷰 좋아요 감소 -->
 	<update id="decreasetLikes" parameterType="int">
 	    UPDATE review SET likes = likes - 1 WHERE id = #{id}
 	</update>
-	
+
 	<!-- 리뷰 싫어요 감소 -->
 	<update id="decreaseDislikes" parameterType="int">
 	    UPDATE review SET dislikes = dislikes - 1 WHERE id = #{id}
 	</update>
+
+
+<!--  author로 리뷰 찾기  -->
+    <select id="findByAuthor" parameterType="string" resultType="com.codebase.backend.review.dto.Review">
+        SELECT *
+        FROM review
+        where author=#{name}
+    </select>
 </mapper>
