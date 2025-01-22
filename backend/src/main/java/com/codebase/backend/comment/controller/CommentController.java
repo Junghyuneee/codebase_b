@@ -45,7 +45,7 @@ public class CommentController {
     @PutMapping("/{id}")
     public ResponseEntity<CommentDto> updateComment(@PathVariable("id") Long id, @RequestBody CommentDto commentDto) {
         commentDto.setId(id); // ID를 설정하여 수정할 댓글을 명시
-        commentService.updateComment(commentDto);
-        return ResponseEntity.ok(commentDto);
+        CommentDto updatedComment = commentService.updateComment(commentDto);
+        return ResponseEntity.ok(updatedComment);
     }
 }

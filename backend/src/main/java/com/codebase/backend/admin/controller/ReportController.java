@@ -38,9 +38,8 @@ public class ReportController {
 
         Map<String, Object> response = new HashMap<>();
         try {
-            // 신고 데이터 처리
-            reportService.saveReport(reportRequest); // 신고 테이블
-            reportService.saveReportDetail(reportRequest, member); // 신고 상세 테이블
+            // 신고 데이터 저장
+            reportService.saveReport(reportRequest, member);
             // 성공 응답 (JSON 형식)
             response.put("status", "success"); // 성공/실패 상태는 프런트에서 사용 안하는데..
             response.put("message", "게시글의 신고가 성공적으로 접수되었습니다.");
