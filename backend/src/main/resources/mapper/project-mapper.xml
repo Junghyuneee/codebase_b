@@ -50,11 +50,16 @@
 	</update>
 
 	<!-- 인기게시글 차트를 위한 id, 제목, 조회수 select -->
-	<select id="findPopularProjects"
-		resultType="com.codebase.backend.admin.dto.PopularResponse">
+	<select id="findPopularProjects" resultType="com.codebase.backend.admin.dto.PopularResponse">
 		SELECT id, title, hit AS hits FROM project
-		ORDER BY hit
-		DESC, id DESC
+		ORDER BY hit DESC, id DESC
+		LIMIT 5;
+	</select>
+
+	<!-- 메인페이지 -->
+	<select id="select5Projects" resultType="com.codebase.backend.project.dto.Project">
+		SELECT * FROM project
+		ORDER BY hit DESC, id DESC
 		LIMIT 5;
 	</select>
 
