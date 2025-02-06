@@ -28,7 +28,7 @@
 		FROM
 		project_order bp
 		JOIN project p ON bp.project_id = p.id
-		WHERE buyer_id =
+		WHERE bp.buyer_id =
 		#{buyer_id};
 
 	</select>
@@ -48,13 +48,18 @@
 		resultType="com.codebase.backend.project.dto.ProjectOrder"
 		parameterType="int">
 		SELECT
-		title,
-		content,
-		link,
-		types,
-		buyer_id
-		FROM project_order
-		WHERE id = #{id};
+		bp.id,
+		p.title,
+		p.content,
+		p.link,
+		p.types,
+		p.username,
+		p.img
+		FROM
+		project_order bp
+		JOIN project p ON bp.project_id = p.id
+		WHERE bp.id =
+		#{id};
 	</select>
 
 	<select id="existCheck" resultType="boolean" parameterType="int">

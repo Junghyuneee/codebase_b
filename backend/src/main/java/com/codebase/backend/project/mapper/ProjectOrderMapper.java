@@ -14,7 +14,7 @@ public interface ProjectOrderMapper {
 	void deleteById(int id);
 	ProjectOrder get();
 	ProjectOrder copyProject(int project_id);
-	
+	ProjectOrder findById(@Param("id") int id);
 	boolean existCheck(@Param("buyer_id") int buyer_Id, @Param("project_id") int project_Id);
 	
 }
