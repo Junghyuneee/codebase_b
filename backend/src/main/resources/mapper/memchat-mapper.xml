@@ -57,6 +57,12 @@
           AND cm1.chatroom IN (SELECT id FROM chatroom WHERE DM = true)
     </select>
 
+    <select id="findMembersByChatroomId" parameterType="int" resultType="int">
+        SELECT member
+        FROM memberchatroom
+        WHERE chatroom = #{chatroomId}
+    </select>
+
     <!-- update  -->
     <update id="updateLastCheckedByMemberIdAndChatroomId" parameterType="map" statementType="PREPARED">
         UPDATE memberchatroom

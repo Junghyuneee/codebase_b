@@ -90,4 +90,12 @@
         LIMIT 5
     </select>
 
+
+<!--  멤버 아이디로 게시글찾기  -->
+    <select id="selectPostByAuthor" resultType="com.codebase.backend.post.dto.PostDTO">
+        SELECT *
+        FROM post
+        WHERE author = #{author}
+    </select>
+
 </mapper>

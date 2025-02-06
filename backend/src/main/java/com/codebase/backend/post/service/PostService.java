@@ -94,4 +94,9 @@ public class PostService {
         likeStatus.put("disliked", postMapper.hasUserDisliked(postId, userId));
         return likeStatus;
     }
+
+    //	프로필용 게시글
+    public List<PostDTO> getPostByMemberName(String memberName) {
+        return postMapper.selectPostByAuthor(memberName);
+    }
 }

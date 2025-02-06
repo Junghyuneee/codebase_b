@@ -24,7 +24,7 @@ public interface PostMapper {
     void increaseViews(@Param("id") int id);
     
     // 게시글 수정
-    void updatePost(@Param("id") int id, 
+    void updatePost(@Param("id") int id,
                     @Param("topic") String topic, 
                     @Param("title") String title, 
                     @Param("content") String content,
@@ -57,4 +57,8 @@ public interface PostMapper {
 
     // 인기 게시글 조회
     List<PopularResponse> findPopularPosts();
+
+
+//    id로 게시글찾기
+    List<PostDTO> selectPostByAuthor(@Param("author") String author);
 }
