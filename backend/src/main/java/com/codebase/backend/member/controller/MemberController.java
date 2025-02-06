@@ -26,7 +26,7 @@ public class MemberController {
 
     /* 다른 사용자 프로필 */
     @GetMapping("/name/{memberName}")
-    public ResponseEntity<MemberDTO> findByMemberName(@PathVariable String memberName) {
+    public ResponseEntity<MemberDTO> findByMemberName(@PathVariable(value = "memberName") String memberName) {
         Member member = memberService.getMemberByName(memberName);
         if (member == null) {
             return ResponseEntity.notFound().build();
@@ -35,7 +35,7 @@ public class MemberController {
     }
 
     @GetMapping("/mail/{memberMail}")
-    public ResponseEntity<MemberDTO> findByMemberMail(@PathVariable String memberMail) {
+    public ResponseEntity<MemberDTO> findByMemberMail(@PathVariable(value = "memberMail") String memberMail) {
         Member member = memberService.getMemberByEmail(memberMail);
         if (member == null) {
             return ResponseEntity.notFound().build();
