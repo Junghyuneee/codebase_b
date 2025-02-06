@@ -50,6 +50,19 @@
         FROM team_application 
         WHERE member_id = #{member_id}
     </select>
+    
+    <select id="findTeamMembersByProjectId" resultMap="TeamApplicationResultMap">
+        SELECT 
+            application_id,
+            member_id,
+            pjt_id,
+            tech_stack,
+            status
+        FROM 
+            team_application
+        WHERE 
+            pjt_id = #{pjtId}
+    </select>
 
 </mapper>
 

@@ -33,5 +33,21 @@ public class TeamApplicationDTO {
     public void setPjt_id(Integer pjt_id) {
         this.pjt_id = pjt_id;
     }
+        
+    public TechStack getTech_stack() {
+        return tech_stack;
+    }
+    
+    public void setTech_stack(TechStack tech_stack) {
+        this.tech_stack = tech_stack;
+    }
 
-}
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+ }
+

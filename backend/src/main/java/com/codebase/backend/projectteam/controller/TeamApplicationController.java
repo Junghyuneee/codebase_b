@@ -34,9 +34,14 @@ public class TeamApplicationController {
         return teamApplicationService.getTeamApplications();
     }
 
-    @GetMapping("/{application_id}")
-    public TeamApplicationDTO getTeamApplicationById(@PathVariable Integer application_id) {
-        return teamApplicationService.getTeamApplicationById(application_id);
+    @GetMapping("/{pjt_id}")
+    public TeamApplicationDTO getTeamApplicationById(@PathVariable Integer pjt_id) {
+        return teamApplicationService.getTeamApplicationById(pjt_id);
+    }
+    
+    @GetMapping("/{id}/members")
+    public List<TeamApplicationDTO> getTeamMembers(@PathVariable("id") Integer pjt_Id) {
+        return teamApplicationService.getTeamMembers(pjt_Id);
     }
 
     @PostMapping
