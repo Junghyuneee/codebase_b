@@ -38,6 +38,10 @@ public class ProjectService {
 	public void delete(Integer id) {
 		projectMapper.deleteProjectById(id);
 	}
+
+	public List<Project> select5Projects() {
+		return projectMapper.selectAllProject();
+	}
 	
 
 }
