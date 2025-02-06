@@ -98,7 +98,7 @@ public class ChatService {
 
             memberChatroomMappingRepository.save(memberChatroomMapping);
 
-            if(memberChatroomMappingRepository.countMemberByChatroomId(chatroom.getId()) == 2){
+            if (memberChatroomMappingRepository.countMemberByChatroomId(chatroom.getId()) == 2) {
                 chatroom.setDM(true);
                 chatroom.setTitle(chatroom.getTitle() + ", " + newMember.getName());
                 chatroomRepository.setDM(chatroom);
@@ -116,8 +116,8 @@ public class ChatService {
 
         List<MemberChatroomMapping> mappings = new ArrayList<>();
 
-        for(Member member: members){
-            if(!memberChatroomMappingRepository.existsByMemberIdAndChatroomId(member.getId(), chatroomId)){
+        for (Member member : members) {
+            if (!memberChatroomMappingRepository.existsByMemberIdAndChatroomId(member.getId(), chatroomId)) {
                 MemberChatroomMapping mapping = MemberChatroomMapping.builder()
                         .member(member.getId())
                         .chatroom(chatroomId)
@@ -211,5 +211,9 @@ public class ChatService {
         for (Chatroom chatroom : chatroomList) {
             leaveChatroom(member, chatroom.getId());
         }
+    }
+
+    public List<String> findMembersByChatroomId(Integer chatroomId) {
+        return memberChatroomMappingRepository.findMembersByChatroomId(chatroomId).stream().map(memberService::getMemberById).toList().stream().map(Member::getName).toList();
     }
 }

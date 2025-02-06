@@ -82,4 +82,9 @@ public class ChatController {
         Chatroom chatroom = chatService.findChatroom(user, username);
         return ChatroomDTO.from(chatroom, 2);
     }
+
+    @GetMapping("/memberList/{chatroomId}")
+    public List<String> findMembersByChatroomId(@PathVariable("chatroomId") int chatroomId) {
+        return chatService.findMembersByChatroomId(chatroomId);
+    }
 }

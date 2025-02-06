@@ -51,4 +51,8 @@ public class MemberChatroomMappingRepository {
     public void saveAll(List<MemberChatroomMapping> memberChatroomMappings) {
         sql.insert("memberchatroom.saveAll", memberChatroomMappings);
     }
+
+    public List<Integer> findMembersByChatroomId(int chatroomId) {
+        return sql.selectList("memberchatroom.findMembersByChatroomId", Map.of("chatroomId", chatroomId));
+    }
 }
