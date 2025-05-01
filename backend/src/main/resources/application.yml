@@ -10,10 +10,10 @@ spring:
     import: optional:.env[.properties]
 
   datasource:
-    url: ${AWS_DB_ENDPOINT}
-    username: ${AWS_DB_ID}
-    password: ${AWS_DB_PASSWORD}
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${SUPABASE_DB_ENDPOINT}
+    username: ${SUPABASE_DB_USERNAME}
+    password: ${SUPABASE_DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
   
   security:
     oauth2:

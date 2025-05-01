@@ -56,7 +56,8 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools' // 개발 시 자동 재시작 기능 제공
 
     // == 테스트 지원 라이브러리 ==
-    testImplementation 'org.springframework.boot:spring-boot-starter-test' // Spring Boot 기본 테스트 라이브러리
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    runtimeOnly 'org.postgresql:postgresql'// Spring Boot 기본 테스트 라이브러리
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher' // JUnit 플랫폼 실행기 (테스트 런타임에서 필요)
     
     // json 데이터 타입
