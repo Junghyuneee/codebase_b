@@ -10,10 +10,16 @@ spring:
     import: optional:.env[.properties]
 
   datasource:
-    url: ${SUPABASE_DB_ENDPOINT}
-    username: ${SUPABASE_DB_USERNAME}
-    password: ${SUPABASE_DB_PASSWORD}
-    driver-class-name: org.postgresql.Driver
+    url: jdbc:mysql://localhost:3306/localdB?serverTimezone=Asia/Seoul
+    username: root
+    password: 11111111
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+#  datasource: # Supabase용 설정 (주석 처리)
+#    url: ${SUPABASE_DB_ENDPOINT}
+#    username: ${SUPABASE_DB_USERNAME}
+#    password: ${SUPABASE_DB_PASSWORD}
+#    driver-class-name: org.postgresql.Driver
   
   security:
     oauth2:
@@ -67,7 +73,6 @@ logging:
 
 frontend:
   url: http://localhost:5173
-
 
 aws:
   s3:

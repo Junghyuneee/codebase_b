@@ -8,7 +8,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
-import org.springframework.data.util.Pair;
+// import org.springframework.data.util.Pair; // 이 라인을 제거했습니다.
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
@@ -20,6 +20,7 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.AbstractMap.SimpleEntry; // SimpleEntry를 사용하여 (키, 값) 쌍을 표현합니다.
 import java.util.HashSet;
 import java.util.Set;
 
@@ -29,40 +30,40 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
     private final MemberRepository memberRepository;
 
-    // 예외 경로 목록을 (HTTP 메서드, URL)로 관리
-    private final Set<Pair<String, String>> excludedPaths = new HashSet<>();
+    // 예외 경로 목록을 (HTTP 메서드, URL)로 관리합니다.
+    private final Set<SimpleEntry<String, String>> excludedPaths = new HashSet<>();
     private static final String ANY_METHOD = "ANY";
 
-    // 생성자에서 예외 경로를 미리 등록
+    // 생성자에서 예외 경로를 미리 등록합니다.
     public JwtAuthenticationFilter(JwtService jwtService, MemberRepository memberRepository) {
         this.jwtService = jwtService;
         this.memberRepository = memberRepository;
 
         /*admin dashboard*/
-        excludedPaths.add(Pair.of(ANY_METHOD, "/dashboard"));
+        excludedPaths.add(new SimpleEntry<>(ANY_METHOD, "/dashboard"));
 
         /*member 검색, 프로필*/
-        excludedPaths.add(Pair.of(ANY_METHOD, "/member"));
+        excludedPaths.add(new SimpleEntry<>(ANY_METHOD, "/member"));
         /*회원가입, 로그인, 로그아웃*/
-        excludedPaths.add(Pair.of(ANY_METHOD, "/auth"));
+        excludedPaths.add(new SimpleEntry<>(ANY_METHOD, "/auth"));
 
         /*소켓 연결 나중에 interceptor 처리해야*/
-        excludedPaths.add(Pair.of(ANY_METHOD, "/stomp"));
+        excludedPaths.add(new SimpleEntry<>(ANY_METHOD, "/stomp"));
 
         /*리뷰*/
-        excludedPaths.add(Pair.of(ANY_METHOD, "/api/review"));
+        excludedPaths.add(new SimpleEntry<>(ANY_METHOD, "/api/review"));
 
         /*게시글*/
-        excludedPaths.add(Pair.of(ANY_METHOD, "/api/post"));
-        excludedPaths.add(Pair.of(ANY_METHOD, "/api/comments"));
+        excludedPaths.add(new SimpleEntry<>(ANY_METHOD, "/api/post"));
+        excludedPaths.add(new SimpleEntry<>(ANY_METHOD, "/api/comments"));
 
         /*스토어*/
-        excludedPaths.add(Pair.of(ANY_METHOD, "/api/store"));
+        excludedPaths.add(new SimpleEntry<>(ANY_METHOD, "/api/store"));
 
         /*팀*/
-        excludedPaths.add(Pair.of(ANY_METHOD, "/api/projectteams"));
-        excludedPaths.add(Pair.of(ANY_METHOD, "/api/team-applications"));
-        excludedPaths.add(Pair.of(ANY_METHOD, "/api/teammembers"));
+        excludedPaths.add(new SimpleEntry<>(ANY_METHOD, "/api/projectteams"));
+        excludedPaths.add(new SimpleEntry<>(ANY_METHOD, "/api/team-applications"));
+        excludedPaths.add(new SimpleEntry<>(ANY_METHOD, "/api/teammembers"));
     }
 
     @Override
@@ -106,7 +107,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 response.flushBuffer(); // 스트림 종료
                 return;
             }
-
         } else {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.getWriter().write("Invalid JWT token");
@@ -121,8 +121,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private boolean shouldSkipAuthentication(String method, String requestPath) {
         return excludedPaths.stream()
                 .anyMatch(pair ->
-                        requestPath.startsWith(pair.getSecond()) &&
-                                (pair.getFirst().equalsIgnoreCase(method) || pair.getFirst().equalsIgnoreCase(ANY_METHOD))
+                        requestPath.startsWith(pair.getValue()) && // .getSecond() 대신 .getValue() 사용
+                                (pair.getKey().equalsIgnoreCase(method) || pair.getKey().equalsIgnoreCase(ANY_METHOD)) // .getFirst() 대신 .getKey() 사용
                 );
     }
 }

@@ -3,7 +3,7 @@ package com.codebase.backend.review.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.data.repository.query.Param;
+import org.apache.ibatis.annotations.Param;
 
 import com.codebase.backend.review.dto.Review;
 
